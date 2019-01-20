@@ -1,0 +1,27 @@
+page-login {
+  .list-ios > .item-block:first-child{
+    border-top: none;
+  }
+  .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block{
+    border-bottom: none;
+  }
+  .label-ios + ion-input .text-input, .label-ios + ion-textarea .text-input, .label-ios + .input + .cloned-input{
+    margin-left: 0;
+  }
+  .error.item-md.item-block .item-inner{
+    border-color: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f53d3d;
+  }
+  .error.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
+    border-color: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f53d3d;
+  }
+  .list-md .item-block .item-inner{
+    border-bottom: 1px solid #dedede !important;
+  }
+  .scroll-content {
+    padding-bottom: 0 !important;
+ }
+}

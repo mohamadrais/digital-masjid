@@ -1,0 +1,118 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Khairat</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item>
+        <ion-label floating>Address Line 1</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Address Line 2</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Postcode</ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Kariah</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>IC Number</ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Date of Birth</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Age</ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Status</ion-label>
+        <ion-select>
+          <ion-option value="single">Single</ion-option>
+          <ion-option value="married">Married</ion-option>
+          <ion-option value="divorce">Divorce</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Occupation</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label (click)="addUpdateKhairatMember(null)">Add other accounts
+          <button ngClass="lookup-icon">
+
+            <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+        </ion-label>
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.khairatMembers && this.khairatMembers.length>0">
+        <ion-label>
+          <div *ngIf="this.khairatMembers && this.khairatMembers.length>0">
+            <ion-chip ngClass="ustaz-chip" *ngFor="let k of khairatMembers; let i = index">
+              <ion-label (click)="addUpdateKhairatMember(i)">{{k.fullname}} ({{k.relation}})</ion-label>
+              <button ion-button clear color="light" (click)="deleteKhairatMember(i)">
+                <ion-icon name="close-circle"></ion-icon>
+              </button>
+            </ion-chip>
+          </div>
+        </ion-label>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Electric Bill
+          <button ngClass="lookup-icon">
+
+            <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera" (click)="takePhotograph()"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+          <button ngClass="lookup-icon">
+
+            <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image" (click)="selectImage()"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+        </ion-label>
+      </ion-item>
+      <ion-item *ngIf="billThumbnail">
+        <img src="{{ billThumbnail }}">
+      </ion-item>
+
+    </ion-list>
+  </ion-row>
+  <!-- <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
+  <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt">All fields are mandatory!</ion-label>
+  <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label> -->
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" *ngIf="isAdmin">Approve</button>
+  </ion-buttons>
+  <ion-buttons>
+    <button class="button button-primary red rectangle" *ngIf="isAdmin">Reject</button>
+  </ion-buttons>
+  <ion-buttons>
+    <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="pay()">Next</button>
+  </ion-buttons>
+</ion-footer>

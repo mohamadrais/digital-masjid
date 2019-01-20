@@ -1,0 +1,117 @@
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Event Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content>
+  <div *ngIf="event">
+    <div ngClass="details-header">
+      <ion-row ngClass="dp-container">
+        <ion-row ngClass="details-name-container">
+          <div ngClass="details-label">Moderators</div>
+          <div ngClass="details-name">
+            <div *ngIf="this.event.moderator_details && this.event.moderator_details.length>0">
+              <ion-chip *ngFor="let u of event.moderator_details; let i = index" (click)="ustazprofilePage(u)">
+                <ion-label>{{u.name}}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </ion-row>
+        <ion-row ngClass="details-name-container">
+          <div ngClass="details-name">
+            <label>{{event.category}} - {{event.event_title}}</label>
+          </div>
+          <div ngClass="details-datetime">
+            <label>{{getEventDate(event.event_start_date)}} - {{getEventDate(event.event_end_date)}}</label>
+          </div>
+          <div ngClass="details-datetime">
+            <label>{{event.event_description}}</label>
+          </div>
+        </ion-row>
+        <ion-row ngClass="details-name-container">
+          <div ngClass="event-icon-left">
+            <ion-icon ngClass="share-icon no-margin" name="md-share" (click)="shareEvent()"></ion-icon>
+            <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="!(isAdmin || isModerator)" name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
+            <ion-icon ngClass="like-icon red" name="md-close-circle" (click)="cancelEventConfirm()" *ngIf="isAdmin"></ion-icon><!-- admin will have cancel button -->
+          </div>
+          <div ngClass="event-details-right">
+            <div ngClass="pts-total">{{event.points}}
+              <span ngClass="pts-title">pts</span>
+            </div>
+          </div>
+        </ion-row>
+
+      </ion-row>
+    </div>
+
+    <ion-item>
+      <!-- <div ngClass="details-label">{{user.name}}</div> -->
+      <ion-row>
+        <ion-col col-10>
+          <div ngClass="details-label">Location</div>
+          <div ngClass="details-location">
+            <label>{{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+          </div>
+        </ion-col>
+        <ion-col col-2>
+          <ion-icon name="ios-pin-outline" ngClass="map-icon" (click)="openMap(event)"></ion-icon>
+        </ion-col>
+        <!-- <div ngClass="details-label-thin"><label>Persiaran Semarak Api, 63000 Cyberjaya Selangor</label></div> -->
+      </ion-row>
+    </ion-item>
+    <ion-item>
+      <div ngClass="details-label">Participants Quota</div>
+      <ion-row>
+        <ion-col col-4 class="circle-container">
+          <circle-progress [percent]="event.userCount/event.quota*100">
+          </circle-progress>
+        </ion-col>
+        <ion-col col-4 class="gender-join">
+          <h1>{{(event.maleCount)? event.maleCount : '0'}}</h1>
+          <p>male</p>
+        </ion-col>
+        <ion-col col-4 class="gender-join">
+          <h1>{{(event.femaleCount)?event.femaleCount:'0'}}</h1>
+          <p>female</p>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <!--ion-item>
+    <div ngClass="details-label">Phone Number</div>
+    <ion-row>
+      <label ngClass="details-name">012 238 0137</label>
+    </ion-row>
+  </ion-item>
+  <ion-item>
+    <div ngClass="details-label">Email</div>
+    <ion-row>
+      <label ngClass="details-name">info@islamicevents.my</label>
+    </ion-row>
+  </ion-item-->
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="!isAdmin && !isModerator">
+  <ion-buttons *ngIf="!eventAlreadyJoined">
+    <button class="button button-primary rectangle" (click)="showConfirm()">Join Now</button>
+  </ion-buttons>
+
+  <!--Decline Button-->
+  <ion-buttons *ngIf="eventAlreadyJoined">
+    <button class="button button-primary red rectangle" (click)="showDeclineConfirmation()">Decline</button>
+  </ion-buttons>
+
+</ion-footer>
+
+<ion-footer *ngIf="isAdmin">
+
+  <!--Admin Role Button-->
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="updateEvent()">
+      <ion-icon ngClass="edit-icon" name="create"></ion-icon>Edit
+    </button>
+  </ion-buttons>
+</ion-footer>

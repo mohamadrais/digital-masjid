@@ -1,0 +1,52 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Create Moderator</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input [(ngModel)]="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Gender</ion-label>
+        <ion-select [(ngModel)]="gender">
+          <ion-option value="male">Male</ion-option>
+          <ion-option value="female">Female</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>IC Number</ion-label>
+        <ion-input [(ngModel)]="icnumber"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Mobile Number</ion-label>
+        <ion-input [(ngModel)]="mobile"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-row>
+  <ion-label *ngIf="!valid" ngClass="error-prompt">All fields are mandatory!</ion-label>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="registerUstaz()">Create Ustaz</button>
+  </ion-buttons>
+</ion-footer>

@@ -1,0 +1,29 @@
+<ion-content no-padding ngClass="login-body no-scroll">
+  <ion-row ngClass="login-container">
+    <div ngClass="login-round-container"><img src="assets/icon/logo-login.png"/></div>
+  </ion-row>
+  <form (ngSubmit)="authenticateUser()">  
+    <ion-row ngClass="login-radio no-margin">
+      <ion-card ngClass="login-card">
+          <ion-list ngClass="lang-container no-margin">
+            <ion-item ngClass="border-bottom" [ngClass]="{'error':usernameError}">
+              <ion-label color="primary"><ion-icon class="login-icon" ios="ios-person-outline" md="md-person"></ion-icon></ion-label>
+              <ion-input type="email" name="email" placeholder="Email" [(ngModel)]="loginForm.username"></ion-input>
+            </ion-item>
+            <ion-item [ngClass]="{'error':passwordError}">
+              <ion-label color="primary"><ion-icon class="login-icon" ios="ios-lock-outline" md="md-lock"></ion-icon></ion-label>
+              <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="loginForm.password"></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+        <ion-label *ngIf="!validUser" ngClass="error-prompt" ><ion-icon name="alert"></ion-icon>wrong email or password</ion-label>
+        <span ngClass="ml-auto"><ion-label ngClass="forgot-password"><u (click)="forgotPasswordPage()">Forgot password</u></ion-label></span>
+      </ion-row>
+      <div ngClass="login-bottom-container">
+        <ion-buttons>
+          <button class="button button-primary" type="submit" [disabled]="!loginForm.username || !loginForm.password">Sign In</button>
+        </ion-buttons>
+        <ion-label ngClass="sign-up">Don't have any account yet? <a ngClass="sign-up" (click)="registerPage()"><u>Sign up</u></a></ion-label>
+      </div>
+  </form>
+</ion-content>

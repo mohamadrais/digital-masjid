@@ -1,0 +1,100 @@
+<ion-header class="toolbar-mm">
+  <ion-toolbar>
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>
+      Programs
+      <ion-icon ngClass="noti-icon" name="notifications" (click)="notificationPage()"></ion-icon>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body-style">
+  <div ngClass="home-header">
+    <div ngClass="overlay"></div>
+    <ion-row>
+      <div col-12 text-center ngClass="greeting-text">{{nickname}} اَلسَّلاَ مُ عَلَيْكُمْ</div>
+      <ion-col col-4>
+        <div ngClass="header-up-event">{{eventsSize}}</div>
+        <div ngClass="text-xs center-text">upcoming events</div>
+      </ion-col>
+      <ion-col col-8>
+        <div ngClass="text-s right-text">
+          <ion-icon ngClass="pin-icon" name="ios-pin-outline"></ion-icon>{{address}}
+        </div>
+        <div ngClass="text-xs right-text">Updated 27/4 00:57
+          <ion-icon ngClass="refresh-icon" (click)="startMosqueList()" name="ios-refresh-outline"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-list>
+    <div ngClass="item-header">On Going</div>
+    <!-- <ion-item ngClass="events-list" *ngFor="let event of events" (click)="eventdetailsPage(event)">
+      <ion-row>
+        <div ngClass="event-item-left">
+        <div ngClass="event-title"><label>{{event.category}} - {{event.event_title}}</label></div>
+        <div ngClass="item-dateloc"><label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} | {{event.address}}</label></div>
+        </div>
+        <div ngClass="event-item-right">
+          <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+          <div ngClass="quota-title">Seat Left</div>
+        </div>
+      </ion-row>
+    </ion-item> -->
+
+    <ion-card ngClass="card-general" (click)="eventdetailsPage(event, i)" *ngFor="let event of events; let i = index">
+      <ion-item ngClass="events-list">
+        <ion-row>
+          <!-- <ion-col col-3 col-md-2>
+          <div class="mosque-logo">
+            <img src={{mosque.icon}}>
+          </div>
+        </ion-col> -->
+          <ion-col col-10 col-md-11>
+            <div ngClass="mosque-name">
+              <label>{{event.category}} - {{event.event_title}}</label>
+            </div>
+            <div ngClass="mosque-address">
+              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+            </div>
+          </ion-col>
+          <ion-col col-2 col-md-1>
+            <div ngClass="event-item-right">
+              <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+              <div ngClass="quota-title">Seat Left</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <ion-fab bottom="" right="">
+    <button color="light" ion-fab="" class="fab fab-ios fab-ios-light float-btn" style="transition: none 0s ease 0s;">
+      <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+        class="button-inner">
+        <ion-icon name="arrow-dropleft" role="img" class="icon icon-ios ion-ios-arrow-dropleft" aria-label="arrow dropleft"></ion-icon>
+      </span>
+      <div class="button-effect"></div>
+    </button>
+    <ion-fab-list side="left" class="">
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="createeventPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="calendar" role="img" class="icon" aria-label="logo event"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+      </button>
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="createustazPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="person-add" role="img" class="icon" aria-label="logo ustaz"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,38 @@
+<ion-menu [content]="content">
+
+  <ion-content padding>
+    <div ngClass="menu-header-container">
+      <ion-icon start name="ios-close-outline" style="" menuToggle></ion-icon>
+      <img end src="assets/icon/logo-linear.png" ngClass="menu-logo" style=""/>
+    </div>
+    <ion-header class="menu-header">
+    </ion-header>
+
+    <ion-list ngClass="menu-list">
+      <!-- <ion-item ngClass="no-border">
+        <div>Profile</div>
+      </ion-item>
+      <ion-item ngClass="no-border">
+        <div>Settings</div>
+      </ion-item>
+      <ion-item ngClass="no-border">
+        <div>Support</div>
+      </ion-item>
+      <ion-item ngClass="no-border">
+        <div>About</div>
+      </ion-item>
+      <ion-item ngClass="no-border" (click)="logout()">
+        <div>Log Out</div>
+      </ion-item> -->
+
+      <button ngClass="no-border" menuClose tappable ion-item 
+      *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content></ion-nav>

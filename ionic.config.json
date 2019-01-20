@@ -1,0 +1,7 @@
+{
+  "name": "tm-saff",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

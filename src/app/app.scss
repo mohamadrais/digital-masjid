@@ -1,0 +1,1132 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+/*Override Ionic*/
+
+.add-padding{
+  padding: 5px;
+}
+.no-margin{
+  margin: 0 !important;
+}
+.no-mar-left{
+  margin-left: 0 !important;
+}
+.ml-auto{
+  margin-left: auto;
+}
+.back-button-icon-md{
+  color: #fff;
+}
+.bar-button-default-ios{
+  color: #fff;
+}
+.toolbar-ios{
+  min-height: 56px;
+}
+.toolbar-title-md{
+  color: #fff;
+  font-weight: 300;
+}
+.toolbar-background-md{
+  background: #00A79D;
+}
+.toolbar-background {
+  background: #00A79D;
+}
+.toolbar-title{
+  color: #fff;
+}
+.label-ios-primary, .item-input .label-ios-primary, .item-select .label-ios-primary, .item-datetime .label-ios-primary{
+  color: #9B9B9B;
+}
+ion-fab{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.float-btn{
+  background: #6563A4;
+  color: #fff;
+}
+.float-btn-sub{
+  background: #274b73;
+  color: #fff;
+}
+/*General*/
+.fill-height{
+  height: -webkit-fill-available;
+}
+.no-border{
+  border: 0px !important;
+}
+.center-text{
+  text-align: center;
+}
+.header-icon{
+  font-size: 2.5rem;
+  opacity: 0.7;
+}
+.card-container{
+  padding: 1rem;
+}
+.main-card{
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  background-color: #6563A4;
+}
+.main-card:before{
+  content: "";
+  background-image: url("../assets/imgs/cbj-mosque.jpg");
+  background-size: cover;
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  z-index: -1;
+}
+.body-style{
+  background: #f7f7f7;
+  padding: 0 1rem;
+}
+.header-btn{
+  color: #fff;
+}
+.toolbar-mm{
+  max-height: 250px !important;
+  height: auto;
+}
+.button-primary{
+  width: 100%;
+  background: #6563A4;
+  color: #fff;
+  height: 60px;
+  font-size: 1.5rem;
+  border-radius: 30px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.button-primary.rectangle{
+  border-radius: 0px;
+}
+.button-primary.red{
+  background: #e64949;
+}
+.button-disable{
+  width: 100%;
+  background: #B6B5C3;
+  color: #E7E7E7;
+  height: 60px;
+  font-size: 1.5rem;
+}
+.button-secondary{
+  width: 100%;
+  background: #fff;
+  color: #a0a0a0;
+  opacity: 0.5;
+  height: 60px;
+  font-size: 1.5rem;
+  border-radius: 30px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.button-secondary.rectangle{
+  border-radius: 0px;
+}
+.coming-soon{
+  font-size: 1rem;
+}
+.title-text{
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+  text-align: center;
+  margin: auto;
+  display: block;
+  width: 60%;
+}
+.select-container{
+  background: #fff;
+  opacity: 0.5;
+  width: 100%;
+  height: 50px;
+}
+.margin-u-d{
+  margin: 50px 0;
+}
+.margin-u-d-sm{
+  margin: 30px 0;
+}
+.margin-u-sm{
+  margin: 30px 0 0;
+}
+.card-bg{
+  background-repeat: no-repeat;
+  background-position: center;
+  /* background-size: 100%; */
+  height: 130px;
+  opacity: 0.2;
+  width: 95%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  margin: 1rem;
+}
+.float-input{
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px -2px;
+  background: #fff;
+}
+.border-bottom{
+  border-bottom: 0.55px solid #c8c7cc;
+}
+.feed-title{
+  font-size: 1.8rem;
+  font-weight: 400;
+  word-break: break-word;
+  white-space: normal;
+  width: 100%;
+}
+.feed-desc{
+  font-size: 1rem;
+  font-weight: 100;
+  color: #9B9B9B;
+  word-break: break-word;
+  white-space: normal;
+}
+.feed-arrow{
+  font-size: 3rem;
+  position: absolute;
+  right: 20px;
+  top: 30px;
+}
+.feed-list{
+  height: 90px;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #dedede;
+}
+.feed-list ion-item{
+  border-bottom: 0;
+}
+.feed-container{
+  width: 215px;
+}
+.tabs-icon{
+  position: absolute;
+  bottom: 10px;
+  left: 30px;
+  width: 100%;
+  z-index: 1;
+}
+.prog-arrow{
+  font-size: 3rem;
+  position: absolute;
+  right: 20px;
+  top: 30px;
+}
+.add-ask{
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+}
+.ask-list{
+  height: 70px;
+  width: 100%;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #dedede;
+}
+.ask-arrow{
+  font-size: 3rem;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.item-header{
+  padding: 14px 18px;
+  background: #f7f7f7;
+  color: #9D9D9D;
+}
+.item-dateloc{
+  font-size: 1.2rem;
+  font-weight: 200;
+  color: #858585;
+  //max-width: 300px;
+  word-break: break-word;
+  white-space: normal;
+}
+.event-title{
+  font-weight: 300;
+  //max-width: 300px;
+  word-break: break-word;
+  white-space: normal;
+}
+.right-text{
+  text-align: right;
+}
+.center-text{
+  text-align: center;
+}
+.text-xs{
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+.text-s{
+  font-size: 2rem;
+}
+.text-m{
+  font-size: 3rem;
+}
+.text-l{
+  font-size: 4rem;
+}
+.text-xl{
+  font-size: 5rem;
+}
+.text-xxl{
+  font-size: 6rem;
+}
+/*Menu*/
+.menu-content{
+  background: linear-gradient(to bottom, #6563A4, #00A79D);
+}
+.menu-bg{
+  background-repeat: no-repeat;
+  background-position: center;
+  height: -webkit-fill-available;
+  opacity: 0.06;
+  width: 100%;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+.menu-logo{
+  width: 110px;
+  height: auto;
+  margin: auto;
+  display: block;
+  top: -5px;
+  position: relative;
+}
+.error-prompt{
+  margin: 0px 20px;
+  color: #d40511;
+  text-align: left;
+}
+.error-prompt ion-icon{
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.popover-rating{
+  ion-backdrop { opacity: 0.4; } 
+}
+.rate-star{
+  width: fit-content;
+  float: left;
+}
+.rate-star ion-icon{
+  color: #ffcc00;
+  font-size: 3.5rem;
+}
+.rate-star label{
+  font-size: 2rem;
+  line-height: 3.8rem;
+  margin-left: 10px;
+  font-weight: 100;
+}
+.menu-header{
+  z-index: -1;
+  height: 56px;
+  background: rgb(0, 95, 89);
+  padding: 10px;
+}
+.menu-header-container{
+  z-index: 1;
+}
+.menu-header-container ion-icon{
+  color: #fff;
+  font-size: 4rem;
+  font-weight: 100;
+  position: absolute;
+  opacity: 0.6;
+  top: 8px;
+}
+.menu-list{
+  margin-top: 40px;
+}
+.menu-list ion-item{
+  text-align: center;
+  background: none;
+  color: #4A4A4A;
+  font-weight: 100;
+  font-size: 2rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+/*Details Page*/
+.map-icon{
+  font-size: 3.5rem;
+  font-weight: 100;
+  position: absolute;
+  float: right;
+  right: 20px;
+  margin-top: 15px;
+}
+.details-name-container{
+  text-align: left;
+  margin-top: 2rem;
+}
+.details-name{
+  font-size: 2.5rem;
+  font-weight: 100;
+  width: 100%;
+  z-index: 9;
+}
+.details-datetime{
+  font-size: 1.5rem;
+  font-weight: 100;
+  width: 100%;
+}
+.details-location{
+  font-size: 2.5rem;
+  font-weight: 100;
+  max-width: 300px;
+  white-space: normal;
+}
+.prog-container{
+  text-align: left;
+  width: 100%;
+  margin-top: 1rem;
+}
+.prog-label{
+  font-size: 1.2rem;
+  width: 100%
+}
+.prog-text{
+  font-size: 2rem;
+  font-weight: 400;
+  width: 100%
+}
+/*Mosque Profile*/
+.avatar{
+  font-size: 6em;
+  opacity: 0.5;
+  width: max-content;
+  margin: auto;
+}
+.avatar-container{
+  margin: auto;
+}
+.ustaz-profile .details-label{
+  font-size: 1.2rem;
+  width: fit-content;
+  float: left;
+}
+.details-label{
+  font-size: 1.2rem;
+  width: 100%;
+}
+.details-label-thin{
+  font-size: 1.2rem;
+  width: 100%;
+}
+.mosque-name-container{
+  margin: auto;
+  //width: 200px;
+  text-align: center;
+  margin-top: 2rem;
+}
+.mosque-district{
+  font-weight: 100;
+  font-size: 2.5rem;
+}
+.mosque-address{
+  //width: 200px;
+  font-weight: 100;
+}
+.mosque-address.wrap{
+  width: 250px;
+  word-break: break-word;
+  white-space: normal;
+}
+.mosque-about{
+  word-break: break-word;
+  white-space: normal;
+  font-size: 1.2rem;
+  font-weight: 100;
+}
+.dp-container{
+  width: 100%;
+}
+.mosque-dp{
+  width: 70px;
+	height: 70px;
+	background: #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+  position: absolute;
+  right: 0px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100px;
+  background-image: url("../assets/imgs/cbj-dp.jpg");
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.mosque-dp-big{
+  width: 100px;
+	height: 100px;
+  margin: auto;
+	background: #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100px;
+  background-image: url("../assets/imgs/cbj-dp.jpg");
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.mosque-name{
+  font-size: 2.5rem;
+  font-weight: 100;
+  //width: 200px;
+}
+.infaq-btn{
+  color: #fff;
+  background: #6563A4;
+  z-index: 9;
+  font-size: 1.5rem;
+  padding: 5px;
+  border-radius: 5px;
+  width: 80px;
+  font-weight: 100;
+  position: relative;
+  right: 0px;
+  margin-left: auto;
+}
+.home-header .mosque-name{
+  font-size: 3rem;
+  font-weight: 100;
+  width: 100%;
+}
+.home-header .mosque-address{
+  font-size: 1.2rem;
+  font-weight: 100;
+  width: 100%;
+}
+.home-header .mosque-logo{
+  width: 80%;
+}
+.details-header{
+  height: auto;
+  background: #516380;
+  color: #fff;
+  padding: 2rem 2rem;
+  display: block;
+  position: relative;
+}
+.home-header{
+  height: auto;
+  color: #fff;
+  padding: 2rem;
+  display: block;
+  position: relative;
+  background-size: cover;
+  background-image: url(../assets/imgs/bg-home.jpg)
+}
+.home-header.mosque{
+  height: 200px;
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: radial-gradient(ellipse at center, rgba(26,41,66,0.4) 0%,rgba(26,41,66,0.76) 100%);
+  top: 0px;
+  left: 0px;
+}
+.header-bg{
+  background-repeat: no-repeat;
+  background-position: center;
+  height: -webkit-fill-available;
+  opacity: 0.2;
+  transform: scale(1.5);
+  width: 100%;
+  left: 0;
+  top: 25px;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+/*Login Page*/
+.login-icon{
+  font-size: 3rem;
+  margin: 0 10px;
+  color: #9B9B9B;
+}
+.login-bg{
+  opacity: 0.1;
+  position: absolute;
+  transform: scale(1.7);
+  right: 20%;
+}
+.login-radio{
+  margin-top: 20px;
+}
+.login-container{
+  height: 30%;
+}
+.login-bottom-container{
+  padding: 12px;
+  bottom: 5%;
+  position: fixed;
+  width: 100%;
+}
+.forgot-password{
+  text-align: right;
+  color: #fff;
+  margin-top: 0px;
+  margin-right: 20px;
+}
+.sign-up{
+  text-align: center;
+  color: #fff;
+}
+.lang-container{
+  width: 100%;
+  opacity: 0.7;
+}
+.signup-container{
+  width: 100%;
+  opacity: 0.7;
+  text-align: center;
+  font-size: 1.2rem;
+  height: 60px;
+  color: #323232;
+}
+.signup-container a{
+  text-decoration: underline;
+}
+.login-card{
+  border-radius: 20px;
+  padding: 0;
+  margin-top: 50px;
+}
+.login-logo{
+  width: 100px;
+	height: 100px;
+	background: #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+  display: block;
+  margin: auto;
+}
+.login-round-container{
+  margin: auto;
+}
+.login-round-container img{
+  margin-top: 10vh;
+  width: 130px;
+}
+.login-round-3{
+  width: 160px;
+	height: 160px;
+	background: none;
+  border: 1px solid #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 80px;
+  display: block;
+  margin: auto;
+}
+.login-round-2{
+  width: 140px;
+	height: 140px;
+  background: none;
+  border: 1px solid #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 70px;
+  display: block;
+  margin: auto;
+  margin-top: 8px
+}
+.login-round-1{
+  width: 120px;
+	height: 120px;
+  background: none;
+  border: 1px solid #fff;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 60px;
+  display: block;
+  margin: auto;
+  margin-top: 8px
+}
+.login-logo img{
+  width: 55%;
+  margin: auto;
+  display: block;
+  margin-top: 9px;
+  padding-top: 10px;
+}
+.login-body{
+  background: linear-gradient(to bottom, #6563A4, #00A79D);
+}
+
+/*Home Page*/
+.pin-icon{
+  font-size: 1.8rem;
+  margin-right: 1rem;
+}
+.refresh-btn{
+  background: transparent;
+  width: 100%;
+  margin-top: 60px;
+}
+.refresh-btn h4{
+  font-weight: 200;
+  color: #dedede;
+  margin: unset;
+}
+.refresh-icon{
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+.refresh-icon.big{
+  font-size: 15rem;
+  margin: auto;
+  color: #e0e0e0;
+}
+.events-list{
+  padding: 0;
+  min-height: 70px;
+}
+.events-list .item-inner{
+  border-bottom: 1px solid #eeeeee !important;
+  padding: 0 16px !important;
+}
+.events-list.list-md > .item-block:last-child ion-label, .list-md > .item-block:last-child .item-inner, .list-md > .item-wrapper:last-child ion-label, .list-md > .item-wrapper:last-child .item-inner{
+  border-bottom: 1px solid #eeeeee !important;
+}
+.events-list .mosque-name{
+  font-size: 2rem;
+  word-break: break-word;
+  white-space: normal;
+}
+.events-list .mosque-address{
+  word-break: break-word;
+  white-space: normal;
+}
+.view-more{
+  text-align: right;
+  font-size: 1.8rem;
+  font-weight: 100;
+  margin: 0.5rem 1rem;
+  position: absolute;
+  right: 45px;
+  color: #fff;
+}
+.view-more-container{
+  height: 35px;
+}
+.home-arrow-card{
+  font-size: 2.2em;
+  position: absolute;
+  right: 25px;
+  color: #fff;
+}
+.home-card-title{
+  font-size: 3rem;
+  font-weight: 100;
+  margin-right: 60%;
+  color: #fff;
+}
+.home-greet-container{
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.home-greet{
+  font-size: 1.2rem;
+}
+.home-salam{
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.home-bg{
+  background-image: url(..assets/imgs/home-bg.jpeg);
+  opacity: 0.1;
+  position: absolute;
+  -webkit-transform: scale(1.6);
+  transform: scale(1.6);
+  right: -20%;
+  top: -34%;
+  z-index: 99;
+  height: auto;
+  max-height: 225px;
+  width: 100%;
+}
+.errorMessage{
+  color: #d40511; font-size: 1.6rem;word-break: break-word; white-space: normal;
+}
+.header-up-event{
+  line-height: 56px;
+  font-size: 6rem;
+  text-align: center;
+}
+.attendance-tick{
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  color: #22a549;
+}
+.event-item-right{
+  position: absolute;
+  width: 100%;
+}
+.event-item-left{
+  width: 80%;
+}
+.quota-total{
+  text-align: center;
+  color: #22a549;
+  font-size: 3rem;
+}
+.quota-title{
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #858585;
+}
+.quota-total.yellow{
+  color: #ffcc00;
+}
+.quota-title.yellow{
+  color: #ffcc00;
+}
+.event-icon-left ion-icon{
+  font-size: 3.5rem;
+  margin-left: 30px;
+}
+.like-icon.red{
+  color: #C15462;
+}
+.like-icon.white{
+  color: #fff;
+}
+.share-icon{
+  font-size: 3.5rem;
+}
+.edit-icon{
+  font-size: 2rem;
+  margin-right: 10px;
+}
+button.noti-icon{
+  float: right;
+  position: relative;
+  background: transparent;
+}
+.attend-btn{
+  margin-top: 15px;
+  width: 45%;
+  height: 40px;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.attend-btn.not{
+  color: #6563A4;
+  background: #fff;
+  border: #6563A4 solid 2px;
+}
+.noti-icon ion-icon{
+  font-size: 2.5rem;
+  color: #fff;
+  float: right;
+  position: relative;
+}
+.greeting-text{
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  z-index: 9;
+  font-weight: 100;
+}
+.event-details-right{
+  position: absolute;
+  float: right;
+  right: 35px;
+  line-height: 3rem;
+}
+.pts-total{
+  text-align: center;
+  color: #FFCC00;
+  font-size: 5rem;
+}
+.pts-title{
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #FFCC00;
+}
+.tm-textarea{
+  min-height: 300px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+.slide-zoom{
+  height: 100%;
+  padding-top: 130px;
+}
+.circle-container{
+  width: 25%;
+  margin-top: 10px;
+}
+.gender-join{
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.profile-pic{
+  float: left;
+  font-size: 10rem;
+  color: #50637f;
+  opacity: 0.5;
+  margin-left: 19px;
+}
+.pp-container{
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  opacity: 0.5;
+  border-radius: 100px;
+  margin-right: 20px;
+}
+.profile-name h5{
+  margin-bottom: 0;
+  font-weight: 400;
+}
+.profile-name p{
+  margin-top: 0;
+  font-weight: 200;
+}
+.profile-name button{
+  padding: 5px 10px;
+  color: #676767;
+  border-radius: 5px;
+}  
+.profile-points{
+  width: 100%;
+}
+.profile-points .pts-total{
+  float: left;
+}
+.chip-md{
+  line-height: 35px;
+  color: #fff;
+}
+.lookup-icon{
+  float: right;
+  background: transparent;
+  color: #868588;
+}
+.lookup-label{
+  color: #999;
+}
+ion-popover {
+  div.popover-content {
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+  }
+}
+
+.ustaz-profile{
+  display: flow-root;
+}
+.ustaz-profile .profile-redeem{
+  float: right;
+  text-decoration: underline;
+  position: initial;
+}
+.profile-redeem{
+  float: right;
+  bottom: -35px;
+  position: relative;
+  text-decoration: underline;
+}
+.profile-redeem ion-icon{
+  margin-left: 10px;
+}
+.seperator-h{
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  margin: 25px auto 15px;
+  opacity: 0.5;
+}
+.qibla-finder{
+  width: 100%;
+  height: 100%;
+}
+.mosque-list{
+  padding: 0;
+  min-height: 70px;
+}
+.mosque-list ion-item .item-inner{
+  padding: 0 !important;
+}
+.mosque-list .item-inner{
+  border-bottom: 1px solid #eeeeee !important;
+  padding: 0 16px !important;
+}
+.mosque-list.list-md > .item-block:last-child ion-label, .list-md > .item-block:last-child .item-inner, .list-md > .item-wrapper:last-child ion-label, .list-md > .item-wrapper:last-child .item-inner{
+  border-bottom: 1px solid #eeeeee !important;
+}
+.mosque-list .mosque-name{
+  font-size: 2rem;
+  word-break: break-word;
+  white-space: normal;
+}
+.mosque-list .mosque-address{
+  word-break: break-word;
+  white-space: normal;
+  font-size: 1.2rem;
+}
+.mosque-list .quota-total{
+  text-align: center;
+  color: #22a549;
+  font-size: 3rem;
+}
+.mosque-list .quota-title{
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #858585;
+  text-align: center;
+}
+.mosque-logo{
+  width: 100%;
+  border-radius: 100px;
+  padding: 15px;
+  background: #dedede;
+  box-shadow: 0px 0px 15px -5px;
+  //margin: 5px;
+  float: left;
+  //margin-right: 20px;
+  max-width: 50px;
+  max-height: 50px;
+  min-height: 35px;
+  min-width: 35px;
+}
+.card-general{
+  border-radius: 15px;
+}
+.card-slide{
+  margin: 1%;
+  width: 98%;
+}
+.ustaz-chip{
+  background: crimson;
+  margin-top: 10px;
+}
+.forgot-pass h2{
+  color: #999;
+}
+.forgot-pass h6{
+  margin: 0;
+  color: #999;
+}
+.forgot-pass p{
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 100;
+  color: #999;
+}
+.forgot-pass form{
+  margin-top: 25px;
+  width: 100%;
+  padding: 7px;
+}
+.padlock{
+  background-image: url("../assets/imgs/padlock.png");
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  background-size: cover;
+}
+.status-label{
+  color: #d40511;
+  font-size: 15px;
+  font-weight: 500;
+}
+.edited{
+  font-weight: bold;
+}
+/*------------Mobile Landscape-------------*/
+@media only screen
+  and (max-height: 415px)
+{
+  .login-container{
+    display:none;
+  }
+}
+/*------------iPad 1 2 mini air--------------*/
+@media only screen
+  and (min-device-width: 768px)
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+  .home-bg{
+    background-image: url(..assets/imgs/home-bg.jpeg);
+    opacity: 0.1;
+    position: absolute;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    right: 0%;
+    top: -74%;
+    z-index: 99;
+    height: auto;
+    max-height: 380px;
+  }
+  .card-bg{
+    display: none;
+  }
+}
+/*------------iPad Pro--------------*/
+@media only screen
+  and (min-device-width: 834px)
+  and (max-device-width: 1112px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  .home-bg{
+    background-image: url(..assets/imgs/home-bg.jpeg);
+    opacity: 0.1;
+    position: absolute;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    right: 0%;
+    top: -118%;
+    z-index: 99;
+    height: auto;
+    max-height: 480px;
+  }
+  .card-bg{
+    display: none;
+  }
+}

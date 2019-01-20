@@ -1,0 +1,92 @@
+<ion-header class="mm-header">
+  <ion-toolbar *ngIf="!this.navCtrl.canGoBack()">
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>Ustaz Profile</ion-title>
+  </ion-toolbar>
+
+  <ion-navbar *ngIf="this.navCtrl.canGoBack()">
+    <ion-title>Ustaz Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div ngClass="details-header">
+    <ion-row ngClass="dp-container">
+      <div ngClass="pp-container">
+        <ion-icon ngClass="profile-pic" name="ios-person"></ion-icon>
+      </div>
+      <div ngClass="profile-name" *ngIf="this.moderator">
+        <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
+        <p *ngIf="this.moderator.email">{{this.moderator.email}}</p>
+      </div>
+      <div ngClass="seperator-h"></div>
+      <div ngClass="profile-points">
+        <ion-row ngClass="ustaz-profile">
+          <div ngClass="details-label">Ratings</div>
+          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">Rates Your Ustaz
+            <ion-icon name="ios-arrow-forward"></ion-icon>
+          </div>
+        </ion-row>
+        <ion-row ngClass="rate-star">
+          <ion-icon *ngFor="let fs of this.fullStaryArray" name="md-star"></ion-icon>
+          <ion-icon *ngIf="this.halfStar>0" name="md-star-half"></ion-icon>
+          <ion-icon *ngFor="let es of this.emptyStarArray" name="md-star-outline"></ion-icon>
+          <label>({{this.ratersCount}})</label>
+        </ion-row>
+      </div>
+    </ion-row>
+  </div>  
+    <ion-list *ngIf="this.userType && this.userType=='USTAZ' && events_upcoming && events_upcoming.length>0">
+        <div ngClass="item-header">Upcoming</div>
+        <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_upcoming">
+          <ion-item ngClass="events-list">
+            <ion-row>
+              
+              <ion-col col-10 col-md-11>
+                  <div ngClass="mosque-name">
+                    <label>{{event.category}} - {{event.event_title}}</label>
+                  </div>
+                  <div ngClass="mosque-address">
+                    <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                      {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+                  </div>
+                </ion-col>
+                <ion-col col-2 col-md-1>
+                    <div ngClass="event-item-right">
+                      <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+                      <div ngClass="quota-title">Seat Left</div>
+                    </div>
+                  </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-card>
+      </ion-list>
+      <ion-list *ngIf="events_history && events_history.length>0">
+          <div ngClass="item-header">History</div>
+          <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_history">
+            <ion-item ngClass="events-list">
+              <ion-row>
+                
+                <ion-col col-10 col-md-11>
+                    <div ngClass="mosque-name">
+                      <label>{{event.category}} - {{event.event_title}}</label>
+                    </div>
+                    <div ngClass="mosque-address">
+                      <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                        {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+                    </div>
+                  </ion-col>
+                  <ion-col col-2 col-md-1>
+                      <div ngClass="event-item-right">
+                        <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+                        <div ngClass="quota-title">Joined</div>
+                      </div>
+                    </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-card>
+        </ion-list>
+</ion-content>

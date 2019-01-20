@@ -1,0 +1,34 @@
+<ion-header class="mm-header">
+
+    <ion-navbar>
+      <ion-title>Tanya Ustaz</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item [ngClass]="{'error':fbcategoryError}">
+        <ion-label floating>Question Category</ion-label>
+        <ion-select [(ngModel)]="category">
+          <ion-option value="Design Suggestion">Solat</ion-option>
+          <ion-option value="Feature">Amalan</ion-option>
+          <ion-option value="Reporting Bugs">Hadis</ion-option>
+          <ion-option value="Design Suggestion">Al-Quran</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Question</ion-label>
+        <ion-textarea ngClass="tm-textarea" [(ngModel)]="suggestion" placeholder="Kindly give your thought and idea to improve our app"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="showConfirm()">Send Question</button>
+  </ion-buttons>
+</ion-footer>

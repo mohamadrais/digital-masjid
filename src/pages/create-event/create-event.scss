@@ -1,0 +1,15 @@
+page-create-event {
+  .error.item-md.item-block .item-inner{
+    border-color: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f53d3d;
+  }
+  .error.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner{
+    border-color: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f53d3d;
+  }
+  .list-md .item-block .item-inner{
+    border-bottom: 1px solid #dedede !important;
+  }
+}

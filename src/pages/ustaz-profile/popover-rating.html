@@ -1,0 +1,25 @@
+<ion-content>
+    <div style="width:1.5rem;height:1.5rem;border-radius:50%;right:0px;background:#fff;color:#a0a0a0; position:absolute;z-index:999999; text-align:center" (click)="close()">  <ion-icon name="close"></ion-icon> </div>
+    <div ngClass="details-header">
+        <ion-row ngClass="dp-container">
+            <div ngClass="profile-points">
+                <ion-row ngClass="ustaz-profile">
+                    <h5 style="text-align:center !important">Rate this moderator</h5>
+                </ion-row>
+                <ion-row ngClass="rate-star" style="text-align:center !important; margin:auto !important; float:unset !important">
+                    <ion-icon [name]="(new_ratings>=1)?'md-star':'md-star-outline'" (click)="new_ratings=1"></ion-icon>
+                    <ion-icon [name]="(new_ratings>=2)?'md-star':'md-star-outline'" (click)="new_ratings=2"></ion-icon>
+                    <ion-icon [name]="(new_ratings>=3)?'md-star':'md-star-outline'" (click)="new_ratings=3"></ion-icon>
+                    <ion-icon [name]="(new_ratings>=4)?'md-star':'md-star-outline'" (click)="new_ratings=4"></ion-icon>
+                    <ion-icon [name]="(new_ratings==5)?'md-star':'md-star-outline'" (click)="new_ratings=5"></ion-icon>
+                </ion-row>
+            </div>
+        </ion-row>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-buttons>
+        <button class="button button-primary rectangle" (click)="rate()" [disabled]="new_ratings<=0">Rate</button>
+        <button class="button button-secondary rectangle" (click)="close()">Cancel</button>
+    </ion-buttons>
+</ion-footer>

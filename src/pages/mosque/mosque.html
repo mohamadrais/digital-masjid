@@ -1,0 +1,134 @@
+<ion-header class="mm-header">
+
+  <ion-navbar>
+    <ion-title>Mosque Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="body-style">
+  <div ngClass="home-header">
+    <div ngClass="overlay"></div>
+    <ion-row>
+      <ion-col col-3>
+        <div class="mosque-logo">
+          <img src="assets/imgs/logo.png">
+        </div>
+      </ion-col>
+      <ion-col col-9>
+        <div ngClass="mosque-name">
+          <label>{{mosque.title}}</label>
+        </div>
+        <div ngClass="mosque-address">
+          <label>{{mosque.address}}</label>
+        </div>
+      </ion-col>
+      <!-- <button ngClass="infaq-btn" (click)="infaqPage()">Tanya Ustaz</button>
+      <button ngClass="infaq-btn" (click)="infaqPage()">Feedback Masjid</button>
+      <button ngClass="infaq-btn" (click)="infaqPage()">Infaq</button> -->
+    </ion-row>
+  </div>
+  <ion-list>
+    <div ngClass="item-header">{{eventsSize}} upcoming events</div>
+
+    <!-- Other Event Status -->
+    <!-- <div ngClass="item-header">Upcoming</div>
+    <div ngClass="item-header">Completed</div> -->
+
+    <ion-card ngClass="card-general" *ngFor="let event of events" (click)="eventdetailsPage(event)">
+      <ion-item ngClass="events-list">
+        <ion-row>
+          <ion-col col-10 col-md-11>
+            <div ngClass="event-title">
+              <label>{{event.category}} - {{event.event_title}}</label>
+            </div>
+            <div ngClass="item-dateloc">
+              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+            </div>
+          </ion-col>
+          <ion-col col-2 col-md-1>
+
+            <!--If Already Join-->
+            <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
+
+            <!--If Not Joining Yet-->
+            <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+            <div ngClass="quota-title">Seat Left</div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-card>
+    <!--ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item>
+    <div ngClass="item-header">Up Coming</div>
+    <ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item>
+    <div ngClass="item-header">Completed</div>
+    <ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item-->
+  </ion-list>
+
+  <!-- <ion-fab>
+    <button ion-fab mini (click)="feedbackPage()">
+      <ion-icon name="ios-happy-outline"></ion-icon>
+    </button>
+  </ion-fab> -->
+
+  <ion-fab bottom="" right="">
+    <button color="light" ion-fab="" class="fab fab-ios fab-ios-light float-btn" style="transition: none 0s ease 0s;">
+      <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+        class="button-inner">
+        <ion-icon name="arrow-dropup" role="img" class="icon icon-ios ion-ios-arrow-dropleft" aria-label="arrow dropleft"></ion-icon>
+      </span>
+      <div class="button-effect"></div>
+    </button>
+    <ion-fab-list side="top" class="">
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="khairatPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="ios-sad-outline" role="img" class="icon" aria-label="logo infaq"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+        <ion-label>Khairat</ion-label>
+      </button>
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="feedbackAltPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="mail-open" role="img" class="icon" aria-label="logo feedback"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+        <ion-label>Mosque Feedback</ion-label>
+      </button>
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="askUstazPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="md-chatbubbles" role="img" class="icon" aria-label="logo tanya ustaz"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+        <ion-label>Tanya Ustaz</ion-label>
+      </button>
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="infaqPage()">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
+          class="button-inner">
+          <ion-icon name="md-cash" role="img" class="icon" aria-label="logo infaq"></ion-icon>
+        </span>
+        <div class="button-effect"></div>
+        <ion-label>Infaq</ion-label>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

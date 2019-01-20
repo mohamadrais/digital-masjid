@@ -1,0 +1,13 @@
+In order to use Geo Location features in Service Point Locator following plugins are needed:
+Install the required Cordova and Ionic Native plugins as follows -
+$ ionic cordova plugin add cordova-plugin-geolocation
+$ npm install --save @ionic-native/geolocation
+$ ionic cordova plugin add cordova-plugin-request-location-accuracy
+$ npm install --save @ionic-native/location-accuracy
+$ ionic cordova plugin add cordova-plugin-nativegeocoder
+$ npm install --save @ionic-native/native-geocoder
+
+
+
+$ ionic cordova plugin add cordova-plugin-inappbrowser
+$ npm install --save @ionic-native/in-app-browser

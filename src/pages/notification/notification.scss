@@ -1,0 +1,17 @@
+page-notification {
+    .segment-md .segment-button{
+        color: #fff;
+    }
+    .segment-md .segment-button.activated, .segment-md .segment-button.segment-activated{
+        color: #fff;
+        border-color: #fff;
+    }
+    .segment-md .segment-button ion-icon{
+        font-size: 1.5rem;
+    }
+    .badge-md{
+        position: absolute;
+        right: 0px;
+        font-size: 5px;
+    }
+}

@@ -1,0 +1,44 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Add other accounts</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item>
+        <ion-label floating>Fullname</ion-label>
+        <ion-input [(ngModel)]="khairatMembers.fullname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>IC Number</ion-label>
+        <ion-input [(ngModel)]="khairatMembers.icNumber" type="phone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Age</ion-label>
+        <ion-input [(ngModel)]="khairatMembers.age" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Date of Birth</ion-label>
+        <ion-datetime [(ngModel)]="khairatMembers.dateOfBirth" displayFormat="DD/MM/YYYY"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Relation</ion-label>
+        <ion-input [(ngModel)]="khairatMembers.relation"></ion-input>
+      </ion-item>
+     </ion-list>
+     </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="addUpdateAccount()">{{(updateMode)?'UPDATE':'ADD'}}</button>
+  </ion-buttons>
+</ion-footer>

@@ -1,0 +1,40 @@
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Search Managed Mosques</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item [ngClass]="{'error':titleError}">
+        <ion-searchbar
+          [(ngModel)]="mosqueSearch.title"
+          [showCancelButton]="true"
+          (ionChange)="onInput($event)"
+          (ionCancel)="onCancel($event)"
+          placeholder="Search...">
+        </ion-searchbar>
+      </ion-item>
+      <ion-item [ngClass]="">
+          <ion-label ngClass="lookup-label">Selected Mosque: <b>{{(selectedMosque)?selectedMosque.title:''}}</b></ion-label>
+      </ion-item>
+      
+      <ion-item  *ngFor="let mosque of mosqueList | filterBy: mosqueSearch" [ngClass]="{'selected':(selectedMosque && selectedMosque.title==mosque.title)}" (click)="selectMosque(mosque)">
+        <ion-label>{{mosque.title}}</ion-label>
+        
+        <!-- <ion-select multiple>
+          <ion-option *ngFor="let title of mosqueList" [value] = "title">{{title}}</ion-option>
+        </ion-select> -->
+      </ion-item>
+    </ion-list>
+  </ion-row>
+</ion-content>
+<ion-footer>
+    <ion-buttons>
+      <button class="button button-primary rectangle" (click)="close()" [disabled]="!selectedMosque">
+      Confirm Selection
+    </button>
+    </ion-buttons>
+  </ion-footer>

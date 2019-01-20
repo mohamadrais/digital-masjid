@@ -1,0 +1,43 @@
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>Search Moderator</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item [ngClass]="{'error':titleError}">
+        <ion-searchbar [(ngModel)]="moderatorName" [showCancelButton]="true" (ionChange)="onInput($event)" (ionCancel)="onCancel($event)"
+          placeholder="Search...">
+        </ion-searchbar>
+      </ion-item>
+      <ion-buttons *ngIf="!moderatorList || moderatorList.length<=0 && (moderatorName && moderatorName.length>0)">
+        <button class="button button-primary rectangle" (click)="newModerator()">
+          <ion-label>Moderator not found! Add as new moderator?</ion-label>
+        </button>
+      </ion-buttons>
+      <ion-item [ngClass]="">
+        <ion-label ngClass="lookup-label">Selected Moderator: <b>{{(selectedModerator)?selectedModerator.name:''}}</b></ion-label>
+      </ion-item>
+
+      
+      <ion-item *ngFor="let moderator of moderatorList" [ngClass]="{'selected':(selectedModerator && selectedModerator.email==moderator.email)}"
+        (click)="selectModerator(moderator)">
+        <ion-label>{{moderator.name}}</ion-label>
+
+        <!-- <ion-select multiple>
+          <ion-option *ngFor="let name of moderatorList" [value] = "name">{{name}}</ion-option>
+        </ion-select> -->
+      </ion-item>
+    </ion-list>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="close()" [disabled]="!selectedModerator">
+      Confirm Selection
+    </button>
+  </ion-buttons>
+</ion-footer>

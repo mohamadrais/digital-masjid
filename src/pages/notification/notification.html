@@ -1,0 +1,92 @@
+<ion-header class="mm-header">
+
+  <ion-navbar>
+    <ion-title>Event Notification</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+      <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
+        <ion-segment-button value="0">
+          <ion-badge>1</ion-badge>
+          <ion-icon name="log-in"></ion-icon>
+          <label>Check-in</label>
+        </ion-segment-button>
+        <ion-segment-button value="1">
+          <ion-badge>1</ion-badge>
+          <ion-icon name="calendar"></ion-icon>
+          <label>Reschedule</label>
+        </ion-segment-button>
+        <ion-segment-button value="2">
+            <ion-badge>1</ion-badge>
+            <ion-icon name="md-close-circle"></ion-icon>
+            <label>Canceled</label>
+          </ion-segment-button>
+          <ion-segment-button value="3">
+            <ion-icon name="megaphone"></ion-icon>
+            <label>News</label>
+          </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+<ion-slides ngClass="body-style"  #slides (ionSlideWillChange)="segment=''+slides.getActiveIndex()">
+  <ion-slide>
+      <ion-list>
+          <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index" ><!-- [hidden]="!(compareDtm(e.event_start_date, e.event_end_date))"-->
+            <ion-item ngClass="events-list">
+              <ion-row>
+                <ion-col>
+                  <label>{{e.category}} - {{e.event_title}}</label>
+                  <label>{{e.mosque_details[0].title}}</label>
+                  <div ngClass="item-dateloc">
+                    <label ngClass="edited">{{e.event_start_date}} - {{e.event_end_date}}</label>
+                  </div>
+                  <div class="row">
+                    <button class="button button-primary attend-btn not rectangle" (click)="cancelReservation(i)">Cancel Reservation</button>
+                    <button class="button button-primary attend-btn rectangle" (click)="validateAttendance(i)">Attend</button>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-card>
+        </ion-list>
+  </ion-slide>
+  <ion-slide ngClass="forgot-pass">
+    <ion-list>
+      <ion-card ngClass="card-slide">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col>
+              <div ngClass="event-title">
+                <label>Activity - Kursus Kahwin Perdana</label>
+              </div>
+              <label ngClass="status-label">Postponed to</label>
+              <div ngClass="item-dateloc">
+                <label ngClass="edited">8/11/2019 9:30 - 9/11/2019 12:00</label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </ion-list>
+  </ion-slide>
+  <ion-slide>
+    <ion-list>
+      <ion-card ngClass="card-slide">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col>
+              <div ngClass="event-title">
+                <label>Activity - Kursus Kahwin Perdana</label>
+              </div>
+              <label ngClass="status-label">Canceled</label>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </ion-list>
+  </ion-slide>
+  
+  <ion-slide>
+    Advertisment or others
+  </ion-slide>
+</ion-slides>

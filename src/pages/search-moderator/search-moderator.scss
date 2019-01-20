@@ -1,0 +1,17 @@
+page-search-moderator {
+
+    .selected{
+        font-weight: bold;
+        color: #5d5b97;
+    }
+    .selected:after{
+        content: url(../../assets/imgs/success.png);
+    }
+    .searchbar-md .searchbar-input{
+        border-radius: 20px;
+    }
+    ion-chip{
+        background: #45536b;
+        opacity: 1;
+    }
+}

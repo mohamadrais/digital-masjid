@@ -1,0 +1,197 @@
+<ion-header class="toolbar-mm">
+  <ion-toolbar>
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>
+      Home
+      <button ngClass="noti-icon" (click)="notificationPage()"><ion-badge>3</ion-badge><ion-icon name="notifications"></ion-icon></button>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body-style">
+  <div ngClass="home-header">
+    <div ngClass="overlay"></div>
+    <ion-row>
+      <div col-12 text-center ngClass="greeting-text">{{nickname}} اَلسَّلاَ مُ عَلَيْكُمْ</div>
+      <ion-col col-4>
+        <div ngClass="header-up-event">{{mosques && mosques.length}}</div>
+        <div ngClass="text-xs center-text">mosques nearby</div>
+      </ion-col>
+      <ion-col col-8>
+        <div ngClass="text-s right-text">
+          <ion-icon ngClass="pin-icon" name="ios-pin-outline"></ion-icon>{{address}}</div>
+        <div ngClass="text-xs right-text">Updated 27/4 00:57
+          <ion-icon ngClass="refresh-icon" (click)="startMosqueList()" name="ios-refresh-outline"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-list>
+    <div ngClass="item-header">Mosques Nearby</div>
+
+    <!-- Other Event Status -->
+    <!-- <div ngClass="item-header">Upcoming</div>
+
+    <div ngClass="item-header">Completed</div> -->
+
+    <ion-row>
+      <ion-col *ngIf="!this.mosques || this.mosques.length==0" (click)="startMosqueList()">
+          <button ngClass="refresh-btn">
+              <ion-icon ngClass="refresh-icon big" name="ios-refresh-outline"></ion-icon>
+              <h4>Tap to refresh list</h4>
+          </button>
+      </ion-col>
+      
+      <ion-card ngClass="card-general" (click)="mosquePage(mosque)" *ngFor="let mosque of mosques">
+        <ion-item ngClass="mosque-list">
+          <ion-row>
+            <ion-col col-3 col-md-2>
+              <div class="mosque-logo">
+                <img src="assets/imgs/logo.png">
+                <!-- <img src={{mosque.icon}}> -->
+              </div>
+            </ion-col>
+            <ion-col col-7 col-md-9>
+              <div ngClass="mosque-name">
+                <label>{{mosque.title}}</label>
+              </div>
+              <div ngClass="mosque-address">
+                <label>{{mosque.address}}</label>
+              </div>
+              <!-- <div ngClass="mosque-distance">
+                <label>{{mosque.distance}} km</label>
+              </div> -->
+            </ion-col>
+            <ion-col col-2 col-md-1>
+              <div ngClass="event-item-right">
+                <div ngClass="quota-total">{{mosque.active_events_no}}</div>
+                <div ngClass="quota-title">events</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+  </ion-row>
+
+    <!-- <ion-row>
+      <ion-col *ngIf="!this.mosques || this.mosques.length==0" (click)="startMosqueList()">
+          <button>
+              <ion-icon ngClass="refresh-icon" name="ios-refresh-outline"></ion-icon>
+              Click to refresh list
+          </button>
+      </ion-col>
+      
+      <ion-card ngClass="card-general" (click)="mosquePage()" *ngFor="let mosque of mosques">
+        <ion-item ngClass="mosque-list">
+          <ion-row>
+            <ion-col col-3>
+              <div class="mosque-logo">
+                <img src="assets/imgs/logo.png">
+              </div>
+            </ion-col>
+            <ion-col col-7>
+              <div ngClass="mosque-name">
+                <label>{{mosque.mosqueTitle}}</label>
+              </div>
+              <div ngClass="mosque-address">
+                <label>{{mosque.mosqueAddress}}</label>
+              </div>
+              <div ngClass="mosque-distance">
+                <label>{{mosque.distance}} km</label>
+              </div>
+            </ion-col>
+            <ion-col col-2>
+              <div ngClass="event-item-right">
+                <div ngClass="quota-total">{{mosque.active_events_no}}</div>
+                <div ngClass="quota-title">events</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </ion-row> -->
+
+    <!-- <ion-row>
+      <ion-card ngClass="card-general" (click)="mosquePage()">
+        <ion-item ngClass="mosque-list">
+          <ion-row>
+            <ion-col col-3 col-md-2>
+              <div class="mosque-logo">
+                <img src="assets/imgs/logo.png">
+              </div>
+            </ion-col>
+            <ion-col col-7 col-md-9>
+              <div ngClass="mosque-name">
+                <label>Surau Menara TM</label>
+              </div>
+              <div ngClass="mosque-address">
+                <label>Taman Bukit Pantai, 59100 Kuala Lumpur, Federal Territory of Kuala Lumpur</label>
+              </div>
+            </ion-col>
+            <ion-col col-2 col-md-1>
+              <div ngClass="event-item-right">
+                <div ngClass="quota-total">{{eventsSize}}</div>
+                <div ngClass="quota-title">events</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </ion-row> -->
+
+
+
+    <!-- <ion-item ngClass="events-list" *ngFor="let event of events" (click)="eventdetailsPage(event)">
+      <ion-row>
+        <div ngClass="event-item-left">
+          <div ngClass="event-title">
+            <label>{{event.category}} - {{event.event_title}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} | {{event.address}}</label>
+          </div>
+        </div>
+
+        If Already Join
+        ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon
+
+        If Not Joining Yet
+        <div ngClass="event-item-right">
+          <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+          <div ngClass="quota-title">Seat Left</div>
+        </div>
+      </ion-row>
+    </ion-item> -->
+
+
+    <!-- <ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item>
+    <div ngClass="item-header">Up Coming</div>
+    <ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item>
+    <div ngClass="item-header">Completed</div>
+    <ion-item ngClass="events-list" (click)="eventdetailsPage()">
+      <ion-row>
+        <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
+        <label ngClass="item-dateloc">2pm | Surau Menara TM Kuala Lumpur</label>
+      </ion-row>
+    </ion-item> -->
+  </ion-list>
+
+  <ion-fab>
+    <button ion-fab mini (click)="feedbackAltPage()">
+      <ion-icon name="ios-happy-outline"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

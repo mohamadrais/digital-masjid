@@ -1,0 +1,119 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>{{(editMode)?'Update Event':'Create Event'}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item [ngClass]="{'error':titleError}">
+        <ion-label floating>Title</ion-label>
+        <ion-input [(ngModel)]="event_title"></ion-input>
+      </ion-item>
+      <ion-item [ngClass]="{'error':categoriesError}">
+        <ion-label floating>Categories</ion-label>
+        <ion-select [(ngModel)]="category">
+          <ion-option value="Activity">Activity</ion-option>
+          <ion-option value="Preach">Preach</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item [ngClass]="{'error':dateError}">
+        <ion-label floating>Event Start Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm:ss" [min]="minYear" [max]="maxYear" [(ngModel)]="event_start_date"></ion-datetime>
+      </ion-item>
+      <ion-item [ngClass]="{'error':dateError}">
+        <ion-label floating>Event End Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm:ss" [min]="minYear" [max]="maxYear" [(ngModel)]="event_end_date"></ion-datetime>
+      </ion-item>
+
+      <!-- <ion-item [ngClass]="{'error':locationError}">
+        <ion-label floating>Location</ion-label>
+        <ion-select [(ngModel)]="address">
+          <ion-option value="Surau Al-Falah TM Cyberjaya">Surau Al-Falah TM Cyberjaya</ion-option>
+          <ion-option value="Surau Menara TM Kuala Lumpur">Surau Menara TM Kuala Lumpur</ion-option> -->
+
+      <!-- <ion-option *ngFor="let add of address" [value]="add"></ion-option>
+          <ion-option [value]="address">{{address}}</ion-option>
+        </ion-select>
+      </ion-item> -->
+      <ion-item [ngClass]="{'error':locationError}" (click)="lookupMosque()">
+        <ion-label>{{(this.mosque && this.mosque.title)? "Location: "+this.mosque.title: "Location"}}
+          <button ngClass="lookup-icon">
+
+            <ion-icon name="search" role="img" class="icon icon-ios ion-ios-search lookup-icon" aria-label="search"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+        </ion-label>
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':locationError}" *ngIf="!this.ustaz || this.ustaz.length<=0">
+        <ion-label>
+          <span (click)="lookupModerator()">Choose Moderator</span>
+          <button color="light" (click)="lookupModerator()" ngClass="lookup-icon">
+
+            <ion-icon name="search" role="img" class="icon icon-ios ion-ios-search lookup-icon" aria-label="search"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+        </ion-label>
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.ustaz && this.ustaz.length>0">
+        <ion-label>
+          Moderator:
+          <button (click)="lookupModerator()" ngClass="lookup-icon">
+
+            <ion-icon name="search" role="img" class="icon icon-ios ion-ios-search lookup-icon" aria-label="search"></ion-icon>
+
+            <div class="button-effect"></div>
+          </button>
+          <div *ngIf="this.ustaz && this.ustaz.length>0">
+            <ion-chip ngClass="ustaz-chip" *ngFor="let u of ustaz; let i = index">
+              <ion-label>{{u.name}}</ion-label>
+              <button ion-button clear color="light" (click)="deleteUstaz(i)">
+                <ion-icon name="close-circle"></ion-icon>
+              </button>
+            </ion-chip>
+          </div>
+        </ion-label>
+
+      </ion-item>
+
+      <ion-item [ngClass]="{'error':pointsError}">
+        <ion-label floating>Points</ion-label>
+        <ion-select [(ngModel)]="points">
+          <ion-option value="5">5</ion-option>
+          <ion-option value="10">10</ion-option>
+          <ion-option value="15">15</ion-option>
+          <ion-option value="20">20</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Quota</ion-label>
+        <ion-input type="number" [(ngModel)]="quota"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Description</ion-label>
+        <ion-textarea ngClass="tm-textarea" [(ngModel)]="event_description"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-row>
+  <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
+  <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt">All fields are mandatory!</ion-label>
+  <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="showConfirm()">{{(editMode)?'Update Event':'Create
+      Event'}}</button>
+  </ion-buttons>
+</ion-footer>
