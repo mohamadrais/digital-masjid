@@ -29,6 +29,7 @@ import { KhairatOtherAccountPage } from '../pages/khairat-other-account/khairat-
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { ForgotPassword } from '../pages/forgot-password/forgotPassword';
+import { ParticipantsPage } from '../pages/participants/participants';
 import { NotificationPage } from '../pages/notification/notification';
 import { HttpModule, Http }    from '@angular/http';
 import { Globals } from './constants/globals';
@@ -81,7 +82,8 @@ import { ImageProvider } from '../providers/image/image';
     KhairatOtherAccountPage,
     AskPage,
     BookmarkPage,
-    NotificationPage
+    NotificationPage,
+    ParticipantsPage
   ],
   imports: [
     BrowserModule,
@@ -142,7 +144,8 @@ import { ImageProvider } from '../providers/image/image';
     KhairatOtherAccountPage,
     AskPage,
     BookmarkPage,
-    NotificationPage
+    NotificationPage,
+    ParticipantsPage
   ],
   providers: [
     SocialSharing,

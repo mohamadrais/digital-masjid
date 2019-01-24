@@ -24,6 +24,7 @@ import { KhairatListPage } from '../pages/khairat-list/khairat-list';
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { NotificationPage } from '../pages/notification/notification';
+import { ParticipantsPage } from '../pages/participants/participants';
 import { Nav } from 'ionic-angular';
 import { Globals} from "../app/constants/globals";
 import {AppConstants} from "../app/constants/app-constants";

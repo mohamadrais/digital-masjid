@@ -737,6 +737,14 @@ ion-fab{
   word-break: break-word;
   white-space: normal;
 }
+.view-more-alt{
+  text-align: right;
+  font-size: 10px;
+  text-decoration: underline;
+  color: #5d5b97;
+  font-weight: bold;
+  float: right;
+}
 .view-more{
   text-align: right;
   font-size: 1.8rem;
@@ -1035,6 +1043,23 @@ ion-popover {
   max-height: 50px;
   min-height: 35px;
   min-width: 35px;
+}
+.profile-icon{
+  width: 100%;
+  border-radius: 100px;
+  background: #dedede;
+  -webkit-box-shadow: 0px 0px 15px -5px;
+  box-shadow: 0px 0px 15px -5px;
+  float: left;
+  max-width: 50px;
+  max-height: 50px;
+  min-height: 35px;
+  text-align: center;
+  min-width: 35px;
+}
+.profile-icon ion-icon{
+  font-size: 5rem;
+  color: #fff;
 }
 .card-general{
   border-radius: 15px;

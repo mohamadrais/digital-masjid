@@ -63,7 +63,9 @@
       </ion-row>
     </ion-item>
     <ion-item>
-      <div ngClass="details-label">Participants Quota</div>
+      <div ngClass="details-label">Participants Quota
+          <span class="view-more-alt" (click)="participantsPage()">View Participants >></span>
+      </div>
       <ion-row>
         <ion-col col-4 class="circle-container">
           <circle-progress [percent]="event.userCount/event.quota*100">

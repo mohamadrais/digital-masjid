@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { CreateEventPage } from '../create-event/create-event';
+import { ParticipantsPage } from '../participants/participants';
 import { Events } from "../../app/models/Events";
 import { HttpService } from "../../app/service/http-service";
 import { HomePage } from '../home/home';
@@ -158,6 +159,10 @@ export class EventDetailsPage {
 
   adminhomePage() {
     this.navCtrl.setRoot(AdminHomePage)
+  }
+
+  participantsPage() {
+    this.navCtrl.push(ParticipantsPage)
   }
 
   joinEvent() {
