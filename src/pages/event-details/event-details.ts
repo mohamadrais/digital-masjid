@@ -162,7 +162,8 @@ export class EventDetailsPage {
   }
 
   participantsPage() {
-    this.navCtrl.push(ParticipantsPage)
+    console.log("this.event._id: "+this.event._id);
+    this.navCtrl.push(ParticipantsPage, { 'eventId': this.event._id });
   }
 
   joinEvent() {

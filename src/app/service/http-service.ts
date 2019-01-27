@@ -446,4 +446,14 @@ export class HttpService {
         .map((res:Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    public getParticipantsList(eventId: String):Observable<any>{
+        var data = {
+            "eventId":eventId
+        }
+
+        return this.http.post(this.BASE_URL+"events/getparticipantslist", data )
+        .map((res:Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
 }

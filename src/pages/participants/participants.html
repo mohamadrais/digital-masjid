@@ -16,7 +16,7 @@
 <ion-content class="body-style">
   <ion-list>
     <ion-card ngClass="card-general">
-        <ion-item ngClass="mosque-list">
+        <ion-item ngClass="mosque-list" *ngFor="let user of userList">
             <ion-row>
               <ion-col col-3 col-md-2>
                 <div class="profile-icon">
@@ -25,13 +25,13 @@
               </ion-col>
               <ion-col col-9 col-md-10>
                 <div ngClass="mosque-name">
-                  <label>John Doe</label>
+                  <label>{{ user && user.name }}</label>
                 </div>
                 <div ngClass="mosque-address">
-                  <label>john.doe@gmail.com</label>
+                  <label>{{ user && user.email }}</label>
                 </div>
                 <div ngClass="mosque-address">
-                  <label>017-903 9114</label>
+                  <label>{{ user && user.mobile }}</label>
                 </div>
               </ion-col>
             </ion-row>
