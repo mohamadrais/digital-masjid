@@ -23,7 +23,7 @@ npm install --save @ionic-native/in-app-browser
 
 ionic cordova plugin add cordova-plugin-camera
 npm install --save @ionic-native/camera
-```
+
 npm install @types/googlemaps --save-dev
 ```
 
