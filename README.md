@@ -1,4 +1,4 @@
-# Mai Masjid
+# DigitalMasjid
 
 ### Prerequisites
 
@@ -21,6 +21,9 @@ npm install ngx-filter-pipe --save
 ionic cordova plugin add cordova-plugin-inappbrowser
 npm install --save @ionic-native/in-app-browser
 
+ionic cordova plugin add cordova-plugin-camera
+npm install --save @ionic-native/camera
+```
 npm install @types/googlemaps --save-dev
 ```
 
@@ -29,8 +32,12 @@ Go to node_modules folder > @types folder > googlemaps folder > open file index.
 declare module 'googlemaps';
 ```
 
-Continue installing the following dependencies:
+Finally, install rest of the packages:
 ```
-ionic cordova plugin add cordova-plugin-camera
-npm install --save @ionic-native/camera
+npm install
+```
+
+Now you can build, install and run on your Android device:
+```
+ionic cordova run android
 ```
