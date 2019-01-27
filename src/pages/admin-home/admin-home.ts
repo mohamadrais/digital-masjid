@@ -5,7 +5,7 @@ import { CreateEventPage } from '../create-event/create-event';
 import { RegisterUstazPage } from '../register-ustaz/register-ustaz';
 import { NotificationPage } from '../notification/notification';
 import { HttpService } from "../../app/service/http-service";
-import {Events} from "../../app/models/Events";
+import { Events } from "../../app/models/Events";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 
@@ -22,32 +22,35 @@ import { AppConstants } from "../../app/constants/app-constants";
   templateUrl: 'admin-home.html',
 })
 export class AdminHomePage {
-  nickname:string = "";
+  nickname: string = "";
   userData;
-  events:Array<Events> = [];
-  eventsSize:number = 0;
-  constructor(public navCtrl: NavController, public httpService:HttpService, public global:Globals) {
-    this.httpService.findEvents().subscribe(data => {
-      this.events = data;
-      if( data ){
-        this.eventsSize = data.length;
-      }
-    })
+  events: Array<Events> = [];
+  eventsSize: number = 0;
+  constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals) {
 
     this.global.get(AppConstants.USER).then(data => {
-      if( data){
+      if (data) {
         this.userData = data;
         this.nickname = this.userData.nickname;
+        this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
+          this.events = data;
+          if (data) {
+            this.eventsSize = data.length;
+          }
+        }, error => {
+          console.log("Issue occured while getting events managed by Admin");
+        });
       }
-    });
+    })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminHomePage');
   }
 
-  eventdetailsPage(mosqueEvent:Events, index){
-    this.navCtrl.push(EventDetailsPage,{'data':mosqueEvent,
+  eventdetailsPage(mosqueEvent: Events, index) {
+    this.navCtrl.push(EventDetailsPage, {
+      'data': mosqueEvent,
       callback: data => {
         if (data) {
           this.events[index].event_title = data.event_title;
@@ -61,33 +64,33 @@ export class AdminHomePage {
       }
     })
   }
-  createeventPage(){
+  createeventPage() {
     this.navCtrl.push(CreateEventPage)
   }
-  createustazPage(){
+  createustazPage() {
     this.navCtrl.push(RegisterUstazPage)
   }
-  notificationPage(){
+  notificationPage() {
     this.navCtrl.push(NotificationPage)
   }
-  public getEventDate(event_date:string):string{
+  public getEventDate(event_date: string): string {
     var date = null;
-    if( event_date ){
-        try{
-           var eventdate = new Date(event_date);
-           date = eventdate.getDate()+"/"+(eventdate.getMonth()+1)+"/"+eventdate.getFullYear()+" "+eventdate.getUTCHours()+":"+eventdate.getMinutes();
-        }catch(e){
+    if (event_date) {
+      try {
+        var eventdate = new Date(event_date);
+        date = eventdate.getDate() + "/" + (eventdate.getMonth() + 1) + "/" + eventdate.getFullYear() + " " + eventdate.getUTCHours() + ":" + eventdate.getMinutes();
+      } catch (e) {
 
-        }
+      }
     } else {
-        var today = new Date();
-        date = today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+" "+today.getUTCHours()+":"+today.getMinutes();
+      var today = new Date();
+      date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
     return date;
   }
 
-  getSeatsLeft(event:Events):number{
+  getSeatsLeft(event: Events): number {
     return (event.quota - event.users.length);
   }
 }
