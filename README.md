@@ -4,6 +4,9 @@
 
 Install the following dependencies / plugins before build:
 ```
+ionic cordova plugin add cordova-plugin-statusbar
+npm install @ionic-native/status-bar
+
 ionic cordova plugin add cordova-plugin-network-information
 npm install --save @ionic-native/network
 
