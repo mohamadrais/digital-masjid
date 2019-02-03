@@ -26,14 +26,14 @@ export class ProfilePage {
   name: string = "";
   email: string = "";
   pointsCollected: number = 0;
-  userData:User;
-  isUserTypeUser:boolean=false;
+  userData: User;
+  isUserTypeUser: boolean = false;
 
   constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public global: Globals) {
     this.getStoredData();
   }
 
-  getStoredData(){
+  getStoredData() {
     this.global.get(AppConstants.USER).then(data => {
       if (data) {
         this.userData = data;
@@ -41,7 +41,7 @@ export class ProfilePage {
         this.email = this.userData.email;
         // this.pointsCollected = this.userData.pointsCollected;
 
-        if(this.userData.userType == AppConstants.USER_TYPE_USER){
+        if (this.userData.userType == AppConstants.USER_TYPE_USER) {
           this.isUserTypeUser = true;
         }
         this.pointsCollected = 0;
@@ -55,7 +55,7 @@ export class ProfilePage {
     this.navCtrl.push(RegisterPage, {
       "data": this.userData,
       callback: data => {
-        if(data){
+        if (data) {
           this.getStoredData();
         }
       }
@@ -73,12 +73,12 @@ export class ProfilePage {
         if (eventEndType == AppConstants.EVENT_HISTORY) {
           this.events_history = data;
           data.forEach(element => {
-            this.pointsCollected+= element.points;
+            this.pointsCollected += element.points;
           });
         } else if (eventEndType == AppConstants.EVENT_UPCOMING) {
           this.events_upcoming = data;
           data.forEach(element => {
-            this.pointsCollected+= element.points;
+            this.pointsCollected += element.points;
           });
         }
 
@@ -89,13 +89,20 @@ export class ProfilePage {
     })
   }
 
-  eventdetailsPage(event: Events, isUpcoming) {
-    if(isUpcoming){
-      this.navCtrl.push(EventDetailsPage, { 'data': event });
-    }else{
-      this.navCtrl.push(EventDetailsPage, { 'data': event, "fromProfile":true});
+  eventdetailsPage(event: Events, isUpcoming, index) {
+    if (isUpcoming) {
+      this.navCtrl.push(EventDetailsPage, {
+        'data': event, "fromProfile": AppConstants.EVENT_UPCOMING,
+        callback: data => {
+          if (!data.joined) {
+            this.events_upcoming.splice(index,1);
+          }
+        }
+      });
+    } else {
+      this.navCtrl.push(EventDetailsPage, { 'data': event, "fromProfile": AppConstants.EVENT_HISTORY });
     }
-    
+
   }
 
   public getEventDate(event_date: string): string {

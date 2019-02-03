@@ -43,7 +43,7 @@
   </div>
   <ion-list *ngIf="events_upcoming && events_upcoming.length>0">
       <div ngClass="item-header">Upcoming</div>
-      <ion-card ngClass="card-general" (click)="eventdetailsPage(event, true)" *ngFor="let event of events_upcoming">
+      <ion-card ngClass="card-general" (click)="eventdetailsPage(event, true, i)" *ngFor="let event of events_upcoming; let i = index">
         <ion-item ngClass="events-list">
           <ion-row>
             

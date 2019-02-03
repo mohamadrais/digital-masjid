@@ -1,7 +1,14 @@
 <ion-header class="mm-header">
-  <ion-navbar>
-    <ion-title>Event Details</ion-title>
+
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start left>
+      <button ion-button large (click)="goBack()">
+        <ion-icon name="arrow-back"><span></span></ion-icon>
+      </button>
+      </ion-buttons>
+      <ion-title>Event Details</ion-title>
   </ion-navbar>
+
 </ion-header>
 
 
@@ -96,7 +103,7 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="!isAdmin && !isModerator">
+<ion-footer *ngIf="!isAdmin && !isModerator && !this.expiredEvent">
   <ion-buttons *ngIf="!eventAlreadyJoined">
     <button class="button button-primary rectangle" (click)="showConfirm()">Join Now</button>
   </ion-buttons>

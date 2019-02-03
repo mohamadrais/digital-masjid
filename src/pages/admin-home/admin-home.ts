@@ -52,7 +52,7 @@ export class AdminHomePage {
     this.navCtrl.push(EventDetailsPage, {
       'data': mosqueEvent,
       callback: data => {
-        if (data) {
+        if (data.event) {
           this.events[index].event_title = data.event_title;
           this.events[index].category = data.category;
           this.events[index].event_start_date = data.event_start_date;
