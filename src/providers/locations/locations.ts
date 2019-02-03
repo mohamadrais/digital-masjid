@@ -203,6 +203,9 @@ export class LocationsProvider {
                           }
                         }
                         let finalNearbyItems = this.nearbyItems_registered.concat(this.nearbyItems);
+                        if(finalNearbyItems.length>=10){
+                          finalNearbyItems.splice(10);
+                        }
                         observer.next(finalNearbyItems);
                         observer.complete();
                       } 
