@@ -6,6 +6,8 @@ export class Mosques{
     longitude	:string;
     address     :string;
     active_events_no : number;
+    icon    :string ;//= 'assets/imgs/logo.png';
+    photo   :string ;//= 'assets/imgs/bg-home.jpg';
     createdTimestamp:string ;
     created_by    :string;
     

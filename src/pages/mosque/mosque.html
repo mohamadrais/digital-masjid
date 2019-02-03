@@ -7,12 +7,12 @@
 </ion-header>
 
 <ion-content class="body-style">
-  <div ngClass="home-header">
+  <div ngClass="home-header" [style.backgroundImage]="'url('+mosque.photo+')'">
     <div ngClass="overlay"></div>
     <ion-row>
       <ion-col col-3>
         <div class="mosque-logo">
-          <img src="assets/imgs/logo.png">
+          <img [src]="mosque.icon">
         </div>
       </ion-col>
       <ion-col col-9>

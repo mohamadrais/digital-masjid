@@ -10,6 +10,8 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { googlemaps } from 'googlemaps';
 import { NgZone } from '@angular/core';
 import { Mosques } from '../../app/models/Mosques';
+import { App } from 'ionic-angular';
+import { AppConstants } from '../../app/constants/app-constants';
 /*
   Generated class for the LocationsProvider provider.
 
@@ -193,11 +195,35 @@ export class LocationsProvider {
                             })
                             mosque.title = registeredMosques[foundMosque].title;
                             mosque.address = registeredMosques[foundMosque].address;
+
+                            if(near_places[i].photos && near_places[i].photos.length>1){
+                              mosque.icon = near_places[i].photos[0].getUrl();
+                              mosque.photo = near_places[i].photos[1].getUrl();
+                            }else if(near_places[i].photos && near_places[i].photos.length>0 && near_places[i].photos.length<=1){
+                              mosque.icon = near_places[i].photos[0].getUrl();
+                              mosque.photo = near_places[i].photos[0].getUrl();
+                            }else{
+                              mosque.icon = 'assets/imgs/logo.png';
+                              mosque.photo = 'assets/imgs/bg-home.jpg';
+                            }
+
                             this.nearbyItems_registered.push(mosque);
                           }else{
                             mosque._id = near_places[i].place_id;
                             mosque.title = near_places[i].name;
                             mosque.address = near_places[i].vicinity;
+
+                            if(near_places[i].photos && near_places[i].photos.length>1){
+                              mosque.icon = near_places[i].photos[0].getUrl();
+                              mosque.photo = near_places[i].photos[1].getUrl();
+                            }else if(near_places[i].photos && near_places[i].photos.length>0 && near_places[i].photos.length<=1){
+                              mosque.icon = near_places[i].photos[0].getUrl();
+                              mosque.photo = near_places[i].photos[0].getUrl();
+                            }else{
+                              mosque.icon = 'assets/imgs/logo.png';
+                              mosque.photo = 'assets/imgs/bg-home.jpg';
+                            }
+                           
                             mosque.active_events_no = 0;
                             this.nearbyItems.push(mosque);
                           }
