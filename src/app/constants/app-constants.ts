@@ -9,4 +9,9 @@ export class AppConstants {
 
     public static OFFLINE_NETWORK = "Internet is not connected";
     public static ONLINE_NETWORK = "Internet is now connected back";
+
+    public static EVENT_JOINED = "You are now subscribed to this event"
+    public static EVENT_DECLINED = "You have opt out from this event"
+
+    public static ERROR = "Error occured. Please try again later."
 }

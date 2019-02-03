@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { CreateEventPage } from '../create-event/create-event';
@@ -39,7 +39,7 @@ export class EventDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
-    public platform: Platform, private socialSharing: SocialSharing) {
+    public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController) {
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
     this.fromProfile = navParams.get('fromProfile'); //for profile flow of current user joined
     if(this.fromProfile){
@@ -169,18 +169,41 @@ export class EventDetailsPage {
   joinEvent() {
 
     this.httpService.subscribeEvents(this.event, this.currentUser._id).subscribe(data => {
-      this.navigate();
+      this.presentToast(AppConstants.EVENT_JOINED);
+      this.eventAlreadyJoined = true;
+      this.event.userCount++;
+      this.getGenderCount();
     }, error => {
       console.log("Issue occured while joining the event");
+      this.presentToast(AppConstants.ERROR);
     });
   }
 
   declineEvent() {
     this.httpService.unSubscribeEvents(this.event, this.currentUser._id).subscribe(data => {
-      this.navigate();
+      this.presentToast(AppConstants.EVENT_DECLINED);
+      this.eventAlreadyJoined = false;
+      this.event.userCount--;
+      this.getGenderCount();
     }, error => {
       console.log("Issue occured while declining the event");
+      this.presentToast(AppConstants.ERROR);
     });
+  }
+
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      position: 'top',
+      showCloseButton: true,
+      dismissOnPageChange:false
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
   navigate(){
@@ -315,6 +338,13 @@ export class EventDetailsPage {
   }
   getSeatsLeft(event: Events): number {
     return (event.quota - event.users.length);
+  }
+
+  getGenderCount(){
+    this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
+      this.event.maleCount = data;
+      this.event.femaleCount = this.event.userCount - this.event.maleCount;
+    });
   }
 
   openMap(event: Events) {
