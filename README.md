@@ -32,11 +32,6 @@ npm install ng-circle-progress@1.0.0 --save
 npm install @types/googlemaps --save-dev
 ```
 
-Go to node_modules folder > @types folder > googlemaps folder > open file index.d.ts > then add below line (after the last line & outside any function blocks)
-```
-declare module 'googlemaps';
-```
-
 Finally, install rest of the packages:
 ```
 npm install
@@ -46,3 +41,7 @@ Now you can build, install and run on your Android device:
 ```
 ionic cordova run android
 ```
+ionic cordova plugin add cordova-plugin-facebook4@1.7.4 --variable APP_ID="285153802177327" --variable APP_NAME="DigitalMasjid-dev"
+
+ionic cordova plugin add cordova-plugin-googleplus --variable REVERSED_CLIENT_ID="com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573" --variable PLAY_SERVICES_VERSION="15.+"
+npm install --save @ionic-native/google-plus@4

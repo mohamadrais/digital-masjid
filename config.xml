@@ -23,6 +23,7 @@
         <string>need location access to find things nearby</string>
     </edit-config>
     <platform name="android">
+        <resource-file src="google-services.json" target="app/google-services.json" />
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
@@ -42,6 +43,10 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <config-file parent="/resources" target="./res/values/strings.xml">
+            <string name="fb_app_id">285153802177327</string>
+            <string name="fb_app_name">DigitalMasjid-dev</string>
+        </config-file>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -95,7 +100,16 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
+    <plugin name="cordova-plugin-facebook4" spec="^1.7.4">
+        <variable name="APP_ID" value="285153802177327" />
+        <variable name="APP_NAME" value="DigitalMasjid-dev" />
+    </plugin>
+    <plugin name="cordova-support-google-services" spec="^1.2.1" />
+    <plugin name="cordova-plugin-googleplus" spec="^7.0.0">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573" />
+        <variable name="PLAY_SERVICES_VERSION" value="15.+" />
+    </plugin>
     <engine name="ios" spec="^4.5.5" />
-    <engine name="android" spec="7.1.1" />
     <engine name="browser" spec="5.0.4" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -47,6 +47,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { SearchModeratorPage } from '../pages/search-moderator/search-moderator';
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
+import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FilterPipeModule } from 'ngx-filter-pipe';
@@ -162,6 +164,8 @@ import { ImageProvider } from '../providers/image/image';
     LocationAccuracy,
     InAppBrowser,
     Camera,
+    Facebook,
+    GooglePlus,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ImageProvider
   ]

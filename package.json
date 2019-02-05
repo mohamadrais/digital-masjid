@@ -25,7 +25,9 @@
     "@ionic-native/core": "4.7.0",
     "@ionic-native/date-picker": "^4.7.0",
     "@ionic-native/diagnostic": "^4.17.0",
+    "@ionic-native/facebook": "^4.20.0",
     "@ionic-native/geolocation": "^4.9.0",
+    "@ionic-native/google-plus": "^4.20.0",
     "@ionic-native/http": "^4.7.0",
     "@ionic-native/in-app-browser": "^4.18.0",
     "@ionic-native/location-accuracy": "^4.17.0",
@@ -36,24 +38,27 @@
     "@ionic-native/status-bar": "4.7.0",
     "@ionic/pro": "1.0.20",
     "@ionic/storage": "2.1.3",
-    "cordova-android": "7.1.1",
+    "cordova-android": "7.0.0",
     "cordova-browser": "5.0.4",
     "cordova-ios": "^4.5.5",
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-facebook4": "^1.7.4",
     "cordova-plugin-geolocation": "^4.0.1",
+    "cordova-plugin-googleplus": "^7.0.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^1.2.1",
-    "cordova-plugin-nativegeocoder": "^3.1.2",
-    "cordova-plugin-network-information": "2.0.1",
+    "cordova-plugin-nativegeocoder": "^3.1.3",
+    "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-request-location-accuracy": "^2.2.3",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
-    "cordova-plugin-x-socialsharing": "^5.4.1",
-    "cordova.plugins.diagnostic": "4.0.10",
+    "cordova-plugin-x-socialsharing": "^5.4.4",
+    "cordova-support-google-services": "^1.2.1",
+    "cordova.plugins.diagnostic": "^4.0.10",
     "es6-promise-plugin": "^4.2.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
@@ -83,15 +88,26 @@
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service"
       },
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-x-socialsharing": {},
+      "cordova-plugin-x-socialsharing": {
+        "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
+      },
       "cordova-plugin-network-information": {},
       "cordova.plugins.diagnostic": {},
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "285153802177327",
+        "APP_NAME": "DigitalMasjid-dev"
+      },
+      "cordova-support-google-services": {},
+      "cordova-plugin-googleplus": {
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573",
+        "PLAY_SERVICES_VERSION": "15.+"
+      }
     },
     "platforms": [
       "ios",
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

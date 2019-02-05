@@ -8,7 +8,8 @@ import { Globals} from "../../app/constants/globals";
 import {AppConstants} from "../../app/constants/app-constants";
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { ForgotPassword } from '../forgot-password/forgotPassword';
-
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 /**
  * Generated class for the LoginPage page.
  *
@@ -26,7 +27,7 @@ export class LoginPage {
   validUser:boolean = true;
   loginForm = { username: '', password: ''}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private fb: Facebook, private googlePlus: GooglePlus,
     public httpService:HttpService, public global:Globals, public events: Events, public popoverCtrl: PopoverController) {
       console.log('login form:' +this.loginForm)
   }
@@ -78,5 +79,23 @@ export class LoginPage {
     } , error => {
         //need to handle bread crumbs here
     })
+  }
+
+  loginFB(){
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+  .catch(e => console.log('Error logging into Facebook', e));
+  }
+
+  loginGoogle(){
+    this.googlePlus.login({})
+    .then(res => {
+      console.log(res);
+      alert(JSON.stringify(res));
+    })
+    .catch(err => {
+      console.error(err);
+      alert(JSON.stringify(err));
+    });
   }
 }

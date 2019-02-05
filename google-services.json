@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "440107685967",
+    "firebase_url": "https://digitalmasjid-dev.firebaseio.com",
+    "project_id": "digitalmasjid-dev",
+    "storage_bucket": "digitalmasjid-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440107685967:android:c7ae67810ceef9e5",
+        "android_client_info": {
+          "package_name": "io.ionic.digitalmasjid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440107685967-20gck2vcacuntcq99kl0d0flom6321p5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.digitalmasjid",
+            "certificate_hash": "303c7bb7fe26e0735577336674211fb3e5848af5"
+          }
+        },
+        {
+          "client_id": "440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZg2k4CbO0r7Q60Bf7GFjy-EzZ6d3a9vI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
