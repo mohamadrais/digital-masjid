@@ -15,6 +15,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { LocationsProvider } from '../../providers/locations/locations'
 import { Mosques } from '../../app/models/Mosques';
 import { NotificationPage } from '../notification/notification';
+import { SearchMosquePage } from '../search-mosque/search-mosque';
 import { Network } from '@ionic-native/network';
 import { Observable } from 'rxjs/Rx';
 import { googlemaps } from 'googlemaps';
@@ -163,6 +164,9 @@ export class HomePage {
   }
   notificationPage(){
     this.navCtrl.push(NotificationPage)
+  }
+  searchmosquePage(){
+    this.navCtrl.push(SearchMosquePage)
   }
 
   getSeatsLeft(event:Events):number{

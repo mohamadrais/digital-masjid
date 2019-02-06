@@ -3,7 +3,7 @@
   <ion-navbar hideBackButton="true">
     <ion-buttons start left>
       <button ion-button large (click)="goBack()">
-        <ion-icon name="arrow-back"><span></span></ion-icon>
+        <ion-icon name="arrow-back" ngClass="back-btn"><span></span></ion-icon>
       </button>
       </ion-buttons>
       <ion-title>Event Details</ion-title>
@@ -70,7 +70,7 @@
       </ion-row>
     </ion-item>
     <ion-item>
-      <div ngClass="details-label">Participants Quota
+      <div ngClass="details-label">Participants Info
           <span class="view-more-alt" (click)="participantsPage()">View Participants >></span>
       </div>
       <ion-row>

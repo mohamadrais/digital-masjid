@@ -285,17 +285,17 @@ export class EventDetailsPage {
   }
   showConfirm() {
     const confirm = this.alertCtrl.create({
-      title: 'Do you wish to join this event?',
-      message: 'By clicking join, you will be registered to be a participant for this event.',
+      title: 'You are now subscribed to this event.',
+      message: 'May Allah grant you his blessing for your intention to join this event.',
       buttons: [
+        // {
+        //   text: 'Cancel',
+        //   handler: () => {
+        //     console.log('Cancel clicked');
+        //   }
+        // },
         {
-          text: 'Cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Join',
+          text: 'Alhamdulillah',
           handler: () => {
             console.log('Join clicked');
             this.joinEvent();
@@ -308,17 +308,17 @@ export class EventDetailsPage {
 
   showDeclineConfirmation() {
     const confirm = this.alertCtrl.create({
-      title: 'Do you wish to decline this event?',
-      message: 'By clicking Decline, you will be unregistered from this event.',
+      title: 'You are now canceling your subscription on this event.',
+      message: 'Insyaallah there will be another events that you can join later on.',
       buttons: [
+        // {
+        //   text: 'Cancel',
+        //   handler: () => {
+        //     console.log('Cancel clicked');
+        //   }
+        // },
         {
-          text: 'Cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Decline',
+          text: 'Insyaallah',
           handler: () => {
             console.log('Join clicked');
             this.declineEvent();

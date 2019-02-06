@@ -19,10 +19,10 @@
       </ion-item>
       <ion-item [ngClass]="{'error':categoriesError}">
         <ion-label floating>Categories</ion-label>
-        <ion-select [(ngModel)]="category">
+        <!-- <ion-select [(ngModel)]="category">
           <ion-option value="Activity">Activity</ion-option>
           <ion-option value="Preach">Preach</ion-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item [ngClass]="{'error':dateError}">
         <ion-label floating>Event Start Date</ion-label>
@@ -56,7 +56,7 @@
 
       <ion-item [ngClass]="{'error':locationError}" *ngIf="!this.ustaz || this.ustaz.length<=0">
         <ion-label>
-          <span (click)="lookupModerator()">Choose Moderator</span>
+          <span (click)="lookupModerator()">Choose Event's Lead</span>
           <button color="light" (click)="lookupModerator()" ngClass="lookup-icon">
 
             <ion-icon name="search" role="img" class="icon icon-ios ion-ios-search lookup-icon" aria-label="search"></ion-icon>
@@ -68,7 +68,7 @@
 
       <ion-item [ngClass]="{'error':locationError}" *ngIf="this.ustaz && this.ustaz.length>0">
         <ion-label>
-          Moderator:
+          Event's Lead:
           <button (click)="lookupModerator()" ngClass="lookup-icon">
 
             <ion-icon name="search" role="img" class="icon icon-ios ion-ios-search lookup-icon" aria-label="search"></ion-icon>
