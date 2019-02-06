@@ -1,5 +1,5 @@
 import { Component, ViewChild} from '@angular/core';
-import { Platform, Events,ToastController } from 'ionic-angular';
+import { Platform, Events,ToastController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -31,6 +31,8 @@ import { Globals} from "../app/constants/globals";
 import {AppConstants} from "../app/constants/app-constants";
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { Network } from '@ionic-native/network';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'app.html'
@@ -45,7 +47,7 @@ export class MyApp {
   userType: String;
 
   constructor(platform: Platform, private statusBar: StatusBar, splashScreen: SplashScreen, 
-    public global:Globals, public connectivity:ConnectivityProvider, public events:Events, public network: Network,private toastCtrl: ToastController) {
+    public global:Globals, public connectivity:ConnectivityProvider, public events:Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private alertCtrl: AlertController) {
     platform.ready().then(() => {
 
       this.pages = [
@@ -158,6 +160,32 @@ export class MyApp {
             this.prevConnectivityStatus=true;
           }
       });
+
+
+      var token = fcm.getToken();
+      console.log('Device registered', token);
+      //console.log(fcm.getToken());
+      // Listen to incoming messages
+      fcm.listenToNotifications().pipe(
+        tap(msg => {
+          var confirmAlert = this.alertCtrl.create({
+            title: msg.title,
+            message: "body: "+msg.body+", eventId: "+msg.eventId,
+            buttons: [{
+              text: 'Ignore',
+              role: 'cancel'
+            }, {
+              text: 'View',
+              handler: function () {
+                //TODO: Your logic here
+                console.log('Push notification clicked foreground');
+              }
+            }]
+          });
+          confirmAlert.present();
+        })
+      ).subscribe();
+
     });
   }
 

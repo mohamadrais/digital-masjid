@@ -55,6 +55,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { Camera } from '@ionic-native/camera';
 import { ImageProvider } from '../providers/image/image';
+import { FcmProvider } from '../providers/fcm/fcm';
+import { Firebase } from '@ionic-native/firebase';
 
 @NgModule({
   declarations: [
@@ -170,7 +172,9 @@ import { ImageProvider } from '../providers/image/image';
     Facebook,
     GooglePlus,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ImageProvider
+    ImageProvider,
+    FcmProvider,
+    Firebase
   ]
 })
 export class AppModule {}
