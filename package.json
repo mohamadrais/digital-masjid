@@ -26,6 +26,7 @@
     "@ionic-native/date-picker": "^4.7.0",
     "@ionic-native/diagnostic": "^4.17.0",
     "@ionic-native/facebook": "^4.20.0",
+    "@ionic-native/firebase": "^4.20.0",
     "@ionic-native/geolocation": "^4.9.0",
     "@ionic-native/google-plus": "^4.20.0",
     "@ionic-native/http": "^4.7.0",
@@ -45,7 +46,8 @@
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-facebook4": "^1.7.4",
+    "cordova-plugin-facebook4": "^1.10.1",
+    "cordova-plugin-firebase": "^2.0.5",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-googleplus": "^7.0.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
@@ -57,8 +59,7 @@
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-socialsharing": "^5.4.4",
-    "cordova-support-google-services": "^1.2.1",
-    "cordova.plugins.diagnostic": "^4.0.10",
+    "cordova.plugins.diagnostic": "^4.0.11",
     "es6-promise-plugin": "^4.2.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
@@ -98,11 +99,11 @@
         "APP_ID": "285153802177327",
         "APP_NAME": "DigitalMasjid-dev"
       },
-      "cordova-support-google-services": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573",
         "PLAY_SERVICES_VERSION": "15.+"
-      }
+      },
+      "cordova-plugin-firebase": {}
     },
     "platforms": [
       "ios",
