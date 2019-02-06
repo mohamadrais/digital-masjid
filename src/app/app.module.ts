@@ -31,6 +31,7 @@ import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { ForgotPassword } from '../pages/forgot-password/forgotPassword';
 import { ParticipantsPage } from '../pages/participants/participants';
 import { NotificationPage } from '../pages/notification/notification';
+import { SearchMosquePage } from '../pages/search-mosque/search-mosque';
 import { HttpModule, Http }    from '@angular/http';
 import { Globals } from './constants/globals';
 import { HttpService } from "../app/service/http-service";
@@ -85,7 +86,8 @@ import { ImageProvider } from '../providers/image/image';
     AskPage,
     BookmarkPage,
     NotificationPage,
-    ParticipantsPage
+    ParticipantsPage,
+    SearchMosquePage
   ],
   imports: [
     BrowserModule,
@@ -147,7 +149,8 @@ import { ImageProvider } from '../providers/image/image';
     AskPage,
     BookmarkPage,
     NotificationPage,
-    ParticipantsPage
+    ParticipantsPage,
+    SearchMosquePage
   ],
   providers: [
     SocialSharing,
