@@ -15,7 +15,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { LocationsProvider } from '../../providers/locations/locations'
 import { Mosques } from '../../app/models/Mosques';
 import { NotificationPage } from '../notification/notification';
-import { SearchMosquePage } from '../search-mosque/search-mosque';
+// import { SearchMosquePage } from '../search-mosque/search-mosque';
 import { Network } from '@ionic-native/network';
 import { Observable } from 'rxjs/Rx';
 import { googlemaps } from 'googlemaps';
@@ -37,11 +37,23 @@ export class HomePage {
   geocoderGoogle: any;
   GooglePlaces: any;
   nearbyItems: any = new Array<any>();
-  autocomplete: any;
-  GoogleAutocomplete: any;
 
-  constructor(public navCtrl: NavController, public httpService:HttpService,
-    public geolocation: Geolocation, public geocoder: NativeGeocoder, public global:Globals, public locations: LocationsProvider, public loadingCtrl: LoadingController, public network:Network, public alertCtrl:AlertController,public zone: NgZone) {
+  autocompleteItems;
+  autocomplete;
+
+  latitude: number = 0;
+  longitude: number = 0;
+  geo: any
+
+  service = new google.maps.places.AutocompleteService();
+
+  constructor(public navCtrl: NavController, public httpService:HttpService, public geolocation: Geolocation, public geocoder: NativeGeocoder, public global:Globals, public locations: LocationsProvider, public loadingCtrl: LoadingController, public network:Network, public alertCtrl:AlertController,public zone: NgZone) {
+    
+    this.autocompleteItems = [];
+    this.autocomplete = {
+      query: ''
+    };
+    
     this.global.get(AppConstants.USER).then(data => {
       if( data){
         this.userData = data;
@@ -162,12 +174,23 @@ export class HomePage {
   mosquePage(mosque:Mosques){
     this.navCtrl.push(MosquePage,{'data':mosque})
   }
+
+  mosquePageOnline(item){
+    this.locations.getRegisteredMosquesOnline(item).subscribe( mosque => {
+        if(mosque && Array.isArray(mosque) && mosque.length>0){
+          this.mosquePage(mosque[0]);
+        }else{
+          this.mosquePage(mosque);
+        }
+    });
+  }
+
   notificationPage(){
     this.navCtrl.push(NotificationPage)
   }
-  searchmosquePage(){
-    this.navCtrl.push(SearchMosquePage)
-  }
+  // searchmosquePage(){
+  //   this.navCtrl.push(SearchMosquePage)
+  // }
 
   getSeatsLeft(event:Events):number{
     return (event.quota - event.userCount);
@@ -206,4 +229,30 @@ export class HomePage {
   //     console.log(error)
   //   })
   // }
+  searchMosque(){
+    if (this.autocomplete.query == '') {
+      this.autocompleteItems = [];
+      return;
+     }
+ 
+     let me = this;
+     this.service.getPlacePredictions({
+     input: this.autocomplete.query,
+     componentRestrictions: {
+       country: 'my'//to be changed in future which depends on user's registered country, or remove if there is no restriction
+     }
+    }, (predictions, status) => {
+      me.autocompleteItems = [];
+ 
+    me.zone.run(() => {
+      if (predictions != null) {
+         predictions.forEach((prediction) => {
+           me.autocompleteItems.push(prediction);
+         });
+        }
+      });
+    });
+
+    // this.navCtrl.push(SearchManagedMosquesPage, {"fromHomePage":true});
+  }
 }

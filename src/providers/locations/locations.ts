@@ -173,71 +173,13 @@ export class LocationsProvider {
                 this.zone.run(() => {
                     this.nearbyItems_registered = [];
                     this.nearbyItems = [];
-                    let mosque_ids = []
-                    //send near_places id's to BE, BE respond with all place_id found
-                    let registeredMosques:Array<any>;
-
-                    for (var i = 0; i < near_places.length; i++) {
-                      mosque_ids.push(near_places[i].place_id)
-                    }
-
-                    this.httpService.getRegisteredMosques(mosque_ids).subscribe(data => {
-                      if( data ){
-                        registeredMosques = data;
-                        for (var i = 0; i < near_places.length; i++) {
-                          let mosque:Mosques = new Mosques();
-                          //console.log(mosque);
-                          let foundMosque = this.findRegisteredMosqueId(near_places[i].place_id, registeredMosques);
-                          if(foundMosque>=0){
-                            mosque._id = registeredMosques[foundMosque].google_place_id;
-                            this.httpService.countActiveEvents(mosque._id).subscribe(data =>{
-                              mosque.active_events_no = data;
-                            })
-                            mosque.title = registeredMosques[foundMosque].title;
-                            mosque.address = registeredMosques[foundMosque].address;
-
-                            if(near_places[i].photos && near_places[i].photos.length>1){
-                              mosque.icon = near_places[i].photos[0].getUrl();
-                              mosque.photo = near_places[i].photos[1].getUrl();
-                            }else if(near_places[i].photos && near_places[i].photos.length>0 && near_places[i].photos.length<=1){
-                              mosque.icon = near_places[i].photos[0].getUrl();
-                              mosque.photo = near_places[i].photos[0].getUrl();
-                            }else{
-                              mosque.icon = 'assets/imgs/logo.png';
-                              mosque.photo = 'assets/imgs/bg-home.jpg';
-                            }
-
-                            this.nearbyItems_registered.push(mosque);
-                          }else{
-                            mosque._id = near_places[i].place_id;
-                            mosque.title = near_places[i].name;
-                            mosque.address = near_places[i].vicinity;
-
-                            if(near_places[i].photos && near_places[i].photos.length>1){
-                              mosque.icon = near_places[i].photos[0].getUrl();
-                              mosque.photo = near_places[i].photos[1].getUrl();
-                            }else if(near_places[i].photos && near_places[i].photos.length>0 && near_places[i].photos.length<=1){
-                              mosque.icon = near_places[i].photos[0].getUrl();
-                              mosque.photo = near_places[i].photos[0].getUrl();
-                            }else{
-                              mosque.icon = 'assets/imgs/logo.png';
-                              mosque.photo = 'assets/imgs/bg-home.jpg';
-                            }
-                           
-                            mosque.active_events_no = 0;
-                            this.nearbyItems.push(mosque);
-                          }
+                    
+                    this.getRegisteredMosquesOnline(near_places).subscribe(data => {
+                        if(data){
+                          observer.next(data);
+                          observer.complete();
                         }
-                        let finalNearbyItems = this.nearbyItems_registered.concat(this.nearbyItems);
-                        if(finalNearbyItems.length>=10){
-                          finalNearbyItems.splice(10);
-                        }
-                        observer.next(finalNearbyItems);
-                        observer.complete();
-                      } 
-                    }, error => {
-                      console.log(error)
-                    })
+                    });
                 });
                 })
             }
@@ -248,7 +190,26 @@ export class LocationsProvider {
         });
       });
       
-    }).catch((error: any) => Observable.throw(error.json().error || 'Get Google Mosque list error'));;
+    }).catch((error: any) => Observable.throw(error.json().error || 'Get Google Mosque list error'));
+    
+  }
+
+  
+  //send near_places id's to BE, BE respond with all place_id found
+  getRegisteredMosquesOnline(places):Observable<any>{
+    let mosque_ids = [];
+    mosque_ids = this.prepareMosqueIdArray(places);
+    return Observable.create(observer =>{
+      this.httpService.getRegisteredMosques(mosque_ids).subscribe(data => {
+        if( data ){
+          let finalNearbyItems = this.prepareMosqueData(data, places);
+          observer.next(finalNearbyItems);
+          observer.complete();
+        } 
+      }, error => {
+        console.log(error)
+      })
+    }).catch((error: any) => Observable.throw(error.json().error || 'Get Mosque list online error'));
     
   }
 
@@ -260,6 +221,81 @@ export class LocationsProvider {
         }
     }
     return -1;
+  }
+
+  prepareMosqueIdArray(places){
+    let mosque_ids = [];
+
+    if(places && Array.isArray(places) && places.length > 0){
+      for (var i = 0; i < places.length; i++) {
+        mosque_ids.push(places[i].place_id)
+      }
+    }else{
+      mosque_ids.push(places.place_id);
+    }
+  
+    return mosque_ids;
+  }
+
+  prepareMosqueData(data, places){
+    let registeredMosques:Array<any>;
+    registeredMosques = data;
+    for (var i = 0; i < places.length; i++) {
+      let mosque:Mosques = new Mosques();
+      //console.log(mosque);
+      let foundMosque = this.findRegisteredMosqueId(places[i].place_id, registeredMosques);
+      if(foundMosque>=0){
+        mosque._id = registeredMosques[foundMosque].google_place_id;
+        this.httpService.countActiveEvents(mosque._id).subscribe(data =>{
+          mosque.active_events_no = data;
+        })
+        mosque.title = registeredMosques[foundMosque].title;
+        mosque.address = registeredMosques[foundMosque].address;
+
+        if(places[i].photos && places[i].photos.length>1){
+          mosque.icon = places[i].photos[0].getUrl();
+          mosque.photo = places[i].photos[1].getUrl();
+        }else if(places[i].photos && places[i].photos.length>0 && places[i].photos.length<=1){
+          mosque.icon = places[i].photos[0].getUrl();
+          mosque.photo = places[i].photos[0].getUrl();
+        }else{
+          mosque.icon = 'assets/imgs/logo.png';
+          mosque.photo = 'assets/imgs/bg-home.jpg';
+        }
+
+        this.nearbyItems_registered.push(mosque);
+      }else{
+        mosque._id = places[i].place_id;
+
+        if(places[i].structured_formatting){ //autocomplete
+          mosque.title = places[i].structured_formatting.main_text;
+          mosque.address = places[i].structured_formatting.secondary_text;
+        }else{ //nearby search
+          mosque.title = places[i].name;
+          mosque.address = places[i].vicinity;
+        }
+
+        if(places[i].photos && places[i].photos.length>1){
+          mosque.icon = places[i].photos[0].getUrl();
+          mosque.photo = places[i].photos[1].getUrl();
+        }else if(places[i].photos && places[i].photos.length>0 && places[i].photos.length<=1){
+          mosque.icon = places[i].photos[0].getUrl();
+          mosque.photo = places[i].photos[0].getUrl();
+        }else{
+          mosque.icon = 'assets/imgs/logo.png';
+          mosque.photo = 'assets/imgs/bg-home.jpg';
+        }
+       
+        mosque.active_events_no = 0;
+        this.nearbyItems.push(mosque);
+      }
+    }
+    let finalNearbyItems = this.nearbyItems_registered.concat(this.nearbyItems);
+    if(finalNearbyItems.length>=10){
+      finalNearbyItems.splice(10);
+    }
+
+    return finalNearbyItems;
   }
 
   public async setUserLocation(){
