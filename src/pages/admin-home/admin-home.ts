@@ -9,7 +9,6 @@ import { Events } from "../../app/models/Events";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 
-
 /**
  * Generated class for the AdminHomePage page.
  *
@@ -31,7 +30,7 @@ export class AdminHomePage {
     this.global.get(AppConstants.USER).then(data => {
       if (data) {
         this.userData = data;
-        this.nickname = this.userData.nickname;
+        this.nickname = this.userData.name; //this.userData.nickname;
         this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
           this.events = data;
           if (data) {

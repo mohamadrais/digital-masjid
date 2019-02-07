@@ -32,7 +32,7 @@ export class HomePage {
   address:string = "";
   updated:string = "";
   nickname:string = "";
-  userData;
+  userData:User;
 
   geocoderGoogle: any;
   GooglePlaces: any;
@@ -45,7 +45,7 @@ export class HomePage {
     this.global.get(AppConstants.USER).then(data => {
       if( data){
         this.userData = data;
-        this.nickname = this.userData.nickname;
+        this.nickname = this.userData.name; //this.userData.nickname;
       }
     });
     this.geocoderGoogle = new google.maps.Geocoder;

@@ -33,6 +33,7 @@ export class RegisterPage {
   valid: boolean = true;
   userData: User;
   editMode: boolean = false;
+  dob:  string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
     //if loggedIn
@@ -40,11 +41,12 @@ export class RegisterPage {
     if (this.userData) {
       this.email = this.userData.email;
       this.name = this.userData.name;
-      this.nickname = this.userData.nickname;
-      this.icnumber = this.userData.icnumber;
-      this.gender = this.userData.gender;
+      // this.nickname = this.userData.nickname;
+      // this.icnumber = this.userData.icnumber;
+      // this.gender = this.userData.gender;
       this.mobile = this.userData.mobile;
-      this.preferredMosque = this.userData.preferredMosque;
+      // this.preferredMosque = this.userData.preferredMosque;
+      this.dob  = this.userData.dob;
       this.editMode = true;
     }
   }
@@ -101,12 +103,13 @@ export class RegisterPage {
     this.user = new User();
     this.user.email = this.email;
     this.user.name = this.name;
-    this.user.nickname = this.nickname;
+    // this.user.nickname = this.nickname;
     this.user.password = this.password;
-    this.user.gender = this.gender;
-    this.user.icnumber = this.icnumber;
+    // this.user.gender = this.gender;
+    // this.user.icnumber = this.icnumber;
     this.user.mobile = this.mobile;
-    this.user.preferredMosque = this.preferredMosque;
+    // this.user.preferredMosque = this.preferredMosque;
+    this.user.dob = this.dob;
     this.user.active = "Y";
     this.user.createdTimestamp = (new Date()).toISOString();
     this.user.updatedTimestamp = (new Date()).toISOString();
@@ -114,9 +117,11 @@ export class RegisterPage {
 
   validateData() {
     if (this.editMode) {
-      return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.preferredMosque && this.preferredMosque != this.userData.preferredMosque) || (this.gender && this.gender != this.userData.gender) || (this.nickname && this.nickname != this.userData.nickname));
+      // return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.preferredMosque && this.preferredMosque != this.userData.preferredMosque) || (this.gender && this.gender != this.userData.gender) || (this.nickname && this.nickname != this.userData.nickname));
+      return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.dob && this.dob != this.userData.dob) );
     } else {
-      return (this.email && this.name && this.password && this.icnumber && this.mobile && this.preferredMosque && this.gender && this.nickname);
+      // return (this.email && this.name && this.password && this.icnumber && this.mobile && this.preferredMosque && this.gender && this.nickname);
+      return (this.email && this.name && this.password && this.mobile && this.dob);
     }
   }
 
@@ -156,11 +161,12 @@ export class RegisterPage {
     let infoString = "";
 
     infoString += (this.name) ? "<br/>Name:" + this.name + ',' : '';
-    infoString += (this.nickname) ? "<br/>Nickname:" + this.nickname + ',' : '';
-    infoString += (this.gender) ? "<br/>Gender:" + this.gender + ',' : '';
+    // infoString += (this.nickname) ? "<br/>Nickname:" + this.nickname + ',' : '';
+    // infoString += (this.gender) ? "<br/>Gender:" + this.gender + ',' : '';
+    infoString += (this.dob) ? "<br/>Date of Birth:" + this.dob + ',' : '';
     infoString += (this.mobile) ? "<br/>Mobile:" + this.mobile + ',' : '';
     infoString += (this.password) ? "<br/>Password:*************" + ',' : '';
-    infoString += (this.preferredMosque) ? "<br/>Preferred Mosque:" + this.preferredMosque + ',' : '';
+    // infoString += (this.preferredMosque) ? "<br/>Preferred Mosque:" + this.preferredMosque + ',' : '';
     infoString += "<br/>for user with email " + this.email;
 
     const confirm = this.alertCtrl.create({
@@ -178,10 +184,11 @@ export class RegisterPage {
     confirm.present();
 
     (this.name) ? this.userData.name = this.name : '';
-    (this.nickname) ? this.userData.nickname = this.nickname : '';
-    (this.gender) ? this.userData.gender = this.gender : '';
+    // (this.nickname) ? this.userData.nickname = this.nickname : '';
+    // (this.gender) ? this.userData.gender = this.gender : '';
+    (this.dob) ? this.userData.dob = this.dob : '';
     (this.mobile) ? this.userData.mobile = this.mobile : '';
-    (this.preferredMosque) ? this.userData.preferredMosque = this.preferredMosque : '';
+    // (this.preferredMosque) ? this.userData.preferredMosque = this.preferredMosque : '';
 
     this.global.set(AppConstants.USER, this.userData).then(() => {
       this.navCtrl.pop().then(() => {

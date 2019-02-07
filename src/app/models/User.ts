@@ -8,6 +8,7 @@ export class User {
     gender: string;
     mobile: string;
     preferredMosque: string;
+    dob:    string;
     active: string;
     userType: string;
     avgRating: string; // only for Ustaz to see their overall rating on Home/Profile page

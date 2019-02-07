@@ -238,6 +238,7 @@ export class HttpService {
             "gender": user.gender,
             "mobile": user.mobile,
             "userType": user.userType,
+            "dob":  user.dob,
             "preferredMosque": user.preferredMosque,
             "createdTimestamp": user.createdTimestamp,
             "updatedTimestamp": user.updatedTimestamp,
@@ -258,7 +259,8 @@ export class HttpService {
                 "password": user.password,
                 "gender": user.gender,
                 "mobile": user.mobile,
-                "preferredMosque": user.preferredMosque
+                "preferredMosque": user.preferredMosque,
+                "dob":  user.dob
             };
         } else {
             data = {
@@ -267,7 +269,8 @@ export class HttpService {
                 "nickname": user.nickname,
                 "gender": user.gender,
                 "mobile": user.mobile,
-                "preferredMosque": user.preferredMosque
+                "preferredMosque": user.preferredMosque,
+                "dob":  user.dob
             };
         }
 
