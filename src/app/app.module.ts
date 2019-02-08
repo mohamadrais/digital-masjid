@@ -1,10 +1,44 @@
+
+
+//Ionic Plugins and modules
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
 import { MyApp } from './app.component';
+import { Device } from '@ionic-native/device';
+import { HttpModule, Http }    from '@angular/http';
+import { Geolocation } from '@ionic-native/geolocation';
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { IonicStorageModule } from '@ionic/storage';
+import { Network } from '@ionic-native/network';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Firebase } from '@ionic-native/firebase';
+import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Camera } from '@ionic-native/camera';
+// import { AndroidPermissions } from '@ionic-native/android-permissions';
+
+//Ng modules
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
+//Utilies
+import { Globals } from './constants/globals';
+
+
+//Services & Providers
+import { HttpService } from "../app/service/http-service";
+import { LocationsProvider } from '../providers/locations/locations';
+import { ConnectivityProvider } from '../providers/connectivity/connectivity';
+import { ImageProvider } from '../providers/image/image';
+import { FcmProvider } from '../providers/fcm/fcm';
+
+//Pages
 import { HomePage } from '../pages/home/home';
 import { AdminHomePage } from '../pages/admin-home/admin-home';
 import { LoginPage } from '../pages/login/login';
@@ -32,31 +66,8 @@ import { ForgotPassword } from '../pages/forgot-password/forgotPassword';
 import { ParticipantsPage } from '../pages/participants/participants';
 import { NotificationPage } from '../pages/notification/notification';
 import { SearchMosquePage } from '../pages/search-mosque/search-mosque';
-import { HttpModule, Http }    from '@angular/http';
-import { Globals } from './constants/globals';
-import { HttpService } from "../app/service/http-service";
-import { IonicStorageModule } from '@ionic/storage';
-import { Geolocation } from '@ionic-native/geolocation';
-import { NativeGeocoder } from '@ionic-native/native-geocoder';
-import { LocationsProvider } from '../providers/locations/locations';
-import { Network } from '@ionic-native/network';
-import { ConnectivityProvider } from '../providers/connectivity/connectivity';
-// import { AndroidPermissions } from '@ionic-native/android-permissions';
-import { Diagnostic } from '@ionic-native/diagnostic';
-import { LocationAccuracy } from '@ionic-native/location-accuracy';
-import { NgCircleProgressModule } from 'ng-circle-progress';
-import { SocialSharing } from '@ionic-native/social-sharing';
 import { SearchModeratorPage } from '../pages/search-moderator/search-moderator';
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
-import { Facebook } from '@ionic-native/facebook';
-import { GooglePlus } from '@ionic-native/google-plus';
-
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { FilterPipeModule } from 'ngx-filter-pipe';
-import { Camera } from '@ionic-native/camera';
-import { ImageProvider } from '../providers/image/image';
-import { FcmProvider } from '../providers/fcm/fcm';
-import { Firebase } from '@ionic-native/firebase';
 
 @NgModule({
   declarations: [
@@ -156,6 +167,7 @@ import { Firebase } from '@ionic-native/firebase';
   ],
   providers: [
     SocialSharing,
+    Device,
     StatusBar,
     SplashScreen,
     HttpService,

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AdminHomePage } from '../admin-home/admin-home';
 import { AlertController } from 'ionic-angular';
 import { HttpService } from "../../app/service/http-service";
+import { Globals } from "../../app/constants/globals";
 import { User } from '../../app/models/User';
 
 /**
@@ -29,8 +30,9 @@ export class RegisterUstazPage {
   private user: User;
   valid: boolean = true;
   fromSearch: string = "";
+  deviceInfo: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
     this.fromSearch = navParams.get('data');
     this.name = navParams.get('data');
   }
@@ -44,7 +46,7 @@ export class RegisterUstazPage {
     this.navCtrl.push(AdminHomePage)
   }
 
-  registerUstaz() {
+  async registerUstaz() {
     if (this.email && this.name && this.password && this.icnumber
       && this.mobile && this.gender) {
       this.valid = true;
@@ -61,25 +63,29 @@ export class RegisterUstazPage {
       this.user.userType = "USTAZ";
       this.user.createdTimestamp = (new Date()).toISOString();
       this.user.updatedTimestamp = (new Date()).toISOString();
-      this.httpService.registerUser(this.user).subscribe(data => {
-        if (data) {
-          if (data.status && data.status == "failure") {
-            this.showError(data.message);
-          }
-          else {
-            this.showConfirm();
-            if (this.fromSearch) {
-              this.navCtrl.pop().then(() => {
-                this.navParams.get('callback')(this.user.name);
-              });
-            } else {
-              this.navCtrl.setRoot(AdminHomePage);
+      this.deviceInfo = await this.getDeviceInfo();
+      if (this.deviceInfo) {
+        this.httpService.registerUser(this.user, this.deviceInfo).subscribe(data => {
+          if (data) {
+            if (data.status && data.status == "failure") {
+              this.showError(data.message);
+            }
+            else {
+              this.showConfirm();
+              if (this.fromSearch) {
+                this.navCtrl.pop().then(() => {
+                  this.navParams.get('callback')(this.user.name);
+                });
+              } else {
+                this.navCtrl.setRoot(AdminHomePage);
+              }
             }
           }
-        }
-      }, error => {
-        //Rais: Throw validation error message here
-      })
+        }, error => {
+          //Rais: Show proper validation error message here
+          console.log("error during registerUstaz: ", error);
+        })
+      }
     } else {
       this.valid = false;
     }
@@ -101,7 +107,7 @@ export class RegisterUstazPage {
     });
     confirm.present();
   }
-  
+
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'New Ustaz created!',
@@ -117,4 +123,25 @@ export class RegisterUstazPage {
     });
     confirm.present();
   }
+
+  private async getDeviceInfo() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo = {
+          "device_unique_id": this.global.getDeviceId(),
+          "osVersion": this.global.getDevicePlatformVersion(),
+          "deviceModel": this.global.getDeviceModel(),
+          "platform": this.global.getDevicePlatform(),
+          "manufacturer": this.global.getDeviceManufacturer(),
+          "pushToken": this.global.getPushToken()
+        };
+        resolve(deviceInfo);
+      }
+      catch (error) {
+        console.log("error during getDeviceInfo: ", error);
+        reject(false);
+      }
+    })
+  }
+
 }

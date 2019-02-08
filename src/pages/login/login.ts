@@ -57,9 +57,20 @@ export class LoginPage {
   }
 
   authenticateUser() {
-    this.httpService.authenticateUser(this.loginForm.username, this.loginForm.password).subscribe(data => {
+    this.httpService.authenticateUser(this.loginForm.username, this.loginForm.password).subscribe(async data => {
       //if( data && data.userType != undefined ){
       if (data && data.userType != undefined) {
+        // send push token to server each time succesfully login
+        if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+          if (this.global.generalSettings.pushToken != "") {
+            var resultSendPushTokenToServer = await this.sendPushTokenToServer(this.global.generalSettings.pushToken, data._id, data.mobile);
+            if (resultSendPushTokenToServer) {
+              this.global.generalSettings.pushTokenSentFlag = true;
+              console.log("pushTokenSentFlag inside authenticate user: " + this.global.generalSettings.pushTokenSentFlag);
+            }
+          }
+        }
+
         this.global.set(AppConstants.USER, data);
         console.log("AppConstants.USER = " + data);
         if (data.userType.toUpperCase() === AppConstants.USER_TYPE_ADMIN) {
@@ -77,7 +88,59 @@ export class LoginPage {
         this.validUser = false;
       }
     }, error => {
-      //need to handle bread crumbs here
+      console.log("error during authenticateUser: ", error);
+      return false;
+    })
+  }
+
+  async sendPushTokenToServer(pushToken, userId, userMobile) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo;
+        try {
+          deviceInfo = await this.getDeviceInfo();
+        } catch (err) {
+          console.log(`error getting device info: ${err}`);
+          reject(false);
+        }
+        if (deviceInfo) {
+          this.httpService.sendPushToken(pushToken, deviceInfo, userId, userMobile).subscribe(data => {
+            if (data) {
+              console.log("data returned from sendPushToken: " + JSON.stringify(data));
+              resolve(true);
+            } else {
+              console.log("no data returned from sendPushToken");
+              reject(false);
+            }
+          }, error => {
+            console.log("error during sendPushToken to server: ", error);
+            reject(false);
+          })
+        }
+      }
+      catch (error) {
+        console.log("error during sendPushToken to server: ", error);
+        reject(false);
+      }
+    })
+  }
+
+  private async getDeviceInfo() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo = {
+          "device_unique_id": this.global.getDeviceId(),
+          "osVersion": this.global.getDevicePlatformVersion(),
+          "deviceModel": this.global.getDeviceModel(),
+          "platform": this.global.getDevicePlatform(),
+          "manufacturer": this.global.getDeviceManufacturer()
+        };
+        resolve(deviceInfo);
+      }
+      catch (error) {
+        console.log("error during getDeviceInfo: ", error);
+        reject(false);
+      }
     })
   }
 

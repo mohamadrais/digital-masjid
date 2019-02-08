@@ -33,7 +33,8 @@ export class RegisterPage {
   valid: boolean = true;
   userData: User;
   editMode: boolean = false;
-  dob:  string;
+  dob: string;
+  deviceInfo: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
     //if loggedIn
@@ -46,7 +47,7 @@ export class RegisterPage {
       // this.gender = this.userData.gender;
       this.mobile = this.userData.mobile;
       // this.preferredMosque = this.userData.preferredMosque;
-      this.dob  = this.userData.dob;
+      this.dob = this.userData.dob;
       this.editMode = true;
     }
   }
@@ -59,22 +60,26 @@ export class RegisterPage {
     this.navCtrl.setRoot(HomePage)
   }
 
-  registerUser() {
+  async registerUser() {
     if (this.validateData()) {
       this.prepareData();
-      this.httpService.registerUser(this.user).subscribe(data => {
-        if (data) {
-          if (data.status && data.status == "failure") {
-            this.showError(data.message);
+      this.deviceInfo = await this.getDeviceInfo();
+      if (this.deviceInfo) {
+        this.httpService.registerUser(this.user, this.deviceInfo).subscribe(data => {
+          if (data) {
+            if (data.status && data.status == "failure") {
+              this.showError(data.message);
+            }
+            else {
+              this.showConfirm();
+              this.navCtrl.setRoot(LoginPage);
+            }
           }
-          else {
-            this.showConfirm();
-            this.navCtrl.setRoot(LoginPage);
-          }
-        }
-      }, error => {
-        //Rais: Throw validation error message here
-      })
+        }, error => {
+          //Rais: Show proper validation error message here
+          console.log("error during registerUser: ", error);
+        })
+      }
     } else {
       this.valid = false;
     }
@@ -90,7 +95,8 @@ export class RegisterPage {
           this.showUpdated();
         }
       }, error => {
-        //Rais: Throw validation error message here
+        //Rais: Show proper validation error message here
+        console.log("error during updateUser: ", error);
       })
     } else {
       this.valid = false;
@@ -118,7 +124,7 @@ export class RegisterPage {
   validateData() {
     if (this.editMode) {
       // return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.preferredMosque && this.preferredMosque != this.userData.preferredMosque) || (this.gender && this.gender != this.userData.gender) || (this.nickname && this.nickname != this.userData.nickname));
-      return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.dob && this.dob != this.userData.dob) );
+      return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.dob && this.dob != this.userData.dob));
     } else {
       // return (this.email && this.name && this.password && this.icnumber && this.mobile && this.preferredMosque && this.gender && this.nickname);
       return (this.email && this.name && this.password && this.mobile && this.dob);
@@ -192,8 +198,28 @@ export class RegisterPage {
 
     this.global.set(AppConstants.USER, this.userData).then(() => {
       this.navCtrl.pop().then(() => {
-        this.navParams.get('callback')({"done":true});
+        this.navParams.get('callback')({ "done": true });
       });
     });
+  }
+
+  private async getDeviceInfo() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo = {
+          "device_unique_id": this.global.getDeviceId(),
+          "osVersion": this.global.getDevicePlatformVersion(),
+          "deviceModel": this.global.getDeviceModel(),
+          "platform": this.global.getDevicePlatform(),
+          "manufacturer": this.global.getDeviceManufacturer(),
+          "pushToken": this.global.getPushToken()
+        };
+        resolve(deviceInfo);
+      }
+      catch (error) {
+        console.log("error during getDeviceInfo: ", error);
+        reject(false);
+      }
+    })
   }
 }

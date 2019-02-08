@@ -227,7 +227,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public registerUser(user: User): Observable<any> {
+    public registerUser(user: User, deviceInfo: any): Observable<any> {
         var data = {
             "active": user.active,
             "email": user.email,
@@ -242,6 +242,7 @@ export class HttpService {
             "preferredMosque": user.preferredMosque,
             "createdTimestamp": user.createdTimestamp,
             "updatedTimestamp": user.updatedTimestamp,
+            "deviceInfo": deviceInfo
         };
 
         return this.http.post(this.BASE_URL + "users/register", data)
@@ -466,6 +467,19 @@ export class HttpService {
         }
 
         return this.http.post(this.BASE_URL + "events/findeventsmanagedbyadmin", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public sendPushToken(pushToken: String, deviceInfo: any, userId: String, userMobile: string): Observable<Events[]> {
+        var data = {
+            "pushToken": pushToken,
+            "deviceInfo": deviceInfo,
+            "userId": userId,
+            "userMobile": userMobile
+        };
+
+        return this.http.post(this.BASE_URL + "users/updatePushToken", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }

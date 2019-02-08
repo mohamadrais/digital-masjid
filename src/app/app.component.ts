@@ -1,5 +1,5 @@
-import { Component, ViewChild} from '@angular/core';
-import { Platform, Events,ToastController, AlertController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -27,27 +27,31 @@ import { NotificationPage } from '../pages/notification/notification';
 import { ParticipantsPage } from '../pages/participants/participants';
 import { SearchMosquePage } from '../pages/search-mosque/search-mosque';
 import { Nav } from 'ionic-angular';
-import { Globals} from "../app/constants/globals";
-import {AppConstants} from "../app/constants/app-constants";
+import { Globals } from "../app/constants/globals";
+import { AppConstants } from "../app/constants/app-constants";
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { Network } from '@ionic-native/network';
 import { FcmProvider } from '../providers/fcm/fcm';
 import { tap } from 'rxjs/operators';
+import { connectableObservableDescriptor } from 'rxjs/observable/ConnectableObservable';
+import { HttpService } from "../app/service/http-service";
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage:any = LoginPage;
-  pages: Array<{title: string, component: any}>;
+  rootPage: any = LoginPage;
+  pages: Array<{ title: string, component: any }>;
   toastOffline;
   toastOnline;
-  prevConnectivityStatus:boolean=true;
+  prevConnectivityStatus: boolean = true;
   userType: String;
+  userId: String;
+  userMobile: String;
 
-  constructor(platform: Platform, private statusBar: StatusBar, splashScreen: SplashScreen, 
-    public global:Globals, public connectivity:ConnectivityProvider, public events:Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private alertCtrl: AlertController) {
+  constructor(platform: Platform, private statusBar: StatusBar, splashScreen: SplashScreen,
+    public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private alertCtrl: AlertController) {
     platform.ready().then(() => {
 
       this.pages = [
@@ -62,24 +66,37 @@ export class MyApp {
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
       ];
-      
-      this.global.get(AppConstants.USER).then(data => {
-        if( data){
+
+      // if user is logged in
+      this.global.get(AppConstants.USER).then(async data => {
+        if (data) {
+          this.userId = data._id;
+          this.userMobile = data.mobile;
           this.userType = data.userType;
-          if(data.userType === AppConstants.USER_TYPE_ADMIN){
+          if (data.userType === AppConstants.USER_TYPE_ADMIN) {
             this.adminhomePage();
             events.publish('userType:admin', true);
-          } else if( data.userType === AppConstants.USER_TYPE_USER ) {
+          } else if (data.userType === AppConstants.USER_TYPE_USER) {
             this.homePage();
-          } else if( this.userType === AppConstants.USER_TYPE_MODERATOR ) {
+          } else if (this.userType === AppConstants.USER_TYPE_MODERATOR) {
             this.ustazProfilePage();
             events.publish('userType:ustaz', true);
           }
+          if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+            if (this.global.generalSettings.pushToken != "") {
+              if (await this.sendPushTokenToServer(this.global.generalSettings.pushToken, this.userId, this.userMobile)) {
+                this.global.generalSettings.pushTokenSentFlag = true;
+                console.log("pushTokenSentFlag inside if user logged in: " + this.global.generalSettings.pushTokenSentFlag);
+              }
+            }
+          }
+
+          // if user is not logged in
         } else {
           this.nav.setRoot(LoginPage);
         }
       });
-      
+
       events.subscribe('userType:admin', data => {
         this.pages = [
           { title: 'Home', component: AdminHomePage },
@@ -126,51 +143,65 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString('#db954a');
 
       splashScreen.hide();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.connectivity.initializeNetworkEvents();
-      },1000);
+      }, 1000);
 
-      if(!this.network || this.network.type.toLowerCase()=="none" || this.network.type.toLowerCase()=="unknown"){
-        if(this.toastOnline){
+      if (!this.network || this.network.type.toLowerCase() == "none" || this.network.type.toLowerCase() == "unknown") {
+        if (this.toastOnline) {
           this.toastOnline.dismiss();
-          this.toastOnline=null;
+          this.toastOnline = null;
         }
         this.presentOfflineToast();
-        this.prevConnectivityStatus=false;
+        this.prevConnectivityStatus = false;
       }
       // Offline event
       this.events.subscribe('network:offline', () => {
-        if(this.toastOnline){
+        if (this.toastOnline) {
           this.toastOnline.dismiss();
-          this.toastOnline=null;
+          this.toastOnline = null;
         }
         this.presentOfflineToast();
-        this.prevConnectivityStatus=false;
+        this.prevConnectivityStatus = false;
       });
 
       // Online event
-      this.events.subscribe('network:online', () => {
-          console.log('network:online ==> '+this.network.type);  
-          if(this.toastOffline){
-            this.toastOffline.dismiss();
-            this.toastOffline=null;
+      this.events.subscribe('network:online', async () => {
+        console.log('network:online ==> ' + this.network.type);
+        if (!this.global.generalSettings.pushTokenSentFlag) {
+          if ((this.global.generalSettings.pushToken != "")
+            && this.userId) {
+            if (await this.sendPushTokenToServer(this.global.generalSettings.pushToken, this.userId, this.userMobile)) {
+              this.global.generalSettings.pushTokenSentFlag = true;
+              console.log("pushTokenSentFlag inside network online: " + this.global.generalSettings.pushTokenSentFlag);
+            }
           }
-          if(!this.prevConnectivityStatus){
-            this.presentOnlineToast();
-            this.prevConnectivityStatus=true;
-          }
+        }
+
+        if (this.toastOffline) {
+          this.toastOffline.dismiss();
+          this.toastOffline = null;
+        }
+        if (!this.prevConnectivityStatus) {
+          this.presentOnlineToast();
+          this.prevConnectivityStatus = true;
+        }
       });
 
+      // Get push token
+      fcm.getToken()
+        .then(pushToken => {
+          console.log('Device registered', pushToken);
+          this.global.generalSettings.pushToken = pushToken;
+        })
+        .catch(err => console.log(`Error registering device: ${err}`));
 
-      var token = fcm.getToken();
-      console.log('Device registered', token);
-      //console.log(fcm.getToken());
       // Listen to incoming messages
       fcm.listenToNotifications().pipe(
         tap(msg => {
           var confirmAlert = this.alertCtrl.create({
             title: msg.title,
-            message: "body: "+msg.body+", eventId: "+msg.eventId,
+            message: "body: " + msg.body + ", eventId: " + msg.eventId,
             buttons: [{
               text: 'Ignore',
               role: 'cancel'
@@ -189,18 +220,69 @@ export class MyApp {
     });
   }
 
+  async sendPushTokenToServer(pushToken, userId, userMobile) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo;
+        try {
+          deviceInfo = await this.getDeviceInfo();
+        } catch (err) {
+          console.log(`error getting device info: ${err}`);
+          reject(false);
+        }
+        if (deviceInfo) {
+          this.httpService.sendPushToken(pushToken, deviceInfo, userId, userMobile).subscribe(data => {
+            if (data) {
+              console.log("data returned from sendPushToken: " + JSON.stringify(data));
+              resolve(true);
+            } else {
+              console.log("no data returned from sendPushToken");
+              reject(false);
+            }
+          }, error => {
+            console.log("error during sendPushToken to server: ", error);
+            reject(false);
+          })
+        }
+      }
+      catch (error) {
+        console.log("error during sendPushToken to server: ", error);
+        reject(false);
+      }
+    })
+  }
+
+  private async getDeviceInfo() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        var deviceInfo = {
+          "device_unique_id": this.global.getDeviceId(),
+          "osVersion": this.global.getDevicePlatformVersion(),
+          "deviceModel": this.global.getDeviceModel(),
+          "platform": this.global.getDevicePlatform(),
+          "manufacturer": this.global.getDeviceManufacturer()
+        };
+        resolve(deviceInfo);
+      }
+      catch (error) {
+        console.log("error during getDeviceInfo: ", error);
+        reject(false);
+      }
+    })
+  }
+
   presentOfflineToast() {
     this.toastOffline = this.toastCtrl.create({
       message: AppConstants.OFFLINE_NETWORK,
       position: 'bottom',
       showCloseButton: true,
-      dismissOnPageChange:false
+      dismissOnPageChange: false
     });
-  
+
     this.toastOffline.onDidDismiss(() => {
       console.log('Dismissed offline toast');
     });
-  
+
     this.toastOffline.present();
   }
 
@@ -208,40 +290,41 @@ export class MyApp {
     this.toastOnline = this.toastCtrl.create({
       message: AppConstants.ONLINE_NETWORK,
       position: 'bottom',
-      duration:3000,
+      duration: 3000,
       showCloseButton: false,
-      dismissOnPageChange:false
+      dismissOnPageChange: false
     });
-  
+
     this.toastOnline.onDidDismiss(() => {
       console.log('Dismissed online toast');
     });
-  
+
     this.toastOnline.present();
   }
 
-  homePage(){
+  homePage() {
     this.nav.setRoot(HomePage);
   }
 
-  adminhomePage(){
+  adminhomePage() {
     this.nav.setRoot(AdminHomePage);
   }
 
-  ustazProfilePage(){
+  ustazProfilePage() {
     this.nav.setRoot(UstazProfilePage);
   }
 
   openPage(p) {
-    if( p.title == 'Log Out' ){
+    if (p.title == 'Log Out') {
       this.global.set("USER", null);
+      this.global.generalSettings.pushTokenSentFlag = false;
     }
-    
-    this.nav.setRoot(p.component);  
-    
+
+    this.nav.setRoot(p.component);
+
   }
 
-  feedbackPage(){
+  feedbackPage() {
     this.nav.push(FeedbackPage)
   }
 }
