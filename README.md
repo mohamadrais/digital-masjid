@@ -22,7 +22,7 @@ npm install --save ng-circle-progress@1.0.0
 Now you can build, install and run on your Android device:
 ```
 ionic cordova build android
-ionic cordova prepare android
+ionic cordova run android
 ```
 
 If build fail, you can try to remove/add platform before building again:
