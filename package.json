@@ -24,6 +24,7 @@
     "@ionic-native/camera": "^4.18.0",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/date-picker": "^4.7.0",
+    "@ionic-native/device": "^4.20.0",
     "@ionic-native/diagnostic": "^4.17.0",
     "@ionic-native/facebook": "^4.20.0",
     "@ionic-native/firebase": "^4.20.0",
@@ -36,7 +37,7 @@
     "@ionic-native/network": "^4.17.0",
     "@ionic-native/social-sharing": "^4.17.0",
     "@ionic-native/splash-screen": "4.7.0",
-    "@ionic-native/status-bar": "4.7.0",
+    "@ionic-native/status-bar": "^4.7.0",
     "@ionic/pro": "1.0.20",
     "@ionic/storage": "2.1.3",
     "cordova-android": "7.0.0",
@@ -57,13 +58,14 @@
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-request-location-accuracy": "^2.2.3",
     "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-plugin-x-socialsharing": "^5.4.4",
     "cordova.plugins.diagnostic": "^4.0.11",
     "es6-promise-plugin": "^4.2.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
-    "ng-circle-progress": "^1.0.0",
+    "ng-circle-progress": "1.0.0",
     "ngx-filter-pipe": "^2.1.2",
     "rxjs": "5.5.10",
     "sw-toolbox": "3.6.0",
@@ -103,7 +105,8 @@
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573",
         "PLAY_SERVICES_VERSION": "15.+"
       },
-      "cordova-plugin-firebase": {}
+      "cordova-plugin-firebase": {},
+      "cordova-plugin-statusbar": {}
     },
     "platforms": [
       "ios",

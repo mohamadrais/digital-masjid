@@ -200,7 +200,7 @@ export class LocationsProvider {
     let mosque_ids = [];
     mosque_ids = this.prepareMosqueIdArray(places);
     return Observable.create(observer =>{
-      this.httpService.getRegisteredMosques(mosque_ids).subscribe(data => {
+      this.httpService.getRegisteredMosquesById(mosque_ids).subscribe(data => {
         if( data ){
           let finalNearbyItems = this.prepareMosqueData(data, places);
           observer.next(finalNearbyItems);
