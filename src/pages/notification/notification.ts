@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Slides } from 'ionic-angular';
+import { NavController, NavParams, Events, Slides } from 'ionic-angular';
 import {HomePage} from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
 import {LocationsProvider } from '../../providers/locations/locations';
@@ -8,7 +8,6 @@ import { Globals } from "../../app/constants/globals";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Observable } from 'rxjs/Rx';
 import { AppConstants } from "../../app/constants/app-constants";
-import { User } from '../../app/models/User';
 /**
  * Generated class for the NotificationPage page.
  *
@@ -16,7 +15,6 @@ import { User } from '../../app/models/User';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-notification',
   templateUrl: 'notification.html',

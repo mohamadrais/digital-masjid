@@ -68,8 +68,8 @@ export class EventDetailsPage {
     });
     if (!this.event.moderator_details || !this.event.mosque_details || this.event.mosque_details.length <= 0 || this.event.moderator_details.length <= 0) {
       this.httpService.findEventDetailsById(this.event._id).subscribe(data => {
-        this.event = data;
-
+        this.event.moderator_details = data.moderator_details;
+        this.event.mosque_details = data.mosque_details;
         //do validation for event expiry
 
       })
@@ -84,7 +84,7 @@ export class EventDetailsPage {
   goBack() {
     this.navCtrl.pop().then(() => {
       if (this.updated) {
-        this.navParams.get('callback')({"event":this.event, "joined":this.eventAlreadyJoined});
+        this.navParams.get('callback')({"event":this.event, "joined":this.eventAlreadyJoined, userId:this.currentUser._id});
       }
     });
   }

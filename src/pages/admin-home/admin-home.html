@@ -54,7 +54,8 @@
         </ion-col> -->
           <ion-col col-10 col-md-11>
             <div ngClass="mosque-name">
-              <label>{{event.category}} - {{event.event_title}}</label>
+              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+              <label>{{event.event_title}}</label>
             </div>
             <div ngClass="mosque-address">
               <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
@@ -63,7 +64,8 @@
           </ion-col>
           <ion-col col-2 col-md-1>
             <div ngClass="event-item-right">
-              <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+                <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
+                <div ngClass="quota-total" *ngIf="event.quota==0"><ion-icon name="infinite"></ion-icon></div>
               <div ngClass="quota-title">Seat Left</div>
             </div>
           </ion-col>

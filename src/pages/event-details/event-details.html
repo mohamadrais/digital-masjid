@@ -29,7 +29,8 @@
         </ion-row>
         <ion-row ngClass="details-name-container">
           <div ngClass="details-name">
-            <label>{{event.category}} - {{event.event_title}}</label>
+            <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+            <label>{{event.event_title}}</label>
           </div>
           <div ngClass="details-datetime">
             <label>{{getEventDate(event.event_start_date)}} - {{getEventDate(event.event_end_date)}}</label>
@@ -69,23 +70,23 @@
         <!-- <div ngClass="details-label-thin"><label>Persiaran Semarak Api, 63000 Cyberjaya Selangor</label></div> -->
       </ion-row>
     </ion-item>
-    <ion-item>
-      <div ngClass="details-label">Participants Info
-          <span class="view-more-alt" (click)="participantsPage()">View Participants >></span>
+    <ion-item  [hidden]="event.quota==0 && !isAdmin">
+      <div ngClass="details-label"  *ngIf="event.quota!=0 || isAdmin">Participants Info
+          <span class="view-more-alt" (click)="participantsPage()" *ngIf="isAdmin">View Participants >></span>
       </div>
       <ion-row>
-        <ion-col col-4 class="circle-container">
+        <ion-col col-4 class="circle-container" *ngIf="event.quota!=0">
           <circle-progress [percent]="event.userCount/event.quota*100">
           </circle-progress>
         </ion-col>
-        <ion-col col-4 class="gender-join">
+        <!-- <ion-col col-4 class="gender-join">
           <h1>{{(event.maleCount)? event.maleCount : '0'}}</h1>
           <p>male</p>
         </ion-col>
         <ion-col col-4 class="gender-join">
           <h1>{{(event.femaleCount)?event.femaleCount:'0'}}</h1>
           <p>female</p>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-item>
     <!--ion-item>
@@ -104,10 +105,15 @@
 </ion-content>
 
 <ion-footer *ngIf="!isAdmin && !isModerator && !this.expiredEvent">
-  <ion-buttons *ngIf="!eventAlreadyJoined">
+  <ion-buttons *ngIf="!eventAlreadyJoined && ((event.quota!=0 && event.quota>event.userCount) || event.quota==0)">
     <button class="button button-primary rectangle" (click)="showConfirm()">Join Now</button>
   </ion-buttons>
 
+
+  <ion-buttons *ngIf="!eventAlreadyJoined && (event.quota>0 && event.quota<=event.userCount)">
+      <button class="button button-primary rectangle">Sorry, this event is fully booked</button>
+    </ion-buttons>
+    
   <!--Decline Button-->
   <ion-buttons *ngIf="eventAlreadyJoined">
     <button class="button button-primary red rectangle" (click)="showDeclineConfirmation()">Decline</button>

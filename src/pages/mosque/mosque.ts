@@ -35,8 +35,15 @@ export class MosquePage {
     })
   }
 
-  eventdetailsPage(event:MosqueEvent){
-    this.navCtrl.push(EventDetailsPage,{'data':event});
+  eventdetailsPage(event:MosqueEvent, index){
+    this.navCtrl.push(EventDetailsPage,{'data':event,
+    callback: data => {
+      if (!data.joined) {
+        this.events[index].users.splice(data.userId, 1);
+      }else{
+        this.events[index].users.push(data.userId);
+      }
+    }});
   }
 
   public getEventDate(event_date:string):string{

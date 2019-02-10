@@ -10,7 +10,6 @@ import { User } from "../../app/models/User";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-participants',
   templateUrl: 'participants.html',

@@ -64,12 +64,13 @@
     <!-- <div ngClass="item-header">Upcoming</div>
     <div ngClass="item-header">Completed</div> -->
 
-    <ion-card ngClass="card-general" *ngFor="let event of events" (click)="eventdetailsPage(event)">
+    <ion-card ngClass="card-general" *ngFor="let event of events; let i = index" (click)="eventdetailsPage(event, i)">
       <ion-item ngClass="events-list">
         <ion-row>
           <ion-col col-10 col-md-11>
             <div ngClass="event-title">
-              <label>{{event.category}} - {{event.event_title}}</label>
+              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+              <label>{{event.event_title}}</label>
             </div>
             <div ngClass="item-dateloc">
               <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
@@ -82,7 +83,8 @@
             <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
 
             <!--If Not Joining Yet-->
-            <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
+            <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
+            <div ngClass="quota-total" *ngIf="event.quota==0"><ion-icon name="infinite"></ion-icon></div>
             <div ngClass="quota-title">Seat Left</div>
           </ion-col>
         </ion-row>
