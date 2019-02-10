@@ -10,7 +10,7 @@ import { Mosques } from '../models/Mosques';
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-    private BASE_URL:string = "http://192.168.0.106:8080/";
+    private BASE_URL:string = "http://159.65.140.100:8080/";
 
     constructor(public http: Http) {
 
