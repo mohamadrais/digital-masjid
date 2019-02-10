@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, App } from 'ionic-angular';
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { HttpService } from "../../app/service/http-service";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
@@ -20,8 +20,8 @@ import { User } from '../../app/models/User';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  events_history: Array<Events> = [];
-  events_upcoming: Array<Events> = [];
+  events_history: Array<MosqueEvent> = [];
+  events_upcoming: Array<MosqueEvent> = [];
   // eventsSize:number = 0;
   name: string = "";
   email: string = "";
@@ -89,7 +89,7 @@ export class ProfilePage {
     })
   }
 
-  eventdetailsPage(event: Events, isUpcoming, index) {
+  eventdetailsPage(event: MosqueEvent, isUpcoming, index) {
     if (isUpcoming) {
       this.navCtrl.push(EventDetailsPage, {
         'data': event, "fromProfile": AppConstants.EVENT_UPCOMING,

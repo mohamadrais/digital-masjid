@@ -5,7 +5,7 @@ import { CreateEventPage } from '../create-event/create-event';
 import { RegisterUstazPage } from '../register-ustaz/register-ustaz';
 import { NotificationPage } from '../notification/notification';
 import { HttpService } from "../../app/service/http-service";
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 
@@ -23,7 +23,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 export class AdminHomePage {
   nickname: string = "";
   userData;
-  events: Array<Events> = [];
+  events: Array<MosqueEvent> = [];
   eventsSize: number = 0;
   constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals) {
 
@@ -47,11 +47,11 @@ export class AdminHomePage {
     console.log('ionViewDidLoad AdminHomePage');
   }
 
-  eventdetailsPage(mosqueEvent: Events, index) {
+  eventdetailsPage(events: MosqueEvent, index) {
     this.navCtrl.push(EventDetailsPage, {
-      'data': mosqueEvent,
+      'data': events,
       callback: data => {
-        if (data.event) {
+        if (data.events) {
           this.events[index].event_title = data.event_title;
           this.events[index].category = data.category;
           this.events[index].event_start_date = data.event_start_date;
@@ -89,7 +89,7 @@ export class AdminHomePage {
     return date;
   }
 
-  getSeatsLeft(event: Events): number {
+  getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.users.length);
   }
 }

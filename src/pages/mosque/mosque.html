@@ -1,7 +1,9 @@
 <ion-header class="mm-header">
 
   <ion-navbar>
-    <ion-title>Mosque Profile</ion-title>
+    <ion-title>Mosque Profile
+      <page-notification-bell></page-notification-bell>
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -31,7 +33,7 @@
           </div>
         </div>
         <div ngClass="details-label mb-1">Open Maps</div>
-        <ion-icon name="ios-navigate" ngClass="map-icon mt-2" (click)="openMap(event)"></ion-icon>
+        <ion-icon name="ios-navigate" ngClass="map-icon mt-2" (click)="openMap()"></ion-icon>
       </ion-col>
       <div ngClass="seperator-h sm"></div>
       <div ngClass="profile-points">

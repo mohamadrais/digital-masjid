@@ -68,6 +68,7 @@ import { NotificationPage } from '../pages/notification/notification';
 import { SearchMosquePage } from '../pages/search-mosque/search-mosque';
 import { SearchModeratorPage } from '../pages/search-moderator/search-moderator';
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
+import { NotificationBellPage } from '../pages/notification-bell/notification-bell';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search
     AskPage,
     BookmarkPage,
     NotificationPage,
+    NotificationBellPage,
     ParticipantsPage,
     SearchMosquePage
   ],
@@ -162,6 +164,7 @@ import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search
     AskPage,
     BookmarkPage,
     NotificationPage,
+    NotificationBellPage,
     ParticipantsPage,
     SearchMosquePage
   ],

@@ -16,6 +16,9 @@
 // automatically applied to the <body> element in the app.
 
 /*Override Ionic*/
+ion-toast.top-toast{
+    margin-top:50px !important;
+}
 .mb-1{
   margin-bottom: 5px;
 }

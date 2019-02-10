@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { HttpService } from "../../app/service/http-service";
 import { HomePage } from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
@@ -34,7 +34,7 @@ export class CreateEventPage {
   event_description: string;
   event_status: string;
   // address:string;	
-  public event: Events;
+  public event: MosqueEvent;
   minYear: number;
   maxYear: number;
   editMode: boolean = false;
@@ -169,7 +169,7 @@ export class CreateEventPage {
   }
 
   prepareData() {
-    this.event = new Events();
+    this.event = new MosqueEvent();
     this.event._id = this.eventId;
     this.event.event_title = this.event_title;
     // this.event.category = this.category;

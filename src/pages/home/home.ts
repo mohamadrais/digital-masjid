@@ -6,7 +6,7 @@ import { FeedbackPage } from '../feedback/feedback';
 import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
 import { MosquePage } from '../mosque/mosque';
 import { HttpService } from "../../app/service/http-service";
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { User } from "../../app/models/User";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
@@ -14,7 +14,6 @@ import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import { LocationsProvider } from '../../providers/locations/locations'
 import { Mosques } from '../../app/models/Mosques';
-import { NotificationPage } from '../notification/notification';
 // import { SearchMosquePage } from '../search-mosque/search-mosque';
 import { Network } from '@ionic-native/network';
 import { Observable } from 'rxjs/Rx';
@@ -25,7 +24,7 @@ import { googlemaps } from 'googlemaps';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  events:Array<Events> = [];
+  events:Array<Event> = [];
   mosques:Array<Mosques> = [];
   mosquesSize:number = 0;
   user:Array<User> = [];
@@ -145,7 +144,7 @@ export class HomePage {
     }  
   }
   
-  eventdetailsPage(event:Events){
+  eventdetailsPage(event:Event){
     this.navCtrl.push(EventDetailsPage,{'data':event});
   }
   createeventPage(){
@@ -185,14 +184,11 @@ export class HomePage {
     });
   }
 
-  notificationPage(){
-    this.navCtrl.push(NotificationPage)
-  }
   // searchmosquePage(){
   //   this.navCtrl.push(SearchMosquePage)
   // }
 
-  getSeatsLeft(event:Events):number{
+  getSeatsLeft(event:MosqueEvent):number{
     return (event.quota - event.userCount);
   }
 
@@ -237,10 +233,11 @@ export class HomePage {
  
      let me = this;
      this.service.getPlacePredictions({
-     input: this.autocomplete.query,
+     input: "masjid "+this.autocomplete.query,
      componentRestrictions: {
        country: 'my'//to be changed in future which depends on user's registered country, or remove if there is no restriction
-     }
+     },
+     types: ['establishment'],
     }, (predictions, status) => {
       me.autocompleteItems = [];
  

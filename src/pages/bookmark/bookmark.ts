@@ -4,7 +4,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { Globals } from "../../app/constants/globals";
 import { HttpService } from "../../app/service/http-service";
 import { EventDetailsPage } from '../event-details/event-details';
-import {Events} from "../../app/models/Events";
+import {MosqueEvent} from "../../app/models/MosqueEvents";
 /**
  * Generated class for the BookmarkPage page.
  *
@@ -36,7 +36,7 @@ export class BookmarkPage {
     console.log('ionViewDidLoad BookmarkPage');
   }
 
-  eventdetailsPage(event:Events){
+  eventdetailsPage(event:MosqueEvent){
     this.navCtrl.push(EventDetailsPage,{'data':event});
   }
 
@@ -57,7 +57,7 @@ export class BookmarkPage {
     return date;
   }
 
-  getSeatsLeft(event:Events):number{
+  getSeatsLeft(event:MosqueEvent):number{
     return (event.quota - event.users.length);
   }
 

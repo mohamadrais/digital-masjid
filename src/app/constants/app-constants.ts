@@ -4,6 +4,9 @@ export class AppConstants {
     public static USER_TYPE_MODERATOR = "USTAZ";
     public static USER = "USER";
 
+    public static NOTIFICATION_TYPE_EVENT_RESCHEDULE = "EventReschedule";
+    public static NOTIFICATION_TYPE_EVENT_CANCEL = "EventCancel";
+
     public static EVENT_UPCOMING="UPCOMING";
     public static EVENT_HISTORY="HISTORY";
 

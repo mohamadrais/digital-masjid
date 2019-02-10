@@ -7,7 +7,7 @@ import { InfaqPage } from '../infaq/infaq';
 import { KhairatPage } from '../khairat/khairat';
 import { AskPage } from '../ask/ask';
 import { HttpService } from "../../app/service/http-service";
-import {Events} from "../../app/models/Events";
+import {MosqueEvent} from "../../app/models/MosqueEvents";
 import {User} from "../../app/models/User";
 import { Mosques } from '../../app/models/Mosques';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -17,7 +17,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
   templateUrl: 'mosque.html'
 })
 export class MosquePage {
-  events:Array<Events> = [];
+  events:Array<MosqueEvent> = [];
   eventsSize:number = 0;
   user:Array<User> = [];
   address:string = "";
@@ -35,7 +35,7 @@ export class MosquePage {
     })
   }
 
-  eventdetailsPage(event:Events){
+  eventdetailsPage(event:MosqueEvent){
     this.navCtrl.push(EventDetailsPage,{'data':event});
   }
 
@@ -73,7 +73,12 @@ export class MosquePage {
     this.navCtrl.push(AskPage)
   }
 
-  getSeatsLeft(event:Events):number{
+  getSeatsLeft(event:MosqueEvent):number{
     return (event.quota - event.users.length);
+  }
+
+  openMap(){
+    const browser = this.iab.create('https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque._id));
+    browser.show();
   }
 }

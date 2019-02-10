@@ -1,4 +1,4 @@
-export class Events {
+export class MosqueEvent {
     _id: string;
     event_title: string;
     category: string;

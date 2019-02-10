@@ -3,7 +3,7 @@ import { AppConstants } from '../constants/app-constants';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { User } from '../models/User';
-import { Events } from '../models/Events';
+import { MosqueEvent } from '../models/MosqueEvents';
 import { FeedBack } from '../models/FeedBack';
 import { Mosques } from '../models/Mosques';
 
@@ -11,7 +11,7 @@ import { Mosques } from '../models/Mosques';
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
     private BASE_URL:string = "http://159.65.140.100:8080/";
-
+    
     constructor(public http: Http) {
 
     }
@@ -68,7 +68,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public createEvent(event: Events): Observable<Events> {
+    public createEvent(event: MosqueEvent): Observable<MosqueEvent> {
 
         var data = {
             "users": [],
@@ -90,7 +90,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public updateEvent(event: Events, isEventDateModified: boolean): Observable<any> {
+    public updateEvent(event: MosqueEvent, isEventDateModified: boolean): Observable<any> {
 
         var data = {
             "_id": event._id,
@@ -111,7 +111,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public cancelEvent(event: Events): Observable<any> {
+    public cancelEvent(event: MosqueEvent): Observable<any> {
 
         var data = {
             "eventId": event._id,
@@ -123,7 +123,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public findEvents(): Observable<Events[]> {
+    public findEvents(): Observable<MosqueEvent[]> {
         var data = {
 
         }
@@ -133,7 +133,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public findEventDetailsById(id): Observable<Events> {
+    public findEventDetailsById(id): Observable<MosqueEvent> {
         var data = {
             "id": id
         }
@@ -153,7 +153,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public findEventsForUser(id, userType, eventEndType): Observable<Events[]> {
+    public findEventsForUser(id, userType, eventEndType): Observable<MosqueEvent[]> {
         var data = {
             "_id": id,
             "userType": userType,
@@ -165,7 +165,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public findEventsByMosque(google_place_id: string): Observable<Events[]> {
+    public findEventsByMosque(google_place_id: string): Observable<MosqueEvent[]> {
         var data = {
             "google_place_id": google_place_id
         }
@@ -175,7 +175,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public subscribeEvents(event: Events, userid: string): Observable<Event[]> {
+    public subscribeEvents(event: MosqueEvent, userid: string): Observable<Event[]> {
         var data = {
             "id": event._id,
             "userid": userid
@@ -186,7 +186,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public unSubscribeEvents(event: Events, userid: string): Observable<Event[]> {
+    public unSubscribeEvents(event: MosqueEvent, userid: string): Observable<Event[]> {
         var data = {
             "id": event._id,
             "userid": userid
@@ -463,7 +463,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public findEventsManagedByAdmin(mosquesManaged: Array<String>): Observable<Events[]> {
+    public findEventsManagedByAdmin(mosquesManaged: Array<String>): Observable<MosqueEvent[]> {
         var data = {
             "mosquesManaged": mosquesManaged
         }
@@ -473,7 +473,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public sendPushToken(pushToken: String, deviceInfo: any, userId: String, userMobile: string): Observable<Events[]> {
+    public sendPushToken(pushToken: String, deviceInfo: any, userId: String, userMobile: string): Observable<MosqueEvent[]> {
         var data = {
             "pushToken": pushToken,
             "deviceInfo": deviceInfo,
@@ -486,7 +486,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public logoutUser(deviceInfo: any, userId: String): Observable<Events[]> {
+    public logoutUser(deviceInfo: any, userId: String): Observable<MosqueEvent[]> {
         var data = {
             "deviceInfo": deviceInfo,
             "userId": userId

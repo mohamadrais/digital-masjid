@@ -4,7 +4,7 @@ import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import { User } from "../../app/models/User";
 import { HttpService } from "../../app/service/http-service";
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { EventDetailsPage } from '../event-details/event-details';
 import { PopoverRatingPage } from './popover-rating';
 
@@ -21,8 +21,8 @@ import { PopoverRatingPage } from './popover-rating';
   templateUrl: 'ustaz-profile.html',
 })
 export class UstazProfilePage {
-  events_history:Array<Events> = [];
-  events_upcoming:Array<Events> = [];
+  events_history:Array<MosqueEvent> = [];
+  events_upcoming:Array<MosqueEvent> = [];
   name: string = "";
   email: string = "";
   avgRating: string = "0";
@@ -134,11 +134,11 @@ export class UstazProfilePage {
     });
   }
 
-  getSeatsLeft(event: Events): number {
+  getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.users.length);
   }
 
-  eventdetailsPage(event: Events) {
+  eventdetailsPage(event: MosqueEvent) {
     this.navCtrl.push(EventDetailsPage, { 'data': event });
   }
 

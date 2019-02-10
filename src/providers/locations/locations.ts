@@ -29,8 +29,6 @@ export class LocationsProvider {
   geocoder: any;
   autocompleteItems: any;
   GooglePlaces: any;
-  nearbyItems_registered: Array<Mosques>;
-  nearbyItems: Array<Mosques>;
   autocomplete: any;
   GoogleAutocomplete: any;
 
@@ -171,8 +169,6 @@ export class LocationsProvider {
                 key: 'AIzaSyB1dNnSpGH7sqJZjN5i5BohrMSpEV2z0lg'
                 }, (near_places) => {
                 this.zone.run(() => {
-                    this.nearbyItems_registered = [];
-                    this.nearbyItems = [];
                     
                     this.getRegisteredMosquesOnline(near_places).subscribe(data => {
                         if(data){
@@ -197,9 +193,8 @@ export class LocationsProvider {
   
   //send near_places id's to BE, BE respond with all place_id found
   getRegisteredMosquesOnline(places):Observable<any>{
-    let mosque_ids = [];
-    mosque_ids = this.prepareMosqueIdArray(places);
     return Observable.create(observer =>{
+      let mosque_ids:Array<any> = this.prepareMosqueIdArray(places);
       this.httpService.getRegisteredMosquesById(mosque_ids).subscribe(data => {
         if( data ){
           let finalNearbyItems = this.prepareMosqueData(data, places);
@@ -223,7 +218,7 @@ export class LocationsProvider {
     return -1;
   }
 
-  prepareMosqueIdArray(places){
+  prepareMosqueIdArray(places):Array<any>{
     let mosque_ids = [];
 
     if(places && Array.isArray(places) && places.length > 0){
@@ -238,8 +233,15 @@ export class LocationsProvider {
   }
 
   prepareMosqueData(data, places){
-    let registeredMosques:Array<any>;
+    let registeredMosques:Array<any> = [];
+    let googlePlaceItems: Array<Mosques> = [];
+    let googlePlaceItems_registered: Array<Mosques> = [];
     registeredMosques = data;
+    if(!Array.isArray(places)){
+      let tempPlace = places;
+      places = [];
+      places.push(tempPlace);
+    }
     for (var i = 0; i < places.length; i++) {
       let mosque:Mosques = new Mosques();
       //console.log(mosque);
@@ -251,19 +253,6 @@ export class LocationsProvider {
         })
         mosque.title = registeredMosques[foundMosque].title;
         mosque.address = registeredMosques[foundMosque].address;
-
-        if(places[i].photos && places[i].photos.length>1){
-          mosque.icon = places[i].photos[0].getUrl();
-          mosque.photo = places[i].photos[1].getUrl();
-        }else if(places[i].photos && places[i].photos.length>0 && places[i].photos.length<=1){
-          mosque.icon = places[i].photos[0].getUrl();
-          mosque.photo = places[i].photos[0].getUrl();
-        }else{
-          mosque.icon = 'assets/imgs/logo.png';
-          mosque.photo = 'assets/imgs/bg-home.jpg';
-        }
-
-        this.nearbyItems_registered.push(mosque);
       }else{
         mosque._id = places[i].place_id;
 
@@ -274,23 +263,23 @@ export class LocationsProvider {
           mosque.title = places[i].name;
           mosque.address = places[i].vicinity;
         }
-
-        if(places[i].photos && places[i].photos.length>1){
-          mosque.icon = places[i].photos[0].getUrl();
-          mosque.photo = places[i].photos[1].getUrl();
-        }else if(places[i].photos && places[i].photos.length>0 && places[i].photos.length<=1){
-          mosque.icon = places[i].photos[0].getUrl();
-          mosque.photo = places[i].photos[0].getUrl();
-        }else{
-          mosque.icon = 'assets/imgs/logo.png';
-          mosque.photo = 'assets/imgs/bg-home.jpg';
-        }
-       
-        mosque.active_events_no = 0;
-        this.nearbyItems.push(mosque);
+        mosque.active_events_no = 0; 
       }
+
+      if(places[i].photos && places[i].photos.length>1){
+        mosque.icon = places[i].photos[0].getUrl();
+        mosque.photo = places[i].photos[1].getUrl();
+      }else if(places[i].photos && places[i].photos.length>0 && places[i].photos.length<=1){
+        mosque.icon = places[i].photos[0].getUrl();
+        mosque.photo = places[i].photos[0].getUrl();
+      }else{
+        mosque.icon = 'assets/imgs/logo.png';
+        mosque.photo = 'assets/imgs/bg-home.jpg';
+      }
+
+      (foundMosque>=0)? googlePlaceItems_registered.push(mosque) : googlePlaceItems.push(mosque);
     }
-    let finalNearbyItems = this.nearbyItems_registered.concat(this.nearbyItems);
+    let finalNearbyItems = googlePlaceItems_registered.concat(googlePlaceItems);
     if(finalNearbyItems.length>=10){
       finalNearbyItems.splice(10);
     }

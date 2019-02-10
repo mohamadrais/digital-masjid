@@ -4,7 +4,7 @@ import { ProfilePage } from '../profile/profile';
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { CreateEventPage } from '../create-event/create-event';
 import { ParticipantsPage } from '../participants/participants';
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { HttpService } from "../../app/service/http-service";
 import { HomePage } from '../home/home';
 import { Globals } from "../../app/constants/globals";
@@ -27,7 +27,7 @@ import { AppConstants } from '../../app/constants/app-constants';
   templateUrl: 'event-details.html',
 })
 export class EventDetailsPage {
-  event: Events;
+  event: MosqueEvent;
   isAdmin: boolean = false;
   isModerator: boolean = false;
   eventAlreadyJoined: boolean = false;
@@ -36,6 +36,8 @@ export class EventDetailsPage {
   currentUser: User;
   updated: boolean = false;
   expiredEvent:boolean=false;
+
+  toast;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
@@ -198,18 +200,28 @@ export class EventDetailsPage {
   }
 
   presentToast(msg) {
-    let toast = this.toastCtrl.create({
+    this.toast = this.toastCtrl.create({
+      duration: 3000,
       message: msg,
       position: 'top',
       showCloseButton: true,
-      dismissOnPageChange:false
+      dismissOnPageChange:true,
+      cssClass: "top-toast"
     });
   
-    toast.onDidDismiss(() => {
+    this.toast.onDidDismiss(() => {
       console.log('Dismissed toast');
     });
   
-    toast.present();
+    this.toast.present();
+  }
+
+  resetToast():Promise<any>{
+    if(this.toast){
+      this.toast.dismiss();
+      this.toast=null;
+    }
+    return Promise.resolve(true);
   }
 
   navigate(){
@@ -298,7 +310,9 @@ export class EventDetailsPage {
           text: 'Alhamdulillah',
           handler: () => {
             console.log('Join clicked');
-            this.joinEvent();
+            this.resetToast().then(() =>{
+              this.joinEvent();
+            });
           }
         }
       ]
@@ -321,7 +335,9 @@ export class EventDetailsPage {
           text: 'Insyaallah',
           handler: () => {
             console.log('Join clicked');
-            this.declineEvent();
+            this.resetToast().then(() =>{
+              this.declineEvent();
+            });
           }
         }
       ]
@@ -342,7 +358,7 @@ export class EventDetailsPage {
   changeColor() {
     this.favoriteClicked = true;
   }
-  getSeatsLeft(event: Events): number {
+  getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.users.length);
   }
 
@@ -353,7 +369,7 @@ export class EventDetailsPage {
     });
   }
 
-  openMap(event: Events) {
+  openMap(event: MosqueEvent) {
     if (this.platform.is('ios')) {
       window.open('maps://?q=' + event.mosque_details[0].title, '_system');
     } else {

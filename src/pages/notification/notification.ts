@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Slides } from 'ionic-angular';
 import {HomePage} from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
 import {LocationsProvider } from '../../providers/locations/locations';
 import { HttpService } from "../../app/service/http-service";
 import { Globals } from "../../app/constants/globals";
-import { Events } from "../../app/models/Events";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Observable } from 'rxjs/Rx';
 import { AppConstants } from "../../app/constants/app-constants";
 import { User } from '../../app/models/User';
@@ -22,14 +22,16 @@ import { User } from '../../app/models/User';
   templateUrl: 'notification.html',
 })
 export class NotificationPage {
-
+  @ViewChild("slides") slides:Slides;
   currentdate = new Date();
   currDatetime = Date.UTC(this.currentdate.getFullYear(), this.currentdate.getMonth()+1,this.currentdate.getDate(), this.currentdate.getHours(), this.currentdate.getMinutes() );
 
-  eventsToBeAttended: Array<Events> = [];
+  eventsToBeAttended: Array<MosqueEvent> = [];
   userId;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public loc: LocationsProvider, public httpService:HttpService, public global:Globals) {
+  segment="0";
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loc: LocationsProvider, public httpService:HttpService, public global:Globals, public event: Events) {
 
     this.global.get(AppConstants.USER).then(data => {
       if(data){
@@ -37,7 +39,6 @@ export class NotificationPage {
         this.getEventsToAttend(); 
       }
     });
-    
   }
 
   // compareDtm(eventStartTime, eventEndTime){
@@ -101,6 +102,29 @@ export class NotificationPage {
   
   ionViewDidLoad() {
     console.log('ionViewDidLoad NotificationPage');
+  }
+
+  ionViewDidEnter(){
+    //check if there is notification data as parameter from previous page stack
+    if(this.navParams.get("notification")){
+      let customData = (JSON.parse(this.navParams.get("notification").customData));
+      let notificationType = customData.notificationType;
+      if(notificationType == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
+        this.slides.slideTo(2);
+      }else if(notificationType == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
+        this.slides.slideTo(1);
+      }
+    }
+    //to be fixed
+    // this.event.subscribe("notification:updateView", data =>{
+    //   let customData2 = (JSON.parse(data.customData));
+    //   let notificationType2 = customData2.notificationType;
+    //   if(notificationType2 == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
+    //     this.slides.slideTo(2);
+    //   }else if(notificationType2 == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
+    //     this.slides.slideTo(1);
+    //   }
+    // });
   }
 
   homePage(){

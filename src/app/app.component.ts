@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
+import { Platform, Events, ToastController, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -51,7 +51,7 @@ export class MyApp {
   userMobile: String;
 
   constructor(platform: Platform, private statusBar: StatusBar, splashScreen: SplashScreen,
-    public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private alertCtrl: AlertController) {
+    public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private app:App) {
     platform.ready().then(() => {
 
       this.pages = [
@@ -137,10 +137,10 @@ export class MyApp {
       });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      //statusBar.styleDefault();
+      statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
 
-      this.statusBar.backgroundColorByHexString('#db954a');
+      this.statusBar.backgroundColorByHexString('#00A79D');
 
       splashScreen.hide();
       setTimeout(() => {
@@ -198,22 +198,40 @@ export class MyApp {
 
       // Listen to incoming messages
       fcm.listenToNotifications().pipe(
+        
         tap(msg => {
-          var confirmAlert = this.alertCtrl.create({
-            title: msg.title,
-            message: "body: " + msg.body + ", customData: " + JSON.stringify(msg.customData),
-            buttons: [{
-              text: 'Ignore',
-              role: 'cancel'
-            }, {
-              text: 'View',
-              handler: function () {
-                //TODO: Your logic here
-                console.log('Push notification clicked foreground');
+
+          let notiData = {"notification":msg};
+
+          if(this.nav.getActive().component != NotificationPage){
+            let duration:number = 3000;
+            let elapsedTime:number = 0;
+            let intervalHandler = setInterval( () => { elapsedTime += 10; },10);
+  
+            let toastNotification = this.toastCtrl.create({
+              message: msg.title,
+              position: 'top',
+              showCloseButton: true,
+              dismissOnPageChange: true,
+              duration: duration,
+              closeButtonText: "View",
+              cssClass:"top-toast"
+            });
+        
+            toastNotification.onWillDismiss(() => {
+              console.log('Dismissed offline toast');
+              clearInterval(intervalHandler);
+              if(elapsedTime < duration ) {
+                this.app.getActiveNav().push(NotificationPage, notiData);
               }
-            }]
-          });
-          confirmAlert.present();
+            });
+        
+            toastNotification.present();
+          }else{
+            //update notification page live view
+            this.events.publish("notification:updateView", notiData);
+          }
+          
         })
       ).subscribe();
 
@@ -315,30 +333,35 @@ export class MyApp {
   }
 
   async openPage(p) {
-    if (p.title == 'Log Out') {
-      var deviceInfo;
-      try {
-        deviceInfo = await this.getDeviceInfo();
-      } catch (err) {
-        console.log(`Logout: error getting device info: ${err}`);
+    if(p.component != this.nav.getActive().component){
+      if (p.title == 'Log Out') {
+        var deviceInfo;
+        try {
+          deviceInfo = await this.getDeviceInfo();
+        } catch (err) {
+          console.log(`Logout: error getting device info: ${err}`);
+        }
+        if (deviceInfo) {
+          await this.httpService.logoutUser(deviceInfo, this.userId).subscribe(data => {
+            if (data) {
+              console.log("successfully marked user as logged out in server");
+              this.global.set("USER", null);
+              this.global.generalSettings.pushTokenSentFlag = false;
+            } else {
+              console.log("no data returned from logoutUser");
+            }
+            this.nav.setRoot(p.component);
+          }, error => {
+            console.log("error during logoutUser", error);
+            this.nav.setRoot(p.component);
+          })
+        }
       }
-      if (deviceInfo) {
-        await this.httpService.logoutUser(deviceInfo, this.userId).subscribe(data => {
-          if (data) {
-            console.log("successfully marked user as logged out in server");
-            this.global.set("USER", null);
-            this.global.generalSettings.pushTokenSentFlag = false;
-          } else {
-            console.log("no data returned from logoutUser");
-          }
-          this.nav.setRoot(p.component);
-        }, error => {
-          console.log("error during logoutUser", error);
-          this.nav.setRoot(p.component);
-        })
-      }
+      this.nav.setRoot(p.component);
+    }else{
+      //do nothing
     }
-    this.nav.setRoot(p.component);
+    
   }
 
   feedbackPage() {
