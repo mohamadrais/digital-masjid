@@ -483,4 +483,15 @@ export class HttpService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    public logoutUser(deviceInfo: any, userId: String): Observable<Events[]> {
+        var data = {
+            "deviceInfo": deviceInfo,
+            "userId": userId
+        };
+
+        return this.http.post(this.BASE_URL + "users/logout", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
 }

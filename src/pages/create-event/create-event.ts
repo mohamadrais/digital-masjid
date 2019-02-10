@@ -40,6 +40,9 @@ export class CreateEventPage {
   editMode: boolean = false;
   eventId: string = "";
   isEventDateModified: boolean = false;
+  unlimitedQuotaFlag: boolean = false;
+  didQuotaChange: boolean = false;
+  didUstazListChange: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService,
@@ -51,11 +54,16 @@ export class CreateEventPage {
       this.event = this.navParams.get("data");
       this.eventId = this.event._id;
       this.event_title = this.event.event_title;
-      this.category = this.event.category;
+      // this.category = this.event.category;
       this.ustaz = this.event.moderator_details;
       this.mosque = this.event.mosque_details[0];
       this.points = this.event.points.toString();
-      this.quota = this.event.quota;
+      if (this.event.quota == null || this.event.quota == 0) {
+        this.unlimitedQuotaFlag = true;
+      }
+      else {
+        this.quota = this.event.quota;
+      }
       this.event_start_date = this.event.event_start_date;
       this.event_end_date = this.event.event_end_date;
       this.event_description = this.event.event_description;
@@ -130,7 +138,7 @@ export class CreateEventPage {
             }
           }
         }, error => {
-          //error message here :TODO
+          console.log("error creating event: " + error);
         });
       });
     } else {
@@ -153,7 +161,7 @@ export class CreateEventPage {
           });
         }
       }, error => {
-        //error message here :TODO
+        console.log("error updating event: " + error);
       });
     } else {
       this.valid = false;
@@ -164,10 +172,16 @@ export class CreateEventPage {
     this.event = new Events();
     this.event._id = this.eventId;
     this.event.event_title = this.event_title;
-    this.event.category = this.category;
+    // this.event.category = this.category;
     this.event.ustaz = this.getUstazIdArray();
     this.event.points = this.points ? parseInt(this.points) : 0;
-    this.event.quota = this.quota;
+
+    // set quota
+    if (this.unlimitedQuotaFlag) {
+      this.event.quota = 0;
+    } else {
+      this.event.quota = this.quota;
+    }
     this.event.event_start_date = this.event_start_date;
     this.event.event_end_date = this.event_end_date;
     this.event.address = (this.mosque.google_place_id) ? this.mosque.google_place_id : this.mosque._id;
@@ -183,17 +197,34 @@ export class CreateEventPage {
         this.isEventDateModified = true;
       }
 
+      // check if quota changed
+      if (this.event.quota!=null && (this.event.quota < 1 )) {
+        if (!this.unlimitedQuotaFlag && this.quota && this.quota != this.event.quota) {
+          this.didQuotaChange = true;
+        }
+      } 
+      if (this.event.quota!=null && this.event.quota >= 1) {
+        if (this.unlimitedQuotaFlag || (this.quota && this.quota != this.event.quota)) {
+          this.didQuotaChange = true;
+        }
+      }
+
+      // check if ustaz changed
+      if (this.ustaz != this.event.moderator_details) {
+        this.didUstazListChange = true;
+      }
+
       return ((this.event_title && this.event_title != this.event.event_title)
-        || (this.category && this.category != this.event.category)
-        || (this.ustaz && this.ustaz.length > 0)
+        || (this.ustaz && this.ustaz.length > 0 && this.didUstazListChange)
         || (this.points && (this.points ? parseInt(this.points) : 0) != this.event.points)
-        || (this.quota && this.quota != this.event.quota)
+        || (((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.didQuotaChange)
         || (this.event_start_date && this.event_start_date != this.event.event_start_date)
         || (this.event_end_date && this.event_end_date != this.event.event_end_date)
         || (this.mosque && this.mosque != this.event.mosque_details[0])
         || (this.event_description && this.event_description != this.event.event_description))
     } else {
-      return (this.event_title && this.category && this.ustaz && this.ustaz.length > 0 && this.points && this.quota && this.event_start_date && this.event_end_date && this.mosque && this.event_description);
+
+      return (this.event_title && this.ustaz && this.ustaz.length > 0 && this.points && ((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.event_start_date && this.event_end_date && this.mosque && this.event_description);
     }
   }
 

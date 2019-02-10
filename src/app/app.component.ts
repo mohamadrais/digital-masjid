@@ -201,7 +201,7 @@ export class MyApp {
         tap(msg => {
           var confirmAlert = this.alertCtrl.create({
             title: msg.title,
-            message: "body: " + msg.body + ", eventId: " + msg.eventId,
+            message: "body: " + msg.body + ", customData: " + JSON.stringify(msg.customData),
             buttons: [{
               text: 'Ignore',
               role: 'cancel'
@@ -314,14 +314,31 @@ export class MyApp {
     this.nav.setRoot(UstazProfilePage);
   }
 
-  openPage(p) {
+  async openPage(p) {
     if (p.title == 'Log Out') {
-      this.global.set("USER", null);
-      this.global.generalSettings.pushTokenSentFlag = false;
+      var deviceInfo;
+      try {
+        deviceInfo = await this.getDeviceInfo();
+      } catch (err) {
+        console.log(`Logout: error getting device info: ${err}`);
+      }
+      if (deviceInfo) {
+        await this.httpService.logoutUser(deviceInfo, this.userId).subscribe(data => {
+          if (data) {
+            console.log("successfully marked user as logged out in server");
+            this.global.set("USER", null);
+            this.global.generalSettings.pushTokenSentFlag = false;
+          } else {
+            console.log("no data returned from logoutUser");
+          }
+          this.nav.setRoot(p.component);
+        }, error => {
+          console.log("error during logoutUser", error);
+          this.nav.setRoot(p.component);
+        })
+      }
     }
-
     this.nav.setRoot(p.component);
-
   }
 
   feedbackPage() {

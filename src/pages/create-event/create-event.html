@@ -17,13 +17,15 @@
         <ion-label floating>Title</ion-label>
         <ion-input [(ngModel)]="event_title"></ion-input>
       </ion-item>
-      <ion-item [ngClass]="{'error':categoriesError}">
-        <ion-label floating>Categories</ion-label>
-        <!-- <ion-select [(ngModel)]="category">
+      <!-- 
+        <ion-item [ngClass]="{'error':categoriesError}">
+          <ion-label floating>Categories</ion-label>
+          <ion-select [(ngModel)]="category">
           <ion-option value="Activity">Activity</ion-option>
           <ion-option value="Preach">Preach</ion-option>
-        </ion-select> -->
-      </ion-item>
+        </ion-select> 
+      </ion-item> 
+      -->
       <ion-item [ngClass]="{'error':dateError}">
         <ion-label floating>Event Start Date</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY HH:mm:ss" [min]="minYear" [max]="maxYear" [(ngModel)]="event_start_date"></ion-datetime>
@@ -97,8 +99,15 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label color="primary" floating>Quota</ion-label>
-        <ion-input type="number" [(ngModel)]="quota"></ion-input>
+        <ion-label>Quota:</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Unlimited quota</ion-label>
+        <ion-checkbox [(ngModel)]="unlimitedQuotaFlag"></ion-checkbox>
+      </ion-item>
+      <ion-item *ngIf="!unlimitedQuotaFlag">
+        <ion-label floating>Set quota limit</ion-label>
+        <ion-input type="number" min="1" [(ngModel)]="quota"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Description</ion-label>
