@@ -19,6 +19,9 @@
 ion-toast.top-toast{
     margin-top:50px !important;
 }
+.mt-1{
+  margin-top: 5px;
+}
 .mb-1{
   margin-bottom: 5px;
 }
@@ -290,6 +293,9 @@ ion-fab{
   word-break: break-word;
   white-space: normal;
 }
+.event-title.new{
+  font-weight: bold;
+}
 .right-text{
   text-align: right;
 }
@@ -457,6 +463,10 @@ ion-fab{
 .details-label{
   font-size: 1.2rem;
   width: 100%;
+}
+.details-label.map{
+  text-align: right;
+  margin-top: 10px;
 }
 .details-label-thin{
   font-size: 1.2rem;

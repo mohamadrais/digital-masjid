@@ -6,17 +6,17 @@
   <ion-toolbar>
       <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
         <ion-segment-button value="0">
-          <ion-badge>1</ion-badge>
+          <ion-badge color="danger">1</ion-badge>
           <ion-icon name="log-in"></ion-icon>
           <label>Check-in</label>
         </ion-segment-button>
         <ion-segment-button value="1">
-          <ion-badge>1</ion-badge>
+          <ion-badge color="danger">1</ion-badge>
           <ion-icon name="calendar"></ion-icon>
           <label>Reschedule</label>
         </ion-segment-button>
         <ion-segment-button value="2">
-            <ion-badge>1</ion-badge>
+            <ion-badge color="danger">1</ion-badge>
             <ion-icon name="md-close-circle"></ion-icon>
             <label>Canceled</label>
           </ion-segment-button>
@@ -68,6 +68,22 @@
           </ion-row>
         </ion-item>
       </ion-card>
+
+      <ion-card ngClass="card-slide">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col>
+              <div ngClass="event-title new">
+                <label>Kursus Kahwin Perdana</label><ion-badge color="danger">New</ion-badge>
+              </div>
+              <label ngClass="status-label">Postponed to</label>
+              <div ngClass="item-dateloc">
+                <label ngClass="edited">8/11/2019 9:30 - 9/11/2019 12:00</label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
     </ion-list>
   </ion-slide>
   <ion-slide>
@@ -78,6 +94,19 @@
             <ion-col>
               <div ngClass="event-title">
                 <label>Kursus Kahwin Perdana</label>
+              </div>
+              <label ngClass="status-label">Canceled</label>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+
+      <ion-card ngClass="card-slide">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col>
+              <div ngClass="event-title new">
+                <label>Kursus Kahwin Perdana</label><ion-badge color="danger">New</ion-badge>
               </div>
               <label ngClass="status-label">Canceled</label>
             </ion-col>

@@ -90,8 +90,8 @@ export class NotificationPage {
       
         this.loc.applyHaversine(locationEventMosque);
         console.log("THE DISTANCE IS: "+locationEventMosque.distance);
-        let isDistanceNearby = (parseFloat(locationEventMosque.distance) <= 0.2)
-        observer.next({"isDistanceNearby":isDistanceNearby, "distance":(parseFloat(locationEventMosque.distance) - 0.2)});
+        let isDistanceNearby = (parseFloat(locationEventMosque.distance) <= 5.2)
+        observer.next({"isDistanceNearby":isDistanceNearby, "distance":(parseFloat(locationEventMosque.distance) - 5.2)});
         observer.complete();
       });
     });

@@ -65,7 +65,6 @@ import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { ForgotPassword } from '../pages/forgot-password/forgotPassword';
 import { ParticipantsPage } from '../pages/participants/participants';
 import { NotificationPage } from '../pages/notification/notification';
-import { SearchMosquePage } from '../pages/search-mosque/search-mosque';
 import { SearchModeratorPage } from '../pages/search-moderator/search-moderator';
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
 import { NotificationBellPage } from '../pages/notification-bell/notification-bell';
@@ -101,8 +100,7 @@ import { NotificationBellPage } from '../pages/notification-bell/notification-be
     BookmarkPage,
     NotificationPage,
     NotificationBellPage,
-    ParticipantsPage,
-    SearchMosquePage
+    ParticipantsPage
   ],
   imports: [
     BrowserModule,
@@ -165,8 +163,7 @@ import { NotificationBellPage } from '../pages/notification-bell/notification-be
     BookmarkPage,
     NotificationPage,
     NotificationBellPage,
-    ParticipantsPage,
-    SearchMosquePage
+    ParticipantsPage
   ],
   providers: [
     SocialSharing,

@@ -273,7 +273,7 @@ export class LocationsProvider {
         mosque.icon = places[i].photos[0].getUrl();
         mosque.photo = places[i].photos[0].getUrl();
       }else{
-        mosque.icon = 'assets/imgs/logo.png';
+        mosque.icon = 'assets/imgs/mosque.png';
         mosque.photo = 'assets/imgs/bg-home.jpg';
       }
 
