@@ -11,7 +11,8 @@ import { KhariahUser } from '../models/KhariahUser'
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-    private BASE_URL:string = "http://159.65.140.100:8080/";
+    // private BASE_URL:string = "http://159.65.140.100:8080/";
+    private BASE_URL:string = "http://192.168.0.106:8080/";
     
     constructor(public http: Http) {
 
@@ -538,6 +539,24 @@ export class HttpService {
         };
 
         return this.http.post(this.BASE_URL + "khairatusers/update", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public notificationFindByUser(userId: String):Observable<any>{
+        var data = {
+            "userId":userId
+        }
+        return this.http.post(this.BASE_URL + "notif/findByUser", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+    public notificationReadUserNotification(userId: String, notificationId: String):Observable<any>{
+        var data = {
+            "userId":userId,
+            "notificationId":notificationId
+        }
+        return this.http.post(this.BASE_URL + "notif/markReadUn", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }

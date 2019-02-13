@@ -35,47 +35,68 @@ export class EventDetailsPage {
 
   currentUser: User;
   updated: boolean = false;
-  expiredEvent:boolean=false;
+  expiredEvent: boolean = false;
 
   toast;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
     public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController) {
+   
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
-    if(navParams.get('fromProfile')==AppConstants.EVENT_UPCOMING){
+    let event_id = (this.event && this.event._id) ? this.event._id : this.navParams.get("eventId");
+
+    if (navParams.get('fromProfile') == AppConstants.EVENT_UPCOMING) {
       this.eventAlreadyJoined = true;
-    }else if(navParams.get('fromProfile')==AppConstants.EVENT_HISTORY){
-      this.expiredEvent=true;
+    } else if (navParams.get('fromProfile') == AppConstants.EVENT_HISTORY) {
+      this.expiredEvent = true;
     }
+
     this.global.get("USER").then(data => {
-      this.currentUser = data;
-      if (this.event.users && this.event.users.length > 0) {
-        if (this.contains(this.event.users, data._id)) {
+      if(data){
+        this.currentUser = data;
+      if (this.event) {
+        if (this.event && this.event.users && this.event.users.length > 0) {
+          if (this.contains(this.event.users, data._id)) {
+            this.eventAlreadyJoined = true;
+          }
+        }
+        if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
+          if (this.contains(this.currentUser.eventsBookmarked, event_id)) {
+            this.favoriteClicked = true;
+          }
+        }
+      }
+        if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+          this.isAdmin = true;
+        } else if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_MODERATOR) {
+          this.isModerator = true;
+        }
+      }
+      
+    });
+    if (!this.event || !this.event.moderator_details || !this.event.mosque_details || this.event.mosque_details.length <= 0 || this.event.moderator_details.length <= 0) {
+     
+      this.httpService.findEventDetailsById(event_id).subscribe(data => {
+
+        //do validation for event expiry
+        if (!this.event) {
+          this.event = data;
+          if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
+            if (this.contains(this.currentUser.eventsBookmarked, this.event._id)) {
+              this.favoriteClicked = true;
+            }
+          }
+        } else {
+          this.event.moderator_details = data.moderator_details;
+          this.event.mosque_details = data.mosque_details;
           this.eventAlreadyJoined = true;
         }
-      }
-      if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-        if (this.contains(this.currentUser.eventsBookmarked, this.event._id)) {
-          this.favoriteClicked = true;
-        }
-      }
-      if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
-        this.isAdmin = true;
-      } else if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_MODERATOR) {
-        this.isModerator = true;
-      }
-    });
-    if (!this.event.moderator_details || !this.event.mosque_details || this.event.mosque_details.length <= 0 || this.event.moderator_details.length <= 0) {
-      this.httpService.findEventDetailsById(this.event._id).subscribe(data => {
-        this.event.moderator_details = data.moderator_details;
-        this.event.mosque_details = data.mosque_details;
-        //do validation for event expiry
 
       })
     }
 
-    this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
+    this.httpService.countMaleParticipants(event_id).subscribe(data => {
       this.event.maleCount = data;
       this.event.femaleCount = this.event.userCount - this.event.maleCount;
     });
@@ -84,7 +105,7 @@ export class EventDetailsPage {
   goBack() {
     this.navCtrl.pop().then(() => {
       if (this.updated) {
-        this.navParams.get('callback')({"event":this.event, "joined":this.eventAlreadyJoined, userId:this.currentUser._id});
+        this.navParams.get('callback')({ "event": this.event, "joined": this.eventAlreadyJoined, userId: this.currentUser._id });
       }
     });
   }
@@ -168,7 +189,7 @@ export class EventDetailsPage {
   }
 
   participantsPage() {
-    console.log("this.event._id: "+this.event._id);
+    console.log("this.event._id: " + this.event._id);
     this.navCtrl.push(ParticipantsPage, { 'eventId': this.event._id });
   }
 
@@ -179,7 +200,7 @@ export class EventDetailsPage {
       this.eventAlreadyJoined = true;
       this.event.userCount++;
       this.getGenderCount();
-      this.updated=true;
+      this.updated = true;
     }, error => {
       console.log("Issue occured while joining the event");
       this.presentToast(AppConstants.ERROR);
@@ -192,7 +213,7 @@ export class EventDetailsPage {
       this.eventAlreadyJoined = false;
       this.event.userCount--;
       this.getGenderCount();
-      this.updated=true;
+      this.updated = true;
     }, error => {
       console.log("Issue occured while declining the event");
       this.presentToast(AppConstants.ERROR);
@@ -205,60 +226,60 @@ export class EventDetailsPage {
       message: msg,
       position: 'top',
       showCloseButton: true,
-      dismissOnPageChange:true,
+      dismissOnPageChange: true,
       cssClass: "top-toast"
     });
-  
+
     this.toast.onDidDismiss(() => {
       console.log('Dismissed toast');
     });
-  
+
     this.toast.present();
   }
 
-  resetToast():Promise<any>{
-    if(this.toast){
+  resetToast(): Promise<any> {
+    if (this.toast) {
       this.toast.dismiss();
-      this.toast=null;
+      this.toast = null;
     }
     return Promise.resolve(true);
   }
 
-  navigate(){
+  navigate() {
     // if(this.fromProfile){
     //   this.navCtrl.pop().then(() => {
     //     this.navParams.get('callback')({"done":true});
     //   });
     // }else{
-      if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
-        this.adminhomePage();
-      } else {
-        this.homePage();
-      }
+    if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+      this.adminhomePage();
+    } else {
+      this.homePage();
+    }
     // }
   }
 
   toggleBookmarkEvent() {
-      // if it is not yet bookmarked.. then call bookmarkEvents function
-      if (!this.favoriteClicked) {
-        this.httpService.bookmarkEvent(this.currentUser._id, this.event._id).subscribe(data => {
-          // make favoriteClicked true
-          this.favoriteClicked = true;
-          this.saveBookmarkEvent();
-        }, error => {
-          console.log("Issue occured while bookmarking the event");
-        })
-      }
-      // if it is bookmarked.. then call unBookmarkEvent function
-      else {
-        this.httpService.unBookmarkEvent(this.currentUser._id, this.event._id).subscribe(data => {
-          // make favoriteClicked false
-          this.favoriteClicked = false;
-          this.saveBookmarkEvent();
-        }, error => {
-          console.log("Issue occured while unbookmarking the event");
-        })
-      }
+    // if it is not yet bookmarked.. then call bookmarkEvents function
+    if (!this.favoriteClicked) {
+      this.httpService.bookmarkEvent(this.currentUser._id, this.event._id).subscribe(data => {
+        // make favoriteClicked true
+        this.favoriteClicked = true;
+        this.saveBookmarkEvent();
+      }, error => {
+        console.log("Issue occured while bookmarking the event");
+      })
+    }
+    // if it is bookmarked.. then call unBookmarkEvent function
+    else {
+      this.httpService.unBookmarkEvent(this.currentUser._id, this.event._id).subscribe(data => {
+        // make favoriteClicked false
+        this.favoriteClicked = false;
+        this.saveBookmarkEvent();
+      }, error => {
+        console.log("Issue occured while unbookmarking the event");
+      })
+    }
   }
 
   saveBookmarkEvent() {
@@ -310,7 +331,7 @@ export class EventDetailsPage {
           text: 'Alhamdulillah',
           handler: () => {
             console.log('Join clicked');
-            this.resetToast().then(() =>{
+            this.resetToast().then(() => {
               this.joinEvent();
             });
           }
@@ -335,7 +356,7 @@ export class EventDetailsPage {
           text: 'Insyaallah',
           handler: () => {
             console.log('Join clicked');
-            this.resetToast().then(() =>{
+            this.resetToast().then(() => {
               this.declineEvent();
             });
           }
@@ -362,7 +383,7 @@ export class EventDetailsPage {
     return (event.quota - event.users.length);
   }
 
-  getGenderCount(){
+  getGenderCount() {
     this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
       this.event.maleCount = data;
       this.event.femaleCount = this.event.userCount - this.event.maleCount;
@@ -390,7 +411,7 @@ export class EventDetailsPage {
       }
     }
 
-    this.socialSharing.share("Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title , "", "https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id). //temporary link. need to use place id or lat lng. this link may crash in ios 11
+    this.socialSharing.share("Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title, "", "https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id). //temporary link. need to use place id or lat lng. this link may crash in ios 11
       then(() => {
         console.log("Sharing success");
         // Success!

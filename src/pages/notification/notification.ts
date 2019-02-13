@@ -8,6 +8,8 @@ import { Globals } from "../../app/constants/globals";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Observable } from 'rxjs/Rx';
 import { AppConstants } from "../../app/constants/app-constants";
+import { Notification } from "../../app/models/Notification";
+import { EventDetailsPage } from '../event-details/event-details';
 /**
  * Generated class for the NotificationPage page.
  *
@@ -25,18 +27,21 @@ export class NotificationPage {
   currDatetime = Date.UTC(this.currentdate.getFullYear(), this.currentdate.getMonth()+1,this.currentdate.getDate(), this.currentdate.getHours(), this.currentdate.getMinutes() );
 
   eventsToBeAttended: Array<MosqueEvent> = [];
+  eventsRescheduled: Array<Notification> = [];
+  eventsCancel: Array<Notification> = [];
   userId;
 
   segment="0";
 
+  unreadCancelCount=0;
+  unreadRescheduleCount=0;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public loc: LocationsProvider, public httpService:HttpService, public global:Globals, public event: Events) {
 
-    this.global.get(AppConstants.USER).then(data => {
-      if(data){
-        this.userId = data._id;
-        this.getEventsToAttend(); 
-      }
-    });
+    this.userId = this.global.getUserId()
+    this.getEventsToAttend();
+    this.getNotification();
+    
   }
 
   // compareDtm(eventStartTime, eventEndTime){
@@ -46,11 +51,31 @@ export class NotificationPage {
   getEventsToAttend(){
     this.httpService.getEventsToAttend(this.userId).subscribe(data=>{
       if((data && data.length>0) || (data.status.toLowerCase() != "failure")){
-        this.eventsToBeAttended = data;  
+        this.eventsToBeAttended = data; 
       }
     })
   }
   
+  getNotification(){
+    this.httpService.notificationFindByUser(this.userId).subscribe(data =>{
+      if((data && data.length>0) || (data.status.toLowerCase() != "failure")){
+
+        data.forEach((event:Notification = new Notification) => {
+          if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
+            this.eventsRescheduled.push(event);
+            if (event.readFlag.indexOf("N") >= 0) {
+              this.unreadRescheduleCount++;
+            }
+          }else if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
+            this.eventsCancel.push(event);
+            if (event.readFlag.indexOf("N") >= 0) {
+              this.unreadCancelCount++;
+            }
+          }
+        });
+      }
+    });
+  }
 
   validateAttendance(index){
     this.validateDistance(this.eventsToBeAttended[index]).subscribe(data => {
@@ -114,15 +139,10 @@ export class NotificationPage {
       }
     }
     //to be fixed
-    // this.event.subscribe("notification:updateView", data =>{
-    //   let customData2 = (JSON.parse(data.customData));
-    //   let notificationType2 = customData2.notificationType;
-    //   if(notificationType2 == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
-    //     this.slides.slideTo(2);
-    //   }else if(notificationType2 == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
-    //     this.slides.slideTo(1);
-    //   }
-    // });
+    this.event.subscribe("notification:updateView", data =>{
+      this.getNotification();
+      this.getEventsToAttend();
+    });
   }
 
   homePage(){
@@ -131,5 +151,19 @@ export class NotificationPage {
 
   adminhomePage(){
     this.navCtrl.setRoot(AdminHomePage)
+  }
+
+  read(eventNoti:Notification){
+    this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId});
+    this.httpService.notificationReadUserNotification(this.userId, eventNoti._id).subscribe(res =>{
+      if(res.status!="failure"){
+        //do nothing yet. to be enhanced
+        if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
+          this.unreadRescheduleCount--;
+        }else if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
+          this.unreadCancelCount--;
+        }
+      }
+    })
   }
 }
