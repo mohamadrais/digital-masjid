@@ -47,6 +47,7 @@ export class KhairatPage {
   currentUserType;
   mosqueGooglePlaceId:any; // auto-fill mosque google place id from previous mosque page
   khariah:any; // auto-fill mosque title from previous mosque page
+  khariahUser:KhariahUser;
   constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService:HttpService, public alertCtrl:AlertController, public global:Globals) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
@@ -61,7 +62,16 @@ export class KhairatPage {
           this.userId = data._id;
           this.currentUserType = AppConstants.USER_TYPE_USER;
           this.isAdmin = false;
-          this.getUserKhairat(this.userId);
+
+          //temp comment the global storage because to check if online search working or not
+          this.khariahUser = null//this.global.getKhariahUser();
+
+          if(!this.khariahUser){
+            this.getUserKhairat(this.userId);
+          }else{
+            this.initKhariahUser();
+          }
+          
         }
       }
     });
@@ -71,10 +81,31 @@ export class KhairatPage {
     console.log('ionViewDidLoad KhairatPage');
   }
 
+  initKhariahUser(){
+    this._id = this.khariahUser._id;
+    this.userId = this.khariahUser.userId;
+    this.khariahUserFullName = this.khariahUser.khariahUserFullName;
+    this.khariahUserIcnumber = this.khariahUser.khariahUserIcnumber;
+    this.addressLine1 = this.khariahUser.addressLine1;
+    this.addressLine2 = this.khariahUser.addressLine2;
+    this.postCode = this.khariahUser.postCode;
+    this.khariah = this.khariahUser.khariah;
+    this.maritalStatus = this.khariahUser.maritalStatus;
+    this.occupation = this.khariahUser.occupation;
+    this.khairatMosqueGooglePlaceId = this.khariahUser.khairatMosqueGooglePlaceId;
+    this.khairatHeirs = this.khariahUser.heirs;
+    this.billImage = this.khariahUser.billImage;
+    
+  }
+
   getUserKhairat(userId){
     this.httpService.getKhairatDetails(userId, this.mosqueGooglePlaceId).subscribe(data =>{
-      // this.khairats = data;
-      console.log(data);
+      if(data){
+        this.khariahUser = data;
+        this.initKhariahUser();
+        console.log(data);
+      }
+        
     });
   }
 
@@ -244,6 +275,7 @@ export class KhairatPage {
           handler: () => {
             console.log(mode + ' clicked');
             (this.editMode) ? this.updateKhairatUser() : this.createKhairatUser();
+            this.global.set("KHARIAH_USER",this.newKhariahUser )
           }
         }
       ]
