@@ -23,7 +23,7 @@ export class MosquePage {
   address: string = "";
   updated: string = "";
   mosque: Mosques;
-  constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser) {
+  constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform) {
     this.mosque = navParams.get('data');
     this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
       this.events = data;
