@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Rx';
 import { Device } from '@ionic-native/device';
 import { User } from '../models/User';
-// import { AppConstants } from '../constants/app-constants';
+import { AppConstants } from '../constants/app-constants';
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class Globals {
         if (val) this.generalSettings = <GeneralSettings>val;
       });
 
-      this.storage.get(this.APP_USER).then((val) => {
+      this.storage.get(AppConstants.USER).then((val) => {
         if (val) this.currentUser = <User>val;
         observer.next(this.currentUser);
         observer.complete();

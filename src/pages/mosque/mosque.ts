@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { EventDetailsPage } from '../event-details/event-details';
 import { FeedbackPage } from '../feedback/feedback';
 import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
@@ -10,7 +10,7 @@ import { HttpService } from "../../app/service/http-service";
 import {MosqueEvent} from "../../app/models/MosqueEvents";
 import {User} from "../../app/models/User";
 import { Mosques } from '../../app/models/Mosques';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
 
 @Component({
   selector: 'page-mosque',
@@ -23,7 +23,7 @@ export class MosquePage {
   address:string = "";
   updated:string = "";
   mosque:Mosques;
-  constructor(public navCtrl: NavController, public httpService:HttpService,public navParams:NavParams, public iab: InAppBrowser) {
+  constructor(public navCtrl: NavController, public httpService:HttpService,public navParams:NavParams, public iab: InAppBrowser, public platform: Platform) {
     this.mosque = navParams.get('data');
     this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
       this.events = data;
@@ -84,8 +84,41 @@ export class MosquePage {
     return (event.quota - event.users.length);
   }
 
-  openMap(){
-    const browser = this.iab.create('https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque._id));
-    browser.show();
+  openMap(event: MosqueEvent) {
+    if (this.platform.is('ios')) {
+      window.open('maps://?q=' + this.mosque.title, '_system');
+    } else {
+      let label = encodeURI('My Label');
+      window.open('geo:0,0?q=' + this.mosque.title, '_system');
+    }
   }
+
+  // openMap(url){
+  //   let generatedUrl='https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque._id);
+
+  //   if(url){
+  //     generatedUrl = url
+  //   }
+    
+  //   const browser = this.iab.create(generatedUrl , '_self', 'location=yes');
+  //   browser.show();
+    
+  //   browser.on('loadstart').subscribe((ev: InAppBrowserEvent) => {
+  //     if(ev.url.indexOf("http://intent://")!=-1){
+  //       if(this.platform.is('android')){
+  //         var urlParts = ev.url.split("intent");
+  //         var finalUrl = "http://"+urlParts[1];
+  //         const browser = this.iab.create(finalUrl, '_system', 'location=yes');
+  //       }else{
+  //         const browser = this.iab.create(ev.url, '_system', 'location=yes');
+  //       }
+  //       browser.close();
+  //       setTimeout(()=>{
+  //         this.openMap(generatedUrl);
+  //       },100);
+  //     }else{
+  //       generatedUrl = ev.url;
+  //     }
+  //   });
+  // }
 }

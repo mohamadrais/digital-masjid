@@ -54,33 +54,20 @@ export class MyApp {
     public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private app:App) {
     platform.ready().then(() => {
 
-      this.pages = [
-        { title: 'Home', component: HomePage },
-        { title: 'Profile', component: ProfilePage },
-        { title: 'Qibla Finder', component: QiblaPage },
-        { title: 'Settings', component: SettingsPage },
-        { title: 'Feedback', component: FeedbackPage },
-        { title: 'Bookmark', component: BookmarkPage },
-        { title: 'Khairats', component: KhairatListPage },
-        { title: 'Market', component: MarketPage },
-        { title: 'About', component: AboutPage },
-        { title: 'Log Out', component: LoginPage }
-      ];
-
-      // if user is logged in
-      this.global.get(AppConstants.USER).then(async data => {
+      this.global.initGlobals().subscribe(async data => {
         if (data) {
           this.userId = data._id;
           this.userMobile = data.mobile;
           this.userType = data.userType;
           if (data.userType === AppConstants.USER_TYPE_ADMIN) {
-            this.adminhomePage();
             events.publish('userType:admin', true);
+            this.adminhomePage();
           } else if (data.userType === AppConstants.USER_TYPE_USER) {
+            events.publish('userType:user', true);
             this.homePage();
           } else if (this.userType === AppConstants.USER_TYPE_MODERATOR) {
-            this.ustazProfilePage();
             events.publish('userType:ustaz', true);
+            this.ustazProfilePage();
           }
           if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
             if (this.global.generalSettings.pushToken != "") {
@@ -96,6 +83,49 @@ export class MyApp {
           this.nav.setRoot(LoginPage);
         }
       });
+        
+      this.pages = [
+        { title: 'Home', component: HomePage },
+        { title: 'Profile', component: ProfilePage },
+        { title: 'Qibla Finder', component: QiblaPage },
+        { title: 'Settings', component: SettingsPage },
+        { title: 'Feedback', component: FeedbackPage },
+        { title: 'Bookmark', component: BookmarkPage },
+        { title: 'Khairats', component: KhairatListPage },
+        { title: 'Market', component: MarketPage },
+        { title: 'About', component: AboutPage },
+        { title: 'Log Out', component: LoginPage }
+      ];
+
+      // if user is logged in
+      // this.global.get(AppConstants.USER).then(async data => {
+      //   if (data) {
+      //     this.userId = data._id;
+      //     this.userMobile = data.mobile;
+      //     this.userType = data.userType;
+      //     if (data.userType === AppConstants.USER_TYPE_ADMIN) {
+      //       this.adminhomePage();
+      //       events.publish('userType:admin', true);
+      //     } else if (data.userType === AppConstants.USER_TYPE_USER) {
+      //       this.homePage();
+      //     } else if (this.userType === AppConstants.USER_TYPE_MODERATOR) {
+      //       this.ustazProfilePage();
+      //       events.publish('userType:ustaz', true);
+      //     }
+      //     if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+      //       if (this.global.generalSettings.pushToken != "") {
+      //         if (await this.sendPushTokenToServer(this.global.generalSettings.pushToken, this.userId, this.userMobile)) {
+      //           this.global.generalSettings.pushTokenSentFlag = true;
+      //           console.log("pushTokenSentFlag inside if user logged in: " + this.global.generalSettings.pushTokenSentFlag);
+      //         }
+      //       }
+      //     }
+
+      //     // if user is not logged in
+      //   } else {
+      //     this.nav.setRoot(LoginPage);
+      //   }
+      // });
 
       events.subscribe('userType:admin', data => {
         this.pages = [

@@ -233,7 +233,7 @@ export class HomePage {
  
      let me = this;
      this.service.getPlacePredictions({
-     input: "masjid "+this.autocomplete.query,
+     input: this.autocomplete.query,
      componentRestrictions: {
        country: 'my'//to be changed in future which depends on user's registered country, or remove if there is no restriction
      },

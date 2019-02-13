@@ -379,11 +379,6 @@ export class EventDetailsPage {
   }
 
   shareEvent() {
-    let linkMap = this.event.mosque_details[0].title;
-    for (let i = 0; i < linkMap.length; i++) {
-      linkMap = linkMap.replace("-", "+");
-      linkMap = linkMap.replace(" ", "+");
-    }
 
     let mString = "";
 
@@ -395,7 +390,7 @@ export class EventDetailsPage {
       }
     }
 
-    this.socialSharing.share("Come join " + this.event.event_title + "(" + this.event.category + ")" + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title + "(" + this.event.category + ")", "", "https://www.google.com/maps/search/?api=1&query=" + linkMap). //temporary link. need to use place id or lat lng. this link may crash in ios 11
+    this.socialSharing.share("Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title , "", "https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id). //temporary link. need to use place id or lat lng. this link may crash in ios 11
       then(() => {
         console.log("Sharing success");
         // Success!

@@ -72,6 +72,7 @@ export class LoginPage {
         }
 
         this.global.set(AppConstants.USER, data);
+        this.global.setUser(data);
         console.log("AppConstants.USER = " + data);
         if (data.userType.toUpperCase() === AppConstants.USER_TYPE_ADMIN) {
           this.adminhomePage();
