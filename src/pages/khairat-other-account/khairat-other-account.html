@@ -6,7 +6,7 @@
 -->
 <ion-header class="mm-header">
   <ion-navbar>
-    <ion-title>Add other accounts
+    <ion-title>Add Heirs
       <page-notification-bell></page-notification-bell>
     </ion-title>
   </ion-navbar>
@@ -16,24 +16,24 @@
   <ion-row ngClass="login-radio no-margin">
     <ion-list ngClass="lang-container no-margin">
       <ion-item>
-        <ion-label floating>Fullname</ion-label>
-        <ion-input [(ngModel)]="khairatMembers.fullname"></ion-input>
+        <ion-label floating>Heir's Full Name</ion-label>
+        <ion-input [(ngModel)]="khairatHeirs.fullName"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>IC Number</ion-label>
-        <ion-input [(ngModel)]="khairatMembers.icNumber" type="phone"></ion-input>
+        <ion-label floating>Heir's IC Number</ion-label>
+        <ion-input [(ngModel)]="khairatHeirs.icNumber" type="phone"></ion-input>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label floating>Age</ion-label>
-        <ion-input [(ngModel)]="khairatMembers.age" type="number"></ion-input>
+        <ion-input [(ngModel)]="khairatHeirs.age" type="number"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Date of Birth</ion-label>
-        <ion-datetime [(ngModel)]="khairatMembers.dateOfBirth" displayFormat="DD/MM/YYYY"></ion-datetime>
-      </ion-item>
+        <ion-datetime [(ngModel)]="khairatHeirs.dateOfBirth" displayFormat="DD/MM/YYYY"></ion-datetime>
+      </ion-item> -->
       <ion-item>
-        <ion-label floating>Relation</ion-label>
-        <ion-input [(ngModel)]="khairatMembers.relation"></ion-input>
+        <ion-label floating>Relation to the Heir</ion-label>
+        <ion-input [(ngModel)]="khairatHeirs.relation"></ion-input>
       </ion-item>
      </ion-list>
      </ion-row>

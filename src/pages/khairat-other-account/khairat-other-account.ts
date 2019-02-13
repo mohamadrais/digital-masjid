@@ -16,13 +16,13 @@ import { HttpService } from "../../app/service/http-service";
 })
 export class KhairatOtherAccountPage {
 
-  public khairatMembers ={"fullname":"", "icNumber":"", "age":"", "dateOfBirth":"", "relation":""}; //name, ic, gender
+  public khairatHeirs ={"fullName":"", "icNumber":"", "relation":""}; //name, ic, relation for heirs
   public updateMode=false;
   public khairatMosqueGooglePlaceId;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService) {
     if(this.navParams.get('data')){
-      this.khairatMembers = this.navParams.get('data');
+      this.khairatHeirs = this.navParams.get('data');
       this.updateMode = true;
     }
     this.khairatMosqueGooglePlaceId = this.navParams.get('mosqueGooglePlaceId');
@@ -33,9 +33,9 @@ export class KhairatOtherAccountPage {
   }
 
   addUpdateAccount() {
-    this.httpService.checkKhairatExist(this.khairatMembers.icNumber, this.khairatMosqueGooglePlaceId).subscribe(data => {
+    this.httpService.checkKhairatExist(this.khairatHeirs.icNumber, this.khairatMosqueGooglePlaceId).subscribe(data => {
       if(data.status=="failure"){ //if not found
-        this.navParams.get('callback')(this.khairatMembers);
+        this.navParams.get('callback')(this.khairatHeirs);
       }else if(data.status=="success"){
         alert("Error: Already exist")
       }

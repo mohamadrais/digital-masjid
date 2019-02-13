@@ -6,7 +6,8 @@
 -->
 <ion-header class="mm-header">
   <ion-navbar>
-    <ion-title>Khariah <page-notification-bell></page-notification-bell></ion-title>
+    <ion-title>Khariah <page-notification-bell></page-notification-bell>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,24 +15,28 @@
   <ion-row ngClass="login-radio no-margin">
     <ion-list ngClass="lang-container no-margin">
       <ion-item>
+        <ion-label floating>Full Name</ion-label>
+        <ion-input [(ngModel)]="khariahUserFullName"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label floating>Address Line 1</ion-label>
-        <ion-input></ion-input>
+        <ion-input [(ngModel)]="addressLine1"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 2</ion-label>
-        <ion-input></ion-input>
+        <ion-input [(ngModel)]="addressLine2"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Postcode</ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-input type="number" [(ngModel)]="postCode"></ion-input>
       </ion-item>
-      <ion-item>
+      <!-- <ion-item>
         <ion-label floating>Kariah</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
+        <ion-input [(ngModel)]="postCode"></ion-input>
+      </ion-item> -->
       <ion-item>
         <ion-label floating>IC Number</ion-label>
-        <ion-input type="number"></ion-input>
+        <ion-input type="number" [(ngModel)]="khariahUserIcnumber"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Date of Birth</ion-label>
@@ -42,8 +47,8 @@
         <ion-input type="number"></ion-input>
       </ion-item> -->
       <ion-item>
-        <ion-label floating>Status</ion-label>
-        <ion-select>
+        <ion-label floating>Marital Status</ion-label>
+        <ion-select [(ngModel)]="maritalStatus">
           <ion-option value="single">Single</ion-option>
           <ion-option value="married">Married</ion-option>
           <ion-option value="divorce">Divorce</ion-option>
@@ -51,10 +56,10 @@
       </ion-item>
       <ion-item>
         <ion-label floating>Occupation</ion-label>
-        <ion-input></ion-input>
+        <ion-input [(ngModel)]="occupation"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label (click)="addUpdateKhairatMember(null)">Add Heirs
+        <ion-label (click)="addUpdatekhairatHeir(null)">Add Heirs
           <button ngClass="lookup-icon">
 
             <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
@@ -64,12 +69,12 @@
         </ion-label>
       </ion-item>
 
-      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.khairatMembers && this.khairatMembers.length>0">
+      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.khairatHeirs && this.khairatHeirs.length>0">
         <ion-label>
-          <div *ngIf="this.khairatMembers && this.khairatMembers.length>0">
-            <ion-chip ngClass="ustaz-chip" *ngFor="let k of khairatMembers; let i = index">
-              <ion-label (click)="addUpdateKhairatMember(i)">{{k.fullname}} ({{k.relation}})</ion-label>
-              <button ion-button clear color="light" (click)="deleteKhairatMember(i)">
+          <div *ngIf="this.khairatHeirs && this.khairatHeirs.length>0">
+            <ion-chip ngClass="ustaz-chip" *ngFor="let k of khairatHeirs; let i = index">
+              <ion-label (click)="addUpdatekhairatHeir(i)">{{k.fullname}} ({{k.relation}})</ion-label>
+              <button ion-button clear color="light" (click)="deletekhairatHeir(i)">
                 <ion-icon name="close-circle"></ion-icon>
               </button>
             </ion-chip>
@@ -113,6 +118,8 @@
     <button class="button button-primary red rectangle" *ngIf="isAdmin">Reject</button>
   </ion-buttons>
   <ion-buttons>
-    <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="pay()">Next</button>
+    <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="pay()">Next</button> -->
+    <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="createKhairatUser()">Next</button> -->
+    <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="showConfirm()">{{(editMode)?'Update Khariah Membership':'Create Khariah Membership'}}</button>
   </ion-buttons>
 </ion-footer>
