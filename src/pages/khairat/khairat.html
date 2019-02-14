@@ -73,7 +73,7 @@
         <ion-label>
           <div *ngIf="this.khairatHeirs && this.khairatHeirs.length>0">
             <ion-chip ngClass="ustaz-chip" *ngFor="let k of khairatHeirs; let i = index">
-              <ion-label (click)="addUpdatekhairatHeir(i)">{{k.fullname}} ({{k.relation}})</ion-label>
+              <ion-label (click)="addUpdatekhairatHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
               <button ion-button clear color="light" (click)="deletekhairatHeir(i)">
                 <ion-icon name="close-circle"></ion-icon>
               </button>

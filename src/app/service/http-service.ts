@@ -11,8 +11,7 @@ import { KhariahUser } from '../models/KhariahUser'
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-    // private BASE_URL:string = "http://159.65.140.100:8080/";
-    private BASE_URL:string = "http://192.168.0.106:8080/";
+	private BASE_URL:string = "http://159.65.140.100:8080/";
     
     constructor(public http: Http) {
 
@@ -499,7 +498,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public registerKhairatUser(newKhariahUser: KhariahUser): Observable<KhariahUser[]> {
+    public registerKhairatUser(newKhariahUser: KhariahUser): Observable<KhariahUser> {
         var data = {
             "userId" : newKhariahUser.userId,
             "khariahUserFullName" : newKhariahUser.khariahUserFullName,
