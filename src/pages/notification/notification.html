@@ -6,7 +6,7 @@
   <ion-toolbar>
       <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
         <ion-segment-button value="0">
-          <ion-badge color="danger" *ngIf="eventsToBeAttended && eventsToBeAttended.length>0">{{eventsToBeAttended.length}}</ion-badge>
+          <ion-badge color="danger" *ngIf="toAttendCount>0">{{toAttendCount}}</ion-badge>
           <ion-icon name="log-in"></ion-icon>
           <label>Check-in</label>
         </ion-segment-button>
@@ -31,7 +31,7 @@
 <ion-slides #slides ngClass="body-style" (ionSlideWillChange)="segment=''+slides.getActiveIndex();" (ionSlideDidChange)="segment = (slides.getActiveIndex()>=2)? '2' : ''+slides.getActiveIndex();">
   <ion-slide>
       <ion-list>
-          <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index" ><!-- [hidden]="!(compareDtm(e.event_start_date, e.event_end_date))"-->
+          <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index" [hidden]="!(validateDateTime(e._id,e.event_start_date, e.event_end_date))">
             <ion-item ngClass="events-list">
               <ion-row>
                 <ion-col>
@@ -65,7 +65,7 @@
               </div>
               <!-- <label ngClass="status-label">Postponed to</label> -->
               <div ngClass="item-dateloc">
-                <label ngClass="edited">{{noti.content}}</label>
+                <label ngClass="edited">{{noti.customData.notificationContent}}</label>
               </div>
             </ion-col>
           </ion-row>
@@ -84,7 +84,7 @@
               <div ngClass="event-title" [ngClass]="{'new': (noti.readFlag=='N')}">
                 <label>{{noti.title}}</label><ion-badge *ngIf="noti.readFlag=='N'" color="danger">New</ion-badge>
               </div>
-              <label ngClass="status-label">{{noti.content}}</label>
+              <!-- <label ngClass="status-label">{{noti.content}}</label> -->
             </ion-col>
           </ion-row>
         </ion-item>

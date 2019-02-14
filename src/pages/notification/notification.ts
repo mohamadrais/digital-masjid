@@ -35,13 +35,15 @@ export class NotificationPage {
 
   unreadCancelCount=0;
   unreadRescheduleCount=0;
+  toAttendCount=0
+
+  eventIdArray:Array<any>=[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loc: LocationsProvider, public httpService:HttpService, public global:Globals, public event: Events) {
 
     this.userId = this.global.getUserId()
     this.getEventsToAttend();
     this.getNotification();
-    
   }
 
   // compareDtm(eventStartTime, eventEndTime){
@@ -80,7 +82,8 @@ export class NotificationPage {
   validateAttendance(index){
     this.validateDistance(this.eventsToBeAttended[index]).subscribe(data => {
       if(data.isDistanceNearby){
-        this.httpService.userAddPoints(this.userId, this.eventsToBeAttended[index].points.toString(), this.eventsToBeAttended[index]._id).subscribe(data =>{
+
+          this.httpService.userAddPoints(this.userId, this.eventsToBeAttended[index].points.toString(), this.eventsToBeAttended[index]._id).subscribe(data =>{
           if(data.pointsCollected){
             alert("Alhamdulillah. You have gained "+this.eventsToBeAttended[index].points+" points.");
             this.navCtrl.pop();
@@ -88,6 +91,7 @@ export class NotificationPage {
             alert("Something went wrong. Please contact Digital Masjid App admin");
           }
         })
+
       }else{
         alert("You are out of range by "+data.distance+"km");
       }
@@ -121,6 +125,23 @@ export class NotificationPage {
       });
     });
     
+  }
+
+  validateDateTime(eventId, startDtm, endDtm){
+    let today = new Date().toISOString();
+    if(startDtm <=today && today<endDtm){
+      if(this.eventIdArray.indexOf(eventId)==-1){
+        this.eventIdArray.push(eventId);
+        this.toAttendCount = this.eventIdArray.length;
+      }
+      return true;
+    }else{
+      if(this.eventIdArray.indexOf(eventId)!=-1){
+        this.eventIdArray.splice(this.eventIdArray.indexOf(eventId),1);
+        this.toAttendCount = this.eventIdArray.length;
+      }
+      return false
+    }
   }
   
   ionViewDidLoad() {
