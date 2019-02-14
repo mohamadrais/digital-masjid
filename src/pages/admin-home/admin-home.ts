@@ -9,6 +9,8 @@ import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
+import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
 /**
  * Generated class for the AdminHomePage page.
  *
@@ -25,26 +27,33 @@ export class AdminHomePage {
   userData;
   events: Array<MosqueEvent> = [];
   eventsSize: number = 0;
-  constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals) {
+  updated="";
+  address="";
+  constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals, public geolocation: Geolocation, public geocoder: NativeGeocoder) {
 
     this.global.get(AppConstants.USER).then(data => {
       if (data) {
         this.userData = data;
         this.nickname = this.userData.name; //this.userData.nickname;
-        this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
-          this.events = data;
-          if (data) {
-            this.eventsSize = data.length;
-          }
-        }, error => {
-          console.log("Issue occured while getting events managed by Admin");
-        });
+        this.getMosqueManaged();
       }
     })
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminHomePage');
+  }
+
+  getMosqueManaged(){
+    this.readCurrentLocation();
+    this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
+      this.events = data;
+      if (data) {
+        this.eventsSize = data.length;
+      }
+    }, error => {
+      console.log("Issue occured while getting events managed by Admin");
+    });
   }
 
   eventdetailsPage(events: MosqueEvent, index) {
@@ -91,5 +100,24 @@ export class AdminHomePage {
 
   getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.users.length);
+  }
+
+  readCurrentLocation(){
+    let today:Date = new Date();
+    this.updated = today.getDate()+"/"+(today.getMonth()+1)+" "+today.getUTCHours()+":"+today.getMinutes();
+    let options = {
+      maximumAge: 3000,
+      enableHighAccuracy: true,
+      timeout: 50000
+    };
+  
+    this.geolocation.getCurrentPosition(options).then((position: Geoposition) => {
+      this.geocoder.reverseGeocode(position.coords.latitude, position.coords.longitude).then((res: NativeGeocoderReverseResult[]) => {
+        this.address = res[0].locality
+        console.log('home.address : '+this.address );
+       })
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 }

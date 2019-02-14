@@ -21,6 +21,7 @@ import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
 import { KhairatListPage } from '../pages/khairat-list/khairat-list';
+import { KhairatPage } from '../pages/khairat/khairat';
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { NotificationPage } from '../pages/notification/notification';
@@ -91,7 +92,7 @@ export class MyApp {
         { title: 'Settings', component: SettingsPage },
         { title: 'Feedback', component: FeedbackPage },
         { title: 'Bookmark', component: BookmarkPage },
-        { title: 'Khairats', component: KhairatListPage },
+        { title: 'Khariah', component: KhairatPage },
         { title: 'Market', component: MarketPage },
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
@@ -134,7 +135,7 @@ export class MyApp {
           { title: 'Qibla Finder', component: QiblaPage },
           { title: 'Settings', component: SettingsPage },
           { title: 'Feedback', component: FeedbackPage },
-          { title: 'Khairats', component: KhairatListPage },
+          { title: 'Khariah List', component: KhairatListPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -159,7 +160,7 @@ export class MyApp {
           { title: 'Settings', component: SettingsPage },
           { title: 'Feedback', component: FeedbackPage },
           { title: 'Bookmark', component: BookmarkPage },
-          { title: 'Khairats', component: KhairatListPage },
+          { title: 'Khariah', component: KhairatPage },
           { title: 'Market', component: MarketPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
@@ -387,7 +388,7 @@ export class MyApp {
           })
         }
       }
-      this.nav.setRoot(p.component);
+      this.nav.setRoot(p.component, {fromSideMenu:true});
     }else{
       //do nothing
     }

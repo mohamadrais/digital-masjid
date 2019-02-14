@@ -22,8 +22,8 @@
         <div ngClass="text-s right-text">
           <ion-icon ngClass="pin-icon" name="ios-pin-outline"></ion-icon>{{address}}
         </div>
-        <div ngClass="text-xs right-text">Updated 27/4 00:57
-          <ion-icon ngClass="refresh-icon" (click)="startMosqueList()" name="ios-refresh-outline"></ion-icon>
+        <div ngClass="text-xs right-text">Updated {{updated}}
+          <ion-icon ngClass="refresh-icon" (click)="getMosqueManaged()" name="ios-refresh-outline"></ion-icon>
         </div>
       </ion-col>
     </ion-row>

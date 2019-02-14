@@ -48,10 +48,13 @@ export class KhairatPage {
   mosqueGooglePlaceId: any; // auto-fill mosque google place id from previous mosque page
   khariah: any; // auto-fill mosque title from previous mosque page
   khariahUser: KhariahUser;
+  isRoot=false;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.khariah = this.navParams.get("mosqueTitle");
+    this.isRoot = this.navParams.get("fromSideMenu");
     this.global.get(AppConstants.USER).then(data => {
       if (data) {
         if (data.userType === AppConstants.USER_TYPE_ADMIN) {
