@@ -10,7 +10,7 @@
         <ion-icon name="ios-menu-outline"></ion-icon>
       </button>
       <ion-title>
-        Khairat List
+        Kariah List
         <page-notification-bell></page-notification-bell>
       </ion-title>
     </ion-toolbar>
@@ -18,12 +18,12 @@
   
   
   <ion-content padding>
-    <ion-card ngClass="card-general" *ngFor="let k of khairats">
+    <ion-card ngClass="card-general" *ngFor="let k of kariahs">
       <ion-item ngClass="events-list">
         <ion-row>
           <ion-col col-10 col-md-11>
               <div ngClass="event-title">
-                <label>{{k.khairatMosqueGooglePlaceId}}</label>
+                <label>{{k.kariahMosqueGooglePlaceId}}</label>
               </div>
               <div ngClass="item-dateloc">
                 <label>desc</label>
@@ -42,3 +42,13 @@
     </ion-item>
   </ion-card>
   </ion-content>
+
+  <ion-footer *ngIf="isAdmin">
+
+      <!--Admin Role Button-->
+      <ion-buttons>
+        <button class="button button-primary rectangle" (click)="downloadKariahMembersList()">
+          <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download
+        </button>
+      </ion-buttons>
+    </ion-footer>

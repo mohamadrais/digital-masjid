@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, App } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { CreateEventPage } from '../create-event/create-event';
@@ -9,7 +9,6 @@ import { HttpService } from "../../app/service/http-service";
 import { HomePage } from '../home/home';
 import { Globals } from "../../app/constants/globals";
 import { AdminHomePage } from '../admin-home/admin-home';
-import { AlertController } from 'ionic-angular';
 import { User } from "../../app/models/User";
 import { Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -37,6 +36,9 @@ export class EventDetailsPage {
   updated: boolean = false;
   expiredEvent: boolean = false;
 
+  percent = 0;
+  count = 0;
+
   toast;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -57,12 +59,12 @@ export class EventDetailsPage {
         this.currentUser = data;
       if (this.event) {
         if (this.event && this.event.users && this.event.users.length > 0) {
-          if (this.contains(this.event.users, data._id)) {
+          if (this.event.users.indexOf(data._id)!=-1) {
             this.eventAlreadyJoined = true;
           }
         }
         if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-          if (this.contains(this.currentUser.eventsBookmarked, event_id)) {
+          if (this.currentUser.eventsBookmarked.indexOf(this.event._id)!=-1) {
             this.favoriteClicked = true;
           }
         }
@@ -83,7 +85,7 @@ export class EventDetailsPage {
         if (!this.event) {
           this.event = data;
           if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-            if (this.contains(this.currentUser.eventsBookmarked, this.event._id)) {
+            if (this.currentUser.eventsBookmarked.indexOf(this.event._id)) {
               this.favoriteClicked = true;
             }
           }
@@ -198,7 +200,12 @@ export class EventDetailsPage {
     this.httpService.subscribeEvents(this.event, this.currentUser._id).subscribe(data => {
       this.presentToast(AppConstants.EVENT_JOINED);
       this.eventAlreadyJoined = true;
-      this.event.userCount++;
+      if(this.event.userCount != null){
+        this.event.userCount++;
+      }else if(this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) == -1){
+        this.event.users.push(this.currentUser._id);
+      }
+
       this.getGenderCount();
       this.updated = true;
     }, error => {
@@ -211,7 +218,12 @@ export class EventDetailsPage {
     this.httpService.unSubscribeEvents(this.event, this.currentUser._id).subscribe(data => {
       this.presentToast(AppConstants.EVENT_DECLINED);
       this.eventAlreadyJoined = false;
-      this.event.userCount--;
+      if(this.event.userCount != null){
+        this.event.userCount;
+      }else if(this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) != -1){
+        this.event.users.splice(this.event.users.indexOf(this.currentUser._id),1);
+      }
+
       this.getGenderCount();
       this.updated = true;
     }, error => {
@@ -366,16 +378,6 @@ export class EventDetailsPage {
     confirm.present();
   }
 
-  contains(a, obj) {
-    var i = a.length;
-    while (i--) {
-      if (a[i] === obj) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   changeColor() {
     this.favoriteClicked = true;
   }
@@ -419,5 +421,19 @@ export class EventDetailsPage {
         // Error!
         console.log("Share failed");
       });
+  }
+
+  getJoinedPercent(){
+    
+    if(this.event.userCount != null){
+      this.count = this.event.userCount;
+    }else if(this.event.users && this.event.users.length > 0){
+      this.count = this.event.users.length;
+    }else{
+      this.count = 0;
+    }
+    this.percent = this.count/this.event.quota*100;
+
+    return this.percent
   }
 }

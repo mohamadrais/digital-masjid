@@ -5,15 +5,18 @@
   Ionic pages and navigation.
 -->
 <ion-header class="mm-header">
-  <ion-toolbar>
-    <button *ngIf="isRoot" class="header-btn" ion-button menuToggle>
-      <ion-icon name="ios-menu-outline"></ion-icon>
-    </button>
-    <ion-title>
-        {{khariah}} Khariah 
-      <page-notification-bell></page-notification-bell>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start left>
+      <button *ngIf="!isRoot" ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" ngClass="back-btn"><span></span></ion-icon>
+      </button>
+      <button *ngIf="isRoot" class="header-btn" ion-button menuToggle>
+        <ion-icon name="ios-menu-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{kariah}} Kariah<page-notification-bell></page-notification-bell>
     </ion-title>
-  </ion-toolbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content>
@@ -21,7 +24,7 @@
     <ion-list ngClass="lang-container no-margin">
       <ion-item>
         <ion-label floating>Full Name</ion-label>
-        <ion-input [(ngModel)]="khariahUserFullName"></ion-input>
+        <ion-input [(ngModel)]="kariahUserFullName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 1</ion-label>
@@ -41,7 +44,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label floating>IC Number</ion-label>
-        <ion-input type="number" [(ngModel)]="khariahUserIcnumber"></ion-input>
+        <ion-input type="number" [(ngModel)]="kariahUserIcnumber"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Date of Birth</ion-label>
@@ -64,7 +67,7 @@
         <ion-input [(ngModel)]="occupation"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label (click)="addUpdatekhairatHeir(null)">Add Heirs
+        <ion-label (click)="addUpdatekariahHeir(null)">Add Heirs
           <button ngClass="lookup-icon">
 
             <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
@@ -74,12 +77,12 @@
         </ion-label>
       </ion-item>
 
-      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.khairatHeirs && this.khairatHeirs.length>0">
+      <ion-item [ngClass]="{'error':locationError}" *ngIf="this.kariahHeirs && this.kariahHeirs.length>0">
         <ion-label>
-          <div *ngIf="this.khairatHeirs && this.khairatHeirs.length>0">
-            <ion-chip ngClass="ustaz-chip" *ngFor="let k of khairatHeirs; let i = index">
-              <ion-label (click)="addUpdatekhairatHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
-              <button ion-button clear color="light" (click)="deletekhairatHeir(i)">
+          <div *ngIf="this.kariahHeirs && this.kariahHeirs.length>0">
+            <ion-chip ngClass="ustaz-chip" *ngFor="let k of kariahHeirs; let i = index">
+              <ion-label (click)="addUpdatekariahHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
+              <button ion-button clear color="light" (click)="deletekariahHeir(i)">
                 <ion-icon name="close-circle"></ion-icon>
               </button>
             </ion-chip>
@@ -92,13 +95,15 @@
         <ion-label>Electric Bill
           <button ngClass="lookup-icon">
 
-            <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera" (click)="takePhotograph()"></ion-icon>
+            <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera"
+              (click)="takePhotograph()"></ion-icon>
 
             <div class="button-effect"></div>
           </button>
           <button ngClass="lookup-icon">
 
-            <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image" (click)="selectImage()"></ion-icon>
+            <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image"
+              (click)="selectImage()"></ion-icon>
 
             <div class="button-effect"></div>
           </button>
@@ -124,8 +129,8 @@
   </ion-buttons>
   <ion-buttons>
     <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="pay()">Next</button> -->
-    <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="createKhairatUser()">Next</button> -->
+    <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="createKariahUser()">Next</button> -->
     <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="showConfirm()">{{(editMode)?'Update
-      Khariah Membership':'Create Khariah Membership'}}</button>
+      Kariah Membership':'Create Kariah Membership'}}</button>
   </ion-buttons>
 </ion-footer>

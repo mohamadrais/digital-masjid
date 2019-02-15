@@ -4,7 +4,7 @@ import { EventDetailsPage } from '../event-details/event-details';
 import { FeedbackPage } from '../feedback/feedback';
 import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
 import { InfaqPage } from '../infaq/infaq';
-import { KhairatPage } from '../khairat/khairat';
+import { KariahPage } from '../kariah/kariah';
 import { AskPage } from '../ask/ask';
 import { HttpService } from "../../app/service/http-service";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
@@ -99,8 +99,8 @@ export class MosquePage {
     const browser = this.iab.create('https://app.senangpay.my/payment/898154475783162');
     browser.show();
   }
-  khairatPage() {
-    this.navCtrl.push(KhairatPage, {
+  kariahPage() {
+    this.navCtrl.push(KariahPage, {
       "mosqueGooglePlaceId": (this.mosque._id) ? this.mosque._id : '',
       "mosqueTitle": (this.mosque.title) ? this.mosque.title : ''
     })

@@ -6,12 +6,12 @@ import { User } from '../models/User';
 import { MosqueEvent } from '../models/MosqueEvents';
 import { FeedBack } from '../models/FeedBack';
 import { Mosques } from '../models/Mosques';
-import { KhariahUser } from '../models/KhariahUser'
+import { KariahUser } from '../models/KariahUser'
 
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-    private BASE_URL:string = "http://159.65.140.100:8080/";
+	private BASE_URL:string = "http://159.65.140.100:8080/";
     
     constructor(public http: Http) {
 
@@ -404,32 +404,32 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public checkKhairatExist(icnumber: String, khairatMosqueGooglePlaceId: String): Observable<any> {
+    public checkKariahExist(icnumber: String, kariahMosqueGooglePlaceId: String): Observable<any> {
         var data = {
             "icnumber": icnumber,
-            "khairatMosqueGooglePlaceId": khairatMosqueGooglePlaceId
+            "kariahMosqueGooglePlaceId": kariahMosqueGooglePlaceId
         };
-        return this.http.post(this.BASE_URL + "khairatusers/checkexists", data)
+        return this.http.post(this.BASE_URL + "kariahusers/checkexists", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public getKhairatDetails(userId: String, khairatMosqueGooglePlaceId: String): Observable<any> {
+    public getKariahDetails(userId: String, kariahMosqueGooglePlaceId: String): Observable<any> {
         var data = {
             "userId": userId,
-            "khairatMosqueGooglePlaceId": khairatMosqueGooglePlaceId
+            "kariahMosqueGooglePlaceId": kariahMosqueGooglePlaceId
         };
-        return this.http.post(this.BASE_URL + "khairatusers/getkhairatdetails", data)
+        return this.http.post(this.BASE_URL + "kariahusers/getkariahdetails", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public getKhairatApprovals(userId: String, khairatMosqueGooglePlaceId: String): Observable<any> {
+    public getKariahApprovals(userId: String, kariahMosqueGooglePlaceId: String): Observable<any> {
         var data = {
             "userId": userId,
-            "khairatMosqueGooglePlaceId": khairatMosqueGooglePlaceId
+            "kariahMosqueGooglePlaceId": kariahMosqueGooglePlaceId
         };
-        return this.http.post(this.BASE_URL + "khairatusers/getkhairatapprovals", data)
+        return this.http.post(this.BASE_URL + "kariahusers/getkariahapprovals", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
@@ -498,46 +498,46 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public registerKhairatUser(newKhariahUser: KhariahUser): Observable<KhariahUser> {
+    public registerKariahUser(newKariahUser: KariahUser): Observable<KariahUser> {
         var data = {
-            "userId" : newKhariahUser.userId,
-            "khariahUserFullName" : newKhariahUser.khariahUserFullName,
-            "khariahUserIcnumber" : newKhariahUser.khariahUserIcnumber,
-            "addressLine1" : newKhariahUser.addressLine1,
-            "addressLine2" : newKhariahUser.addressLine2,
-            "postCode" : newKhariahUser.postCode,
-            "khariah" : newKhariahUser.khariah,
-            "maritalStatus" : newKhariahUser.maritalStatus,
-            "occupation" : newKhariahUser.occupation,
-            "khairatMosqueGooglePlaceId" : newKhariahUser.khairatMosqueGooglePlaceId,
-            "heirs" : newKhariahUser.heirs,
-            "billImage" : newKhariahUser.billImage
+            "userId" : newKariahUser.userId,
+            "kariahUserFullName" : newKariahUser.kariahUserFullName,
+            "kariahUserIcnumber" : newKariahUser.kariahUserIcnumber,
+            "addressLine1" : newKariahUser.addressLine1,
+            "addressLine2" : newKariahUser.addressLine2,
+            "postCode" : newKariahUser.postCode,
+            "kariah" : newKariahUser.kariah,
+            "maritalStatus" : newKariahUser.maritalStatus,
+            "occupation" : newKariahUser.occupation,
+            "kariahMosqueGooglePlaceId" : newKariahUser.kariahMosqueGooglePlaceId,
+            "heirs" : newKariahUser.heirs,
+            "billImage" : newKariahUser.billImage
         };
 
-        return this.http.post(this.BASE_URL + "khairatusers/register", data)
+        return this.http.post(this.BASE_URL + "kariahusers/register", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public updateKhairatUser(khariahUser: KhariahUser, updateFrom: string): Observable<any> {
+    public updateKariahUser(kariahUser: KariahUser, updateFrom: string): Observable<any> {
         var data = {
-            "_id" : khariahUser._id,
-            "userId" : khariahUser.userId,
-            "khariahUserFullName" : khariahUser.khariahUserFullName,
-            "khariahUserIcnumber" : khariahUser.khariahUserIcnumber,
-            "addressLine1" : khariahUser.addressLine1,
-            "addressLine2" : khariahUser.addressLine2,
-            "postCode" : khariahUser.postCode,
-            "khariah" : khariahUser.khariah,
-            "maritalStatus" : khariahUser.maritalStatus,
-            "occupation" : khariahUser.occupation,
-            "khairatMosqueGooglePlaceId" : khariahUser.khairatMosqueGooglePlaceId,
-            "heirs" : khariahUser.heirs,
-            "billImage" : khariahUser.billImage,
+            "_id" : kariahUser._id,
+            "userId" : kariahUser.userId,
+            "kariahUserFullName" : kariahUser.kariahUserFullName,
+            "kariahUserIcnumber" : kariahUser.kariahUserIcnumber,
+            "addressLine1" : kariahUser.addressLine1,
+            "addressLine2" : kariahUser.addressLine2,
+            "postCode" : kariahUser.postCode,
+            "kariah" : kariahUser.kariah,
+            "maritalStatus" : kariahUser.maritalStatus,
+            "occupation" : kariahUser.occupation,
+            "kariahMosqueGooglePlaceId" : kariahUser.kariahMosqueGooglePlaceId,
+            "heirs" : kariahUser.heirs,
+            "billImage" : kariahUser.billImage,
             "updateFrom" : updateFrom
         };
 
-        return this.http.post(this.BASE_URL + "khairatusers/update", data)
+        return this.http.post(this.BASE_URL + "kariahusers/update", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
@@ -607,6 +607,33 @@ export class HttpService {
             "mosqueGooglePlaceId": mosqueGooglePlaceId
         }
         return this.http.post(this.BASE_URL + "mosques/findMosque", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public getKariahMemberList(mosqueGooglePlaceId: String): Observable<any> {
+        var data = {
+            "mosqueGooglePlaceId": mosqueGooglePlaceId
+        }
+        return this.http.post(this.BASE_URL + "kariahusers/memberList", data)
+            .map((res: Response) => res.text())
+            .catch((error: any) => Observable.throw(error.text().error || 'Server error'));
+    }
+
+    public getParticipantList(eventId: String): Observable<Mosques> {
+        var data = {
+            "eventId": eventId
+        }
+        return this.http.post(this.BASE_URL + "events/participantsList", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public getAttendanceList(eventId: String): Observable<Mosques> {
+        var data = {
+            "eventId": eventId
+        }
+        return this.http.post(this.BASE_URL + "events/attendanceList", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }

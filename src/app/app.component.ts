@@ -20,8 +20,8 @@ import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
-import { KhairatListPage } from '../pages/khairat-list/khairat-list';
-import { KhairatPage } from '../pages/khairat/khairat';
+import { KariahListPage } from '../pages/kariah-list/kariah-list';
+import { KariahPage } from '../pages/kariah/kariah';
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { NotificationPage } from '../pages/notification/notification';
@@ -92,7 +92,7 @@ export class MyApp {
         { title: 'Settings', component: SettingsPage },
         { title: 'Feedback', component: FeedbackPage },
         { title: 'Bookmark', component: BookmarkPage },
-        { title: 'Khariah', component: KhairatPage },
+        { title: 'Kariah', component: KariahPage },
         { title: 'Market', component: MarketPage },
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
@@ -135,7 +135,7 @@ export class MyApp {
           { title: 'Qibla Finder', component: QiblaPage },
           { title: 'Settings', component: SettingsPage },
           { title: 'Feedback', component: FeedbackPage },
-          { title: 'Khariah List', component: KhairatListPage },
+          { title: 'Kariah List', component: KariahListPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -160,7 +160,7 @@ export class MyApp {
           { title: 'Settings', component: SettingsPage },
           { title: 'Feedback', component: FeedbackPage },
           { title: 'Bookmark', component: BookmarkPage },
-          { title: 'Khariah', component: KhairatPage },
+          { title: 'Kariah', component: KariahPage },
           { title: 'Market', component: MarketPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }

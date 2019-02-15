@@ -4,21 +4,21 @@ import { Observable } from 'rxjs/Rx';
 import { Device } from '@ionic-native/device';
 import { User } from '../models/User';
 import { AppConstants } from '../constants/app-constants';
-import { KhariahUser } from '../models/KhariahUser';
+import { KariahUser } from '../models/KariahUser';
 
 
 @Injectable()
 export class Globals {
   //Constants
   private readonly APP_USER = "APP_USER";
-  private readonly KHARIAH_USER = "KHARIAH_USER";
+  private readonly KARIAH_USER = "KARIAH_USER";
   private readonly GENERAL_SETTINGS = "GENERAL_SETTINGS";
   private readonly DATABASE_VERSION = "DATABASE_VERSION";
 
   public currentUser: User;
   public generalSettings: GeneralSettings;
   public currentDbVersion: number;
-  public khariahUser: KhariahUser;
+  public kariahUser: KariahUser;
 
   constructor(public storage: Storage, private device: Device) {
     this.currentUser = new User();
@@ -36,8 +36,8 @@ export class Globals {
         if (val) this.generalSettings = <GeneralSettings>val;
       });
 
-      this.storage.get(AppConstants.KHARIAH_USER).then((val) => {
-        if (val) this.khariahUser = <KhariahUser>val;
+      this.storage.get(AppConstants.KARIAH_USER).then((val) => {
+        if (val) this.kariahUser = <KariahUser>val;
       });
 
       this.storage.get(AppConstants.USER).then((val) => {
@@ -68,7 +68,7 @@ export class Globals {
   saveAllGlobals() {
     console.log("Saving all Globals");
     this.storage.set(this.APP_USER, this.currentUser);
-    this.storage.set(this.KHARIAH_USER, this.khariahUser);
+    this.storage.set(this.KARIAH_USER, this.kariahUser);
     this.storage.set(this.GENERAL_SETTINGS, this.generalSettings);
     this.storage.set(this.DATABASE_VERSION, this.currentDbVersion);
   }
@@ -78,13 +78,13 @@ export class Globals {
     this.storage.set(this.APP_USER, user);
   }
 
-  setKhariahUser(khariahUser:KhariahUser){
-    this.khariahUser = khariahUser;
-    this.storage.set(this.KHARIAH_USER, this.khariahUser);
+  setKariahUser(kariahUser:KariahUser){
+    this.kariahUser = kariahUser;
+    this.storage.set(this.KARIAH_USER, this.kariahUser);
   }
 
-  getKhariahUser(){
-    return this.khariahUser;
+  getKariahUser(){
+    return this.kariahUser;
   }
 
   setCurrentDbVersion(version: number) {
@@ -100,7 +100,7 @@ export class Globals {
 
     this.storage.remove(this.APP_USER);
     this.currentUser = new User();
-    this.khariahUser = new KhariahUser();
+    this.kariahUser = new KariahUser();
 
     this.storage.remove(this.GENERAL_SETTINGS);
     this.generalSettings = new GeneralSettings();

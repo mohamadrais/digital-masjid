@@ -76,7 +76,7 @@
       </div>
       <ion-row>
         <ion-col col-4 class="circle-container" *ngIf="event.quota!=0">
-          <circle-progress [percent]="event.userCount/event.quota*100">
+          <circle-progress [percent]="getJoinedPercent()">
           </circle-progress>
         </ion-col>
         <!-- <ion-col col-4 class="gender-join">

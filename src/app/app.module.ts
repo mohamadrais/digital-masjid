@@ -57,9 +57,9 @@ import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
-import { KhairatPage } from '../pages/khairat/khairat';
-import { KhairatListPage } from '../pages/khairat-list/khairat-list';
-import { KhairatOtherAccountPage } from '../pages/khairat-other-account/khairat-other-account';
+import { KariahPage } from '../pages/kariah/kariah';
+import { KariahListPage } from '../pages/kariah-list/kariah-list';
+import { KariahOtherAccountPage } from '../pages/kariah-other-account/kariah-other-account';
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
 import { ForgotPassword } from '../pages/forgot-password/forgotPassword';
@@ -95,9 +95,9 @@ import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
     SearchManagedMosquesPage,
     MarketPage,
     InfaqPage,
-    KhairatPage,
-    KhairatListPage,
-    KhairatOtherAccountPage,
+    KariahPage,
+    KariahListPage,
+    KariahOtherAccountPage,
     AskPage,
     BookmarkPage,
     NotificationPage,
@@ -159,9 +159,9 @@ import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
     SearchManagedMosquesPage,
     MarketPage,
     InfaqPage,
-    KhairatPage,
-    KhairatListPage,
-    KhairatOtherAccountPage,
+    KariahPage,
+    KariahListPage,
+    KariahOtherAccountPage,
     AskPage,
     BookmarkPage,
     NotificationPage,

@@ -3,7 +3,7 @@ export class AppConstants {
     public static USER_TYPE_USER = "USER";
     public static USER_TYPE_MODERATOR = "USTAZ";
     public static USER = "USER";
-    public static KHARIAH_USER = "KHARIAH_USER";
+    public static KARIAH_USER = "KARIAH_USER";
 
     public static NOTIFICATION_TYPE_EVENT_RESCHEDULE = "EventReschedule";
     public static NOTIFICATION_TYPE_EVENT_CANCEL = "EventCancel";
