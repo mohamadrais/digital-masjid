@@ -68,6 +68,7 @@ import { NotificationPage } from '../pages/notification/notification';
 import { SearchModeratorPage } from '../pages/search-moderator/search-moderator';
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
 import { NotificationBellPage } from '../pages/notification-bell/notification-bell';
+import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { NotificationBellPage } from '../pages/notification-bell/notification-be
     ProfilePage,
     UstazProfilePage,
     PopoverRatingPage,
+    PopoverMosqueRatingPage,
     AdminHomePage,
     FeedbackPage,
     FeedbackAltPage,
@@ -143,6 +145,7 @@ import { NotificationBellPage } from '../pages/notification-bell/notification-be
     CreateEventPage,
     UstazProfilePage,
     PopoverRatingPage,
+    PopoverMosqueRatingPage,
     ProfilePage,
     AdminHomePage,
     FeedbackPage,

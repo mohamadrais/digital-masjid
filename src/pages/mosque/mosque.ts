@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, PopoverController } from 'ionic-angular';
 import { EventDetailsPage } from '../event-details/event-details';
 import { FeedbackPage } from '../feedback/feedback';
 import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
@@ -11,6 +11,9 @@ import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { User } from "../../app/models/User";
 import { Mosques } from '../../app/models/Mosques';
 import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
+import { PopoverMosqueRatingPage } from './popover-mosque-rating';
+import { Globals } from "../../app/constants/globals";
+import { AppConstants } from "../../app/constants/app-constants";
 
 @Component({
   selector: 'page-mosque',
@@ -23,16 +26,37 @@ export class MosquePage {
   address: string = "";
   updated: string = "";
   mosque: Mosques;
-  constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform) {
+  avgMosqueRating: string = "0";
+  mosqueRatersCount: string = "0";
+  halfStar: number = 0;
+  fullStaryArray: Array<number> = [];
+  emptyStarArray: Array<number> = [];
+  userId: string = "";
+  userType: string = "";
+
+
+
+  constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform, public global: Globals, public popoverCtrl: PopoverController) {
     this.mosque = navParams.get('data');
-    this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
-      this.events = data;
+    this.getMosqueRating(this.mosque._id);
+    // mosque._id now equals google_place_id
+      
+    this.global.get(AppConstants.USER).then(data => {
       if (data) {
-        this.eventsSize = data.length;
+        this.userId = data._id;
+        this.userType = data.userType;
       }
-    }, error => {
-      console.log(error)
-    })
+    }).then(() => {
+      
+      this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
+        this.events = data;
+        if (data) {
+          this.eventsSize = data.length;
+        }
+      }, error => {
+        console.log(error)
+      });
+    });
   }
 
   eventdetailsPage(event: MosqueEvent, index) {
@@ -98,16 +122,75 @@ export class MosquePage {
     }
   }
 
+  getMosqueDetails(google_place_id: string) {
+    this.httpService.findMosque(google_place_id).subscribe(data => {
+      // console.log(JSON.stringify(data));
+      // this.mosque = data;
+      if (data) {
+        // this.mosque = data;
+        this.getMosqueRating(google_place_id);
+      }
+    }, error => {
+      console.log(error)
+    })
+  }
+
+  getMosqueRating(google_place_id) {
+    this.httpService.getMosqueAvgRating(google_place_id).subscribe(data => {
+      if (data.length > 0) {
+        this.fullStaryArray = [];
+        this.halfStar = 0;
+        this.emptyStarArray = [];
+        this.avgMosqueRating = data[0].avgMosqueRating;
+        this.mosqueRatersCount = data[0].mosqueRatersCount;
+        this.calculateStar(this.avgMosqueRating);
+      } else if (data.length == 0) {
+        this.emptyStarArray = [1, 1, 1, 1, 1];
+        this.avgMosqueRating = "0";
+        this.mosqueRatersCount = "0";
+      }
+    });
+  }
+
+  calculateStar(avgMosqueRating) {
+    if (avgMosqueRating && avgMosqueRating > 0) {
+      for (var i = 1; i <= Math.floor(parseFloat(avgMosqueRating)); i++) {
+        this.fullStaryArray.push(1);
+      };
+      if (parseFloat(avgMosqueRating) % 1 != 0) this.halfStar++;
+      for (var i = 1; i <= (5 - Math.ceil(parseFloat(avgMosqueRating))); i++) {
+        this.emptyStarArray.push(1);
+      };
+    } else {
+      this.emptyStarArray = [1, 1, 1, 1, 1];
+    }
+
+  }
+
+  popoverRating(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverMosqueRatingPage, { "userId": this.userId, "mosque": this.mosque,  }, { showBackdrop: true, cssClass: "popover-rating" });
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss(data => {
+      if (data) {
+        this.mosque = data.mosque;
+        this.getMosqueDetails(this.mosque._id);
+      }
+    })
+  }
+
+
   // openMap(url){
   //   let generatedUrl='https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque._id);
 
   //   if(url){
   //     generatedUrl = url
   //   }
-    
+
   //   const browser = this.iab.create(generatedUrl , '_self', 'location=yes');
   //   browser.show();
-    
+
   //   browser.on('loadstart').subscribe((ev: InAppBrowserEvent) => {
   //     if(ev.url.indexOf("http://intent://")!=-1){
   //       if(this.platform.is('android')){

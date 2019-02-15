@@ -38,18 +38,16 @@
       <div ngClass="seperator-h sm"></div>
       <div ngClass="profile-points">
         <ion-row ngClass="ustaz-profile">
-          <div ngClass="details-label">Ratings</div>
-          <div ngClass="profile-redeem">Rate This Mosque
+          <div ngClass="details-label">Overall Ratings</div>
+          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">Rate This Mosque
             <ion-icon name="ios-arrow-forward"></ion-icon>
           </div>
         </ion-row>
         <ion-row ngClass="rate-star">
-          <ion-icon name="md-star"></ion-icon>
-          <ion-icon name="md-star-half"></ion-icon>
-          <ion-icon name="md-star-outline"></ion-icon>
-          <ion-icon name="md-star-outline"></ion-icon>
-          <ion-icon name="md-star-outline"></ion-icon>
-          <label>(41)</label>
+            <ion-icon *ngFor="let fs of this.fullStaryArray" name="md-star"></ion-icon>
+            <ion-icon *ngIf="this.halfStar>0" name="md-star-half"></ion-icon>
+            <ion-icon *ngFor="let es of this.emptyStarArray" name="md-star-outline"></ion-icon>
+          <label>({{this.mosqueRatersCount}})</label>
         </ion-row>
       </div>
       <!-- <button ngClass="infaq-btn" (click)="infaqPage()">Tanya Ustaz</button>

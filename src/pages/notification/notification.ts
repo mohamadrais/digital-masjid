@@ -52,7 +52,7 @@ export class NotificationPage {
 
   getEventsToAttend(){
     this.httpService.getEventsToAttend(this.userId).subscribe(data=>{
-      if((data && data.length>0) || (data.status.toLowerCase() != "failure")){
+      if((data && data.length>0) || (data.status && data.status.toLowerCase() != "failure")){
         this.eventsToBeAttended = data; 
       }
     })
@@ -60,7 +60,7 @@ export class NotificationPage {
   
   getNotification(){
     this.httpService.notificationFindByUser(this.userId).subscribe(data =>{
-      if((data && data.length>0) || (data.status.toLowerCase() != "failure")){
+      if((data && data.length>0) || (data.status && data.status.toLowerCase() != "failure")){
 
         data.forEach((event:Notification = new Notification) => {
           if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){

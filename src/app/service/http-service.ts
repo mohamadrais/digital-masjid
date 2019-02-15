@@ -11,7 +11,7 @@ import { KhariahUser } from '../models/KhariahUser'
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-	private BASE_URL:string = "http://159.65.140.100:8080/";
+    private BASE_URL:string = "http://159.65.140.100:8080/";
     
     constructor(public http: Http) {
 
@@ -550,12 +550,63 @@ export class HttpService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+    
     public notificationReadUserNotification(userId: String, notificationId: String):Observable<any>{
         var data = {
             "userId":userId,
             "notificationId":notificationId
         }
         return this.http.post(this.BASE_URL + "notif/markReadUn", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public addMosqueRating(userId: String, mosqueGooglePlaceId: String, rating: number): Observable<any> {
+        var data = {
+            "userId": userId,
+            "mosqueGooglePlaceId": mosqueGooglePlaceId,
+            "rating": rating
+        }
+        return this.http.post(this.BASE_URL + "ratings/addMosqueRating", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public updateMosqueRating(userId: String, mosqueGooglePlaceId: String, rating: number): Observable<any> {
+        var data = {
+            "userId": userId,
+            "mosqueGooglePlaceId": mosqueGooglePlaceId,
+            "rating": rating
+        }
+        return this.http.post(this.BASE_URL + "ratings/updateMosqueRating", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public getMosqueRatingByUser(userId: String, mosqueGooglePlaceId: String): Observable<any> {
+        var data = {
+            "userId": userId,
+            "mosqueGooglePlaceId": mosqueGooglePlaceId
+        }
+        return this.http.post(this.BASE_URL + "ratings/getMosqueRatingByUser", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public getMosqueAvgRating(mosqueGooglePlaceId: String): Observable<any> {
+        var data = {
+            "mosqueGooglePlaceId": mosqueGooglePlaceId
+        }
+        return this.http.post(this.BASE_URL + "ratings/getMosqueAvgRating", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public findMosque(mosqueGooglePlaceId: String): Observable<Mosques> {
+        var data = {
+            "mosqueGooglePlaceId": mosqueGooglePlaceId
+        }
+        return this.http.post(this.BASE_URL + "mosques/findMosque", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
