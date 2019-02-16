@@ -22,7 +22,7 @@
       <ion-col col-8>
         <div ngClass="text-s right-text">
           <ion-icon ngClass="pin-icon" name="ios-pin-outline"></ion-icon>{{address}}</div>
-        <div ngClass="text-xs right-text">Updated 27/4 00:57
+        <div ngClass="text-xs right-text">Updated {{updated}}
           <ion-icon ngClass="refresh-icon" (click)="startMosqueList()" name="ios-refresh-outline"></ion-icon>
         </div>
       </ion-col>
@@ -76,7 +76,7 @@
             <ion-col col-2 col-md-1>
               <div ngClass="event-item-right">
                 <div ngClass="quota-total">{{mosque.active_events_no}}</div>
-                <div ngClass="quota-title">events</div>
+                <div ngClass="quota-title">active events</div>
               </div>
             </ion-col>
           </ion-row>

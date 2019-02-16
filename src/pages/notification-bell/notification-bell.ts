@@ -18,6 +18,7 @@ export class NotificationBellPage {
 
   userType;
   showButtonFlag;
+  bellCount = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public global:Globals, public events:Events) {
     this.showButtonFlag = (this.global.getUserType()==AppConstants.USER_TYPE_USER);
