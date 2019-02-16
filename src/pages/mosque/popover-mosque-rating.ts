@@ -31,7 +31,7 @@ export class PopoverMosqueRatingPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad ModeratorRating');
+        console.log('ionViewDidLoad PopoverMosqueRating');
     }
 
     close() {

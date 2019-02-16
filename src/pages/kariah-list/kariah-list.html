@@ -26,11 +26,11 @@
             <label>{{k.kariahUserFullName}}</label>
           </div>
           <div ngClass="item-dateloc">
-            <label>{{k.occupation}}</label>
+            <label>Address: {{k.addressLine1}}, {{k.addressLine2}}, {{k.postCode}}</label>
           </div>
           <div ngClass="item-dateloc">
-              <label>{{k.addressLine1}}, {{k.addressLine2}}, {{k.postCode}}</label>
-            </div>
+            <label>Occupation: {{k.occupation}}</label>
+          </div>
         </ion-col>
         <ion-col col-2 col-md-1>
 
@@ -38,9 +38,10 @@
           <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
 
           <!--If Not Joining Yet-->
-          <div ngClass="quota-total" *ngIf="k.heirs && k.heirs.length>0">{{k.heirs.length}}</div>
+          <!-- <div ngClass="quota-total" *ngIf="k.heirs && k.heirs.length>0">{{k.heirs.length}}</div>
           <div ngClass="quota-total" *ngIf="!k.heirs || k.heirs.length==0">0</div>
-          <div ngClass="quota-title">Heirs</div>
+          <div ngClass="quota-title">Heirs</div> -->
+          <div ngClass="quota-total">{{k.approvalStatus}}</div>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -51,9 +52,9 @@
 
   <!--Admin Role Button-->
   <ion-buttons>
-    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()"
-      [disabled]="!kariahs || kariahs.length==0">
-        <ion-icon ngClass="edit-icon" name="{{(!kariahs || kariahs.length==0)?'ios-alert-outline':'ios-download'}}"></ion-icon>{{(!kariahs || kariahs.length==0)? 'No Kariah Members' : 'Download as Excel File'}}
+    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()" [disabled]="!kariahs || kariahs.length==0">
+      <ion-icon ngClass="edit-icon" name="{{(!kariahs || kariahs.length==0)?'ios-alert-outline':'ios-download'}}"></ion-icon>{{(!kariahs
+      || kariahs.length==0)? 'No Kariah Members' : 'Download as Excel File'}}
     </button>
   </ion-buttons>
 </ion-footer>

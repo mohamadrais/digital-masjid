@@ -16,4 +16,7 @@ export class KariahUser {
         h_relation: string
     }>;
     billImage: string;
+    approvalStatus: string;
+    approvalComment: string;
+    approvalBy: string;
 }

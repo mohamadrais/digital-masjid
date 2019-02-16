@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpService } from "../../app/service/http-service";
 import { ImageProvider } from '../../providers/image/image';
@@ -10,6 +10,8 @@ import { KariahUser } from "../../app/models/KariahUser";
 import { HomePage } from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
 import { Camera } from '@ionic-native/camera';
+import { PopoverKariahApprovalPage } from './popover-kariah-approval';
+
 /**
  * Generated class for the KariahPage page.
  *
@@ -42,6 +44,10 @@ export class KariahPage {
   billName: any;
   billThumbnail: any; //Model for storing selected image value
   billImage: any; //Model for storing selected image value
+  approvalStatus: string;
+  approvalComment: string;
+  approvalBy: string; // adminId from admin_kariahMemberDetail
+  newApproverId: string;
 
   isAdmin;
   currentUserType;
@@ -50,7 +56,7 @@ export class KariahPage {
   kariahUser: KariahUser;
   isRoot=false;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
@@ -61,6 +67,7 @@ export class KariahPage {
           this.currentUserType = AppConstants.USER_TYPE_ADMIN;
           this.isAdmin = true;
           this.kariahUser = this.navParams.get("admin_kariahMemberDetail");
+          this.newApproverId = data._id;
           if (this.kariahUser) {
             this.initKariahUser();
             this.setEditMode(true);
@@ -105,6 +112,9 @@ export class KariahPage {
     this.kariahHeirs = this.kariahUser.heirs;
     this.billImage = this.kariahUser.billImage;
     this.billThumbnail = this.kariahUser.billImage.toString();
+    this.approvalStatus = this.kariahUser.approvalStatus;
+    this.approvalComment = this.kariahUser.approvalComment;
+    this.approvalBy = this.kariahUser.approvalBy;
   }
 
   getUserKariahOnline(userId) {
@@ -149,8 +159,11 @@ export class KariahPage {
     this.newKariahUser.maritalStatus = this.maritalStatus;
     this.newKariahUser.occupation = this.occupation;
     this.newKariahUser.kariahMosqueGooglePlaceId = this.mosqueGooglePlaceId;
-    this.newKariahUser.heirs = this.kariahHeirs;
+    this.newKariahUser.heirs = this.kariahHeirs.slice();
     this.newKariahUser.billImage = this.billImage;
+    this.newKariahUser.approvalStatus = this.approvalStatus;
+    this.newKariahUser.approvalComment = this.approvalComment;
+    this.newKariahUser.approvalBy = this.approvalBy;
   }
 
   createKariahUser() {
@@ -319,6 +332,70 @@ export class KariahPage {
       ]
     });
     confirm.present();
+  }
+
+  popupHeirDetails(heir) {
+    const viewHeir = this.alertCtrl.create({
+      title: heir.h_fullName,
+      message: 'IC number: ' + heir.h_icnumber + '<br/>Relation: ' + heir.h_relation,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            console.log('Ok clicked');
+          }
+        }
+      ]
+    });
+    viewHeir.present();
+  }
+
+  showApprovalConfirm(){
+    let mode = (this.editMode) ? 'update' : 'create';
+
+    const confirm = this.alertCtrl.create({
+      title: 'Do you wish to ' + mode + ' this membership?',
+      message: 'By clicking ' + mode + ', your membership will be ' + mode + 'd and Displayed.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: mode,
+          handler: () => {
+            console.log(mode + ' clicked');
+            (this.editMode) ? this.updateKariahUser() : this.createKariahUser();
+            this.global.set("KARIAH_USER", this.newKariahUser)
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  popoverKariahApproval(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverKariahApprovalPage, { 
+      "currentUserType": this.currentUserType, 
+      "newApproverId": this.newApproverId, 
+      "kariahUser": this.kariahUser,
+      "currentApprovalStatus": this.kariahUser.approvalStatus,
+      "currentApprovalComment": this.kariahUser.approvalComment,
+      "currentApprovalBy": this.kariahUser.approvalBy
+    }, { showBackdrop: true, cssClass: "popover-rating" });
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss(data => {
+      if (data) {
+        this.kariahUser = data.kariahUser;
+        this.approvalBy = data.newApproverId;
+        this.approvalComment = data.newApprovalComment;
+        this.approvalStatus = data.newApprovalStatus;
+      }
+    })
   }
 
   goBack() {

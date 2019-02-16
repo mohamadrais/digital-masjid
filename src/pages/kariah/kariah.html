@@ -27,7 +27,8 @@
           <div class="mosque-logo">
             <img class="no-list" src="assets/imgs/mosque.png">
           </div>
-          <h4>You have not registerd for Kariah Membership to any Mosque yet, click here to redirect to Home page for mosque list.
+          <h4>You have not registerd for Kariah Membership to any Mosque yet, click here to redirect to Home page for
+            mosque list.
           </h4>
         </button>
       </ion-col>
@@ -81,8 +82,8 @@
         <ion-input [(ngModel)]="occupation" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label (click)="addUpdatekariahHeir(null)" [hidden]="isAdmin">Add Heirs
-          <button ngClass="lookup-icon">
+        <ion-label (click)="addUpdatekariahHeir(null)">Heirs
+          <button ngClass="lookup-icon" [hidden]="isAdmin">
 
             <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
 
@@ -95,9 +96,9 @@
         <ion-label>
           <div *ngIf="this.kariahHeirs && this.kariahHeirs.length>0">
             <ion-chip ngClass="ustaz-chip" *ngFor="let k of kariahHeirs; let i = index">
-              <ion-label (click)="addUpdatekariahHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
-              <button ion-button clear color="light" (click)="deletekariahHeir(i)">
-                <ion-icon name="close-circle"  [hidden]="isAdmin"></ion-icon>
+              <ion-label (click)="(isAdmin)?popupHeirDetails(k):addUpdatekariahHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
+              <button ion-button clear color="light" (click)="deletekariahHeir(i)" [hidden]="isAdmin">
+                <ion-icon name="close-circle" ></ion-icon>
               </button>
             </ion-chip>
           </div>
@@ -109,15 +110,13 @@
         <ion-label>Electric Bill
           <button ngClass="lookup-icon" [hidden]="isAdmin">
 
-            <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera"
-              (click)="takePhotograph()"></ion-icon>
+            <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera" (click)="takePhotograph()"></ion-icon>
 
             <div class="button-effect"></div>
           </button>
           <button ngClass="lookup-icon" [hidden]="isAdmin">
 
-            <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image"
-              (click)="selectImage()"></ion-icon>
+            <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image" (click)="selectImage()"></ion-icon>
 
             <div class="button-effect"></div>
           </button>
@@ -125,6 +124,14 @@
       </ion-item>
       <ion-item *ngIf="billThumbnail">
         <img src="{{ billThumbnail }}" imageViewer>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Approval Status</ion-label>
+        <ion-input [(ngModel)]="approvalStatus" [readonly]="isAdmin"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Approval Comment</ion-label>
+        <ion-input [(ngModel)]="approvalComment" [readonly]="isAdmin"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -136,10 +143,7 @@
 
 <ion-footer [hidden]="isRoot && !kariah">
   <ion-buttons>
-    <button class="button button-primary rectangle" *ngIf="isAdmin">Approve</button>
-  </ion-buttons>
-  <ion-buttons>
-    <button class="button button-primary red rectangle" *ngIf="isAdmin">Reject</button>
+    <button class="button button-primary rectangle" *ngIf="isAdmin" (click)="popoverKariahApproval($event)">Update Approval</button>
   </ion-buttons>
   <ion-buttons>
     <!-- <button class="button button-primary rectangle" *ngIf="!isAdmin" (click)="pay()">Next</button> -->
