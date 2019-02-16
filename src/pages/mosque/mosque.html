@@ -39,14 +39,15 @@
       <div ngClass="profile-points">
         <ion-row ngClass="ustaz-profile">
           <div ngClass="details-label">Overall Ratings</div>
-          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">Rate This Mosque
+          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">
+            Rate This Mosque
             <ion-icon name="ios-arrow-forward"></ion-icon>
           </div>
         </ion-row>
         <ion-row ngClass="rate-star">
-            <ion-icon *ngFor="let fs of this.fullStaryArray" name="md-star"></ion-icon>
-            <ion-icon *ngIf="this.halfStar>0" name="md-star-half"></ion-icon>
-            <ion-icon *ngFor="let es of this.emptyStarArray" name="md-star-outline"></ion-icon>
+          <ion-icon *ngFor="let fs of this.fullStaryArray" name="md-star"></ion-icon>
+          <ion-icon *ngIf="this.halfStar>0" name="md-star-half"></ion-icon>
+          <ion-icon *ngFor="let es of this.emptyStarArray" name="md-star-outline"></ion-icon>
           <label>({{this.mosqueRatersCount}})</label>
         </ion-row>
       </div>
@@ -56,38 +57,41 @@
     </ion-row>
   </div>
   <ion-list>
-    <div ngClass="item-header">{{eventsSize}} upcoming events</div>
+    <div *ngFor="let event of events; let i = index">
+      <div ngClass="item-header">{{validateDateTime(event.event_start_date, event.event_end_date, i)}}</div>
 
-    <!-- Other Event Status -->
-    <!-- <div ngClass="item-header">Upcoming</div>
+      <!-- Other Event Status -->
+      <!-- <div ngClass="item-header">Upcoming</div>
     <div ngClass="item-header">Completed</div> -->
 
-    <ion-card ngClass="card-general" *ngFor="let event of events; let i = index" (click)="eventdetailsPage(event, i)">
-      <ion-item ngClass="events-list">
-        <ion-row>
-          <ion-col col-10 col-md-11>
-            <div ngClass="event-title">
-              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
-              <label>{{event.event_title}}</label>
-            </div>
-            <div ngClass="item-dateloc">
-              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
-                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
-            </div>
-          </ion-col>
-          <ion-col col-2 col-md-1>
+      <ion-card ngClass="card-general" (click)="eventdetailsPage(event, i)">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col col-10 col-md-11>
+              <div ngClass="event-title">
+                <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+                <label>{{event.event_title}}</label>
+              </div>
+              <div ngClass="item-dateloc">
+                <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} </label>
+              </div>
+            </ion-col>
+            <ion-col col-2 col-md-1>
 
-            <!--If Already Join-->
-            <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
+              <!--If Already Join-->
+              <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
 
-            <!--If Not Joining Yet-->
-            <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
-            <div ngClass="quota-total" *ngIf="event.quota==0"><ion-icon name="infinite"></ion-icon></div>
-            <div ngClass="quota-title">Seat Left</div>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-card>
+              <!--If Not Joining Yet-->
+              <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
+              <div ngClass="quota-total" *ngIf="event.quota==0">
+                <ion-icon name="infinite"></ion-icon>
+              </div>
+              <div ngClass="quota-title">Seat Left</div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </div>
     <!--ion-item ngClass="events-list" (click)="eventdetailsPage()">
       <ion-row>
         <label ngClass="event-title">Ceramah - Maulidur Rasul</label>
@@ -118,40 +122,41 @@
 
   <ion-fab bottom="" right="">
     <button color="light" ion-fab="" class="fab fab-ios fab-ios-light float-btn" style="transition: none 0s ease 0s;">
-      <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
-        class="button-inner">
-        <ion-icon name="arrow-dropup" role="img" class="icon icon-ios ion-ios-arrow-dropleft" aria-label="arrow dropleft"></ion-icon>
+      <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
+      </ion-icon><span class="button-inner">
+        <ion-icon name="arrow-dropup" role="img" class="icon icon-ios ion-ios-arrow-dropleft"
+          aria-label="arrow dropleft"></ion-icon>
       </span>
       <div class="button-effect"></div>
     </button>
     <ion-fab-list side="top" class="">
       <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="kariahPage()">
-        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
-          class="button-inner">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
+        </ion-icon><span class="button-inner">
           <ion-icon name="ios-sad-outline" role="img" class="icon" aria-label="logo infaq"></ion-icon>
         </span>
         <div class="button-effect"></div>
         <ion-label>Kariah</ion-label>
       </button>
       <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="feedbackAltPage()">
-        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
-          class="button-inner">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
+        </ion-icon><span class="button-inner">
           <ion-icon name="mail-open" role="img" class="icon" aria-label="logo feedback"></ion-icon>
         </span>
         <div class="button-effect"></div>
         <ion-label>Mosque Feedback</ion-label>
       </button>
       <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="askUstazPage()">
-        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
-          class="button-inner">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
+        </ion-icon><span class="button-inner">
           <ion-icon name="md-chatbubbles" role="img" class="icon" aria-label="logo tanya ustaz"></ion-icon>
         </span>
         <div class="button-effect"></div>
         <ion-label>Tanya Ustaz</ion-label>
       </button>
       <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="infaqPage()">
-        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close"></ion-icon><span
-          class="button-inner">
+        <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
+        </ion-icon><span class="button-inner">
           <ion-icon name="md-cash" role="img" class="icon" aria-label="logo infaq"></ion-icon>
         </span>
         <div class="button-effect"></div>

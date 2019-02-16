@@ -50,6 +50,7 @@ export class MosquePage {
       
       this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
         this.events = data;
+        this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
         if (data) {
           this.eventsSize = data.length;
         }
@@ -209,4 +210,43 @@ export class MosquePage {
   //     }
   //   });
   // }
+
+  validateDateTime(startDtm, endDtm, index){
+    let today = new Date().toISOString();
+
+    let firstEndDtm = endDtm;
+    let secondEndDtm = (index!= this.events.length-1)?this.events[index].event_end_date:'';
+
+    let firstDtmParts = firstEndDtm.split("T");
+    let firstEndDate = firstDtmParts[0];
+
+    let endDtmParts = secondEndDtm.split("T");
+    let secondEndDate = endDtmParts[0];
+
+    if(firstEndDtm){
+      firstDtmParts = firstEndDtm.split("T");
+      firstEndDate = firstDtmParts[0];
+    }
+    if(secondEndDtm){
+      endDtmParts = secondEndDtm.split("T");
+      secondEndDate = endDtmParts[0];
+    }
+    
+    if( (firstEndDate && secondEndDate) && (firstEndDate!=secondEndDate) || index==0){
+      return this.getCategoryLabel(today, startDtm, endDtm)
+    }
+    
+  }
+
+  getCategoryLabel(today, startDtm, endDtm){
+      if(startDtm <=today && today<endDtm){
+        return 'Active events';
+      }else if(startDtm > today){
+        return 'Upcoming events'
+      }else if(today > endDtm){
+        return 'History events'
+      }else{
+        return ''
+      }
+  }
 }
