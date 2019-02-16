@@ -55,7 +55,7 @@ export class CreateEventPage {
       this.eventId = this.event._id;
       this.event_title = this.event.event_title;
       // this.category = this.event.category;
-      this.ustaz = this.event.moderator_details;
+      this.ustaz = this.event.moderator_details.slice();
       this.mosque = this.event.mosque_details[0];
       this.points = this.event.points.toString();
       if (this.event.quota == null || this.event.quota == 0) {
@@ -117,8 +117,23 @@ export class CreateEventPage {
     })
   }
 
+  arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+  
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+
   deleteUstaz(i: number) {
-    this.ustaz.splice(i, 1)
+    // console.log("before deleteUstaz this.ustaz: "+ JSON.stringify(this.ustaz));
+    // console.log("before deleteUstaz this.event.moderator_details: "+ JSON.stringify(this.event.moderator_details));
+    this.ustaz.splice(i, 1);
+    // console.log("deleteUstaz this.ustaz: "+ JSON.stringify(this.ustaz));
+    // console.log("deleteUstaz this.event.moderator_details: "+ JSON.stringify(this.event.moderator_details));
   }
 
   createEvent() {
@@ -210,7 +225,9 @@ export class CreateEventPage {
       }
 
       // check if ustaz changed
-      if (this.ustaz != this.event.moderator_details) {
+      // console.log("this.ustaz: "+ JSON.stringify(this.ustaz));
+      // console.log("this.event.moderator_details: "+ JSON.stringify(this.event.moderator_details));
+      if (!(this.arraysEqual(this.ustaz, this.event.moderator_details))) {
         this.didUstazListChange = true;
       }
 
