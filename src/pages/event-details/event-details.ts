@@ -85,6 +85,9 @@ export class EventDetailsPage {
         if (!this.event) {
           this.event = data;
           if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
+            if (this.event.users.indexOf(data._id)!=-1) {
+              this.eventAlreadyJoined = true;
+            }
             if (this.currentUser.eventsBookmarked.indexOf(this.event._id)) {
               this.favoriteClicked = true;
             }
@@ -92,7 +95,6 @@ export class EventDetailsPage {
         } else {
           this.event.moderator_details = data.moderator_details;
           this.event.mosque_details = data.mosque_details;
-          this.eventAlreadyJoined = true;
         }
 
       })
