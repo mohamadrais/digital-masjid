@@ -436,4 +436,15 @@ export class EventDetailsPage {
 
     return this.percent
   }
+
+  validateEventExpired(endDtm){
+    let today = new Date().toISOString();
+    if(today>endDtm){
+      this.expiredEvent = true;
+      return true;
+    }else{
+      this.expiredEvent = false;
+      return false
+    }
+  }
 }
