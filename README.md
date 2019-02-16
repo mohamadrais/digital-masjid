@@ -10,11 +10,11 @@ npm install
 
 Then install the following dependencies / plugins before build:
 ```
-ionic cordova plugin add cordova-plugin-device
-npm install --save @ionic-native/device@4
+ionic cordova plugin add cordova-plugin-file-transfer
+npm install --save @ionic-native/file-transfer@4
 
-ionic cordova plugin add cordova-plugin-statusbar
-npm install --save @ionic-native/status-bar
+ionic cordova plugin add cordova-plugin-file
+npm install --save @ionic-native/file@4
 
 npm install --save ng-circle-progress@1.0.0
 ```

@@ -17,29 +17,29 @@ import { User } from "../../app/models/User";
 export class ParticipantsPage {
 
   eventId: string = "";
-  userList:Array<User> = [];
+  userList: Array<User> = [];
 
   isEventEnded = false;
-  eventEndDtm:String;
+  eventEndDtm: String;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController) {
     this.eventId = navParams.get('eventId');
     this.eventEndDtm = navParams.get('eventEndDtm');
 
     let today = new Date().toISOString();
-    if(today>=this.eventEndDtm){
+    if (today >= this.eventEndDtm) {
       this.isEventEnded = true;
     }
-    console.log("navParams.get('eventId'): "+navParams.get('eventId'));
-    console.log("this.eventId: "+this.eventId);
+    console.log("navParams.get('eventId'): " + navParams.get('eventId'));
+    console.log("this.eventId: " + this.eventId);
 
-    if(this.eventId){
+    if (this.eventId) {
       this.httpService.getParticipantsList(this.eventId).subscribe(data => {
-        if(data){
+        if (data) {
           this.userList = data[0].user_details;
         }
       }, error => {
-        console.log("Issue occured while get participants list: "+error);
+        console.log("Issue occured while get participants list: " + error);
       });
     }
   }
@@ -48,22 +48,24 @@ export class ParticipantsPage {
     console.log('ionViewDidLoad ParticipantsPage');
   }
 
-  downloadParticipantsList(){
+  downloadParticipantsList() {
     //to download csv file
-    this.httpService.downloadParticipantList(this.eventId).subscribe(res => {
-      if(res && res.status && res.status.toLowerCase() == "failure"){
-        this.failAlert();
-      }
-    });
+    this.httpService.downloadParticipantList(this.eventId);
+    // this.httpService.downloadParticipantList(this.eventId).subscribe(res => {
+    //   if(res && res.status && res.status.toLowerCase() == "failure"){
+    //     this.failAlert();
+    //   }
+    // });
   }
 
-  downloadAttendanceList(){
+  downloadAttendanceList() {
     //to download csv file
-    this.httpService.downloadAttendanceList(this.eventId).subscribe(res => {
-      if(res && res.status && res.status.toLowerCase() == "failure"){
-        this.failAlert();
-      }
-    });
+    this.httpService.downloadAttendanceList(this.eventId);
+    // this.httpService.downloadAttendanceList(this.eventId).subscribe(res => {
+    //   if(res && res.status && res.status.toLowerCase() == "failure"){
+    //     this.failAlert();
+    //   }
+    // });
   }
 
   failAlert() {

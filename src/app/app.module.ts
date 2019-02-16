@@ -69,6 +69,8 @@ import { SearchModeratorPage } from '../pages/search-moderator/search-moderator'
 import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search-managed-mosques';
 import { NotificationBellPage } from '../pages/notification-bell/notification-bell';
 import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -189,7 +191,10 @@ import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ImageProvider,
     FcmProvider,
-    Firebase
+    Firebase,
+    FileTransfer,
+    FileTransferObject,
+    File
   ]
 })
 export class AppModule {}

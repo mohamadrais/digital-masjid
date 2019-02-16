@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { HttpService } from "../../app/service/http-service";
-import { Globals} from "../../app/constants/globals";
+import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 /**
  * Generated class for the KariahPage page.
  *
@@ -17,17 +19,19 @@ import { AppConstants } from "../../app/constants/app-constants";
 })
 export class KariahListPage {
 
+  userId;
   userType;
   kariahs;
   isAdmin = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global:Globals, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global: Globals, public alertCtrl: AlertController, private diagnostic: Diagnostic, private iab: InAppBrowser) {
     this.global.get(AppConstants.USER).then(data => {
-      if( data){
+      if (data) {
+        this.userId = data._id;
         this.userType = data.userType;
-        if(data.userType === AppConstants.USER_TYPE_ADMIN){
+        if (data.userType === AppConstants.USER_TYPE_ADMIN) {
           //getListOfKariah_admin
           this.isAdmin = true;
-        } else if( data.userType === AppConstants.USER_TYPE_USER ) {
+        } else if (data.userType === AppConstants.USER_TYPE_USER) {
           //getListOfKariah_user
           this.getUserKariahList(data._id);
           this.isAdmin = false;
@@ -40,37 +44,50 @@ export class KariahListPage {
     console.log('ionViewDidLoad KariahListPage');
   }
 
-  getUserKariahList(userId){
-    this.httpService.getKariahDetails(userId, null).subscribe(data =>{
+  getUserKariahList(userId) {
+    this.httpService.getKariahDetails(userId, null).subscribe(data => {
       this.kariahs = data;
     });
   }
 
-  getAdminKariahList(){
+  getAdminKariahList() {
 
   }
-    
-  downloadKariahMembersList(){
-    //to download csv file
-    this.httpService.downloadKariahMemberList("ChIJb_FgVqO1zTERF5BtL8rX80M").subscribe(res => {
-      if(res && res.status && res.status.toLowerCase() == "failure"){
-        this.failAlert();
-      }
-    });
+
+
+
+  downloadKariahMembersList() {
+    this.httpService.downloadKariahMemberList(this.userId);
   }
 
-  failAlert() {
-    const confirm = this.alertCtrl.create({
-      title: 'Error occured',
-      message: 'Please try again later',
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-          }
+  //to download csv file
+  // console.log("this.userId: " + this.userId);
+  // this.diagnostic.requestExternalStorageAuthorization().then(() => {
+  //   this.httpService.downloadKariahMemberList(this.userId);
+  // }).catch(error => {
+  //   console.log("error: "+ error)
+  // });
+
+
+  // .subscribe(res => {
+  //   if(res && res.status && res.status.toLowerCase() == "failure"){
+  //     console.log("error during download: " + res.message);
+  //     this.failAlert();
+  //   }
+  // });
+
+failAlert() {
+  const confirm = this.alertCtrl.create({
+    title: 'Error occured',
+    message: 'Please try again later',
+    buttons: [
+      {
+        text: 'Ok',
+        handler: () => {
         }
-      ]
-    });
-    confirm.present();
-  }
+      }
+    ]
+  });
+  confirm.present();
+}
 }

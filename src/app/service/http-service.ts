@@ -7,13 +7,18 @@ import { MosqueEvent } from '../models/MosqueEvents';
 import { FeedBack } from '../models/FeedBack';
 import { Mosques } from '../models/Mosques';
 import { KariahUser } from '../models/KariahUser'
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/"; 
-	private BASE_URL:string = "http://159.65.140.100:8080/";
+	private BASE_URL:string = "http://192.168.0.106:8080/";
     
-    constructor(public http: Http) {
+    private fileTransfer: FileTransferObject;  
+
+    constructor(public http: Http, private transfer: FileTransfer, private file: File,  private iab: InAppBrowser) {
 
     }
 
@@ -611,14 +616,48 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public downloadKariahMemberList(mosqueGooglePlaceId: String): Observable<any> {
-        var data = {
-            "mosqueGooglePlaceId": mosqueGooglePlaceId
-        }
-        return this.http.post(this.BASE_URL + "kariahusers/memberList", data)
-            .map((res: Response) => res.text())
+    public downloadKariahMemberList(adminId: String) {  
+        let url = this.BASE_URL + "kariahusers/memberList/"+adminId;
+        this.iab.create(url, '_system');
+        
+    }
+
+    public downloadParticipantList(eventId: String){
+        let url = this.BASE_URL + "events/participantsList/"+eventId;
+        this.iab.create(url, '_system');
+    }
+
+    public downloadAttendanceList(eventId: String){
+        let url = this.BASE_URL + "events/attendanceList/"+eventId;
+        this.iab.create(url, '_system');
+    }
+
+    /*
+    public downloadKariahMemberList2(adminId: String): Observable<any> {
+        
+        return this.http.get(this.BASE_URL + "kariahusers/memberList/"+adminId)
+            .map((res: Response) => {
+                console.log("res from download");
+                console.log(JSON.stringify(res));
+            })
             .catch((error: any) => Observable.throw(error.text().error || 'Server error'));
     }
+
+    public downloadKariahMemberList3(adminId) {  
+        let url = encodeURI(this.BASE_URL + "kariahusers/memberList/"+adminId);  
+        let fileName = "kariah-member-list.csv";
+        this.fileTransfer = this.transfer.create();
+        console.log("url: " + url);
+        console.log("fileName: " + fileName);
+        console.log("filePath: " + this.file.externalRootDirectory + fileName);
+        
+        
+        this.fileTransfer.download(url, this.file.externalRootDirectory + fileName, true).then((entry) => {  
+            console.log('download completed: ' + entry.toURL());  
+        }, (error) => {  
+            console.log('download failed: ' + JSON.stringify(error));  
+        });  
+    } 
 
     public downloadParticipantList(eventId: String): Observable<any> {
         var data = {
@@ -637,4 +676,5 @@ export class HttpService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+    */
 }
