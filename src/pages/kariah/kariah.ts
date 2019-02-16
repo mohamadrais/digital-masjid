@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, Alert } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpService } from "../../app/service/http-service";
 import { ImageProvider } from '../../providers/image/image';
@@ -9,7 +9,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { KariahUser } from "../../app/models/KariahUser";
 import { HomePage } from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
-
+import { Camera } from '@ionic-native/camera';
 /**
  * Generated class for the KariahPage page.
  *
@@ -50,7 +50,7 @@ export class KariahPage {
   kariahUser: KariahUser;
   isRoot=false;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
@@ -227,6 +227,7 @@ export class KariahPage {
     * @return {None}
     */
   takePhotograph(): void {
+
     this._IMAGE
       .takePhotograph()
       .then((image) => {

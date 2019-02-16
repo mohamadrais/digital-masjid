@@ -71,6 +71,7 @@ import { NotificationBellPage } from '../pages/notification-bell/notification-be
 import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { File } from '@ionic-native/file';
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     FilterPipeModule,
+    IonicImageViewerModule,
     // Specify ng-circle-progress as an import
     NgCircleProgressModule.forRoot({
       // set defaults here
