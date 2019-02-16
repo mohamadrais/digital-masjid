@@ -20,7 +20,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-row ngClass="login-radio no-margin">
+  <div *ngIf="isRoot && !kariah">
+    <ion-row>
+      <ion-col>
+        <button ngClass="refresh-btn" (click)="homePage()">
+          <div class="mosque-logo">
+            <img class="no-list" src="assets/imgs/mosque.png">
+          </div>
+          <h4>You have not registerd for Kariah Membership to any Mosque yet, click here to redirect to Home page for mosque list.
+          </h4>
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-row ngClass="login-radio no-margin" [hidden]="isRoot && !kariah">
     <ion-list ngClass="lang-container no-margin">
       <ion-item>
         <ion-label floating>Full Name</ion-label>
@@ -120,7 +134,7 @@
   <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label> -->
 </ion-content>
 
-<ion-footer>
+<ion-footer [hidden]="isRoot && !kariah">
   <ion-buttons>
     <button class="button button-primary rectangle" *ngIf="isAdmin">Approve</button>
   </ion-buttons>
