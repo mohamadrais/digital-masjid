@@ -53,6 +53,7 @@ export class KariahListPage {
   }
 
   getAdminKariahList() {
+    // this.userId here refers to currently logged in admin's id
     this.httpService.getKariahUsersByAdminIdList(this.userId).subscribe(data => {
       this.kariahs = data;
     });

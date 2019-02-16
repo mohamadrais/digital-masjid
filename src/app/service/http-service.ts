@@ -14,11 +14,11 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/";
-    private BASE_URL:string = "http://159.65.140.100:8080/";
-    
-    private fileTransfer: FileTransferObject;  
+    private BASE_URL: string = "http://159.65.140.100:8080/";
 
-    constructor(public http: Http, private transfer: FileTransfer, private file: File,  private iab: InAppBrowser) {
+    private fileTransfer: FileTransferObject;
+
+    constructor(public http: Http, private transfer: FileTransfer, private file: File, private iab: InAppBrowser) {
 
     }
 
@@ -44,7 +44,7 @@ export class HttpService {
     }
 
     public getRegisteredMosquesById(mosqueIds: Array<String>): Observable<any> {
-        var data = { 
+        var data = {
             "google_place_ids": mosqueIds
         };
 
@@ -246,7 +246,7 @@ export class HttpService {
             "gender": user.gender,
             "mobile": user.mobile,
             "userType": user.userType,
-            "dob":  user.dob,
+            "dob": user.dob,
             "preferredMosque": user.preferredMosque,
             "createdTimestamp": user.createdTimestamp,
             "updatedTimestamp": user.updatedTimestamp,
@@ -269,7 +269,7 @@ export class HttpService {
                 "gender": user.gender,
                 "mobile": user.mobile,
                 "preferredMosque": user.preferredMosque,
-                "dob":  user.dob
+                "dob": user.dob
             };
         } else {
             data = {
@@ -279,7 +279,7 @@ export class HttpService {
                 "gender": user.gender,
                 "mobile": user.mobile,
                 "preferredMosque": user.preferredMosque,
-                "dob":  user.dob
+                "dob": user.dob
             };
         }
 
@@ -505,18 +505,18 @@ export class HttpService {
 
     public registerKariahUser(newKariahUser: KariahUser): Observable<KariahUser> {
         var data = {
-            "userId" : newKariahUser.userId,
-            "kariahUserFullName" : newKariahUser.kariahUserFullName,
-            "kariahUserIcnumber" : newKariahUser.kariahUserIcnumber,
-            "addressLine1" : newKariahUser.addressLine1,
-            "addressLine2" : newKariahUser.addressLine2,
-            "postCode" : newKariahUser.postCode,
-            "kariah" : newKariahUser.kariah,
-            "maritalStatus" : newKariahUser.maritalStatus,
-            "occupation" : newKariahUser.occupation,
-            "kariahMosqueGooglePlaceId" : newKariahUser.kariahMosqueGooglePlaceId,
-            "heirs" : newKariahUser.heirs,
-            "billImage" : newKariahUser.billImage
+            "userId": newKariahUser.userId,
+            "kariahUserFullName": newKariahUser.kariahUserFullName,
+            "kariahUserIcnumber": newKariahUser.kariahUserIcnumber,
+            "addressLine1": newKariahUser.addressLine1,
+            "addressLine2": newKariahUser.addressLine2,
+            "postCode": newKariahUser.postCode,
+            "kariah": newKariahUser.kariah,
+            "maritalStatus": newKariahUser.maritalStatus,
+            "occupation": newKariahUser.occupation,
+            "kariahMosqueGooglePlaceId": newKariahUser.kariahMosqueGooglePlaceId,
+            "heirs": newKariahUser.heirs,
+            "billImage": newKariahUser.billImage
         };
 
         return this.http.post(this.BASE_URL + "kariahusers/register", data)
@@ -526,20 +526,20 @@ export class HttpService {
 
     public updateKariahUser(kariahUser: KariahUser, updateFrom: string): Observable<any> {
         var data = {
-            "_id" : kariahUser._id,
-            "userId" : kariahUser.userId,
-            "kariahUserFullName" : kariahUser.kariahUserFullName,
-            "kariahUserIcnumber" : kariahUser.kariahUserIcnumber,
-            "addressLine1" : kariahUser.addressLine1,
-            "addressLine2" : kariahUser.addressLine2,
-            "postCode" : kariahUser.postCode,
-            "kariah" : kariahUser.kariah,
-            "maritalStatus" : kariahUser.maritalStatus,
-            "occupation" : kariahUser.occupation,
-            "kariahMosqueGooglePlaceId" : kariahUser.kariahMosqueGooglePlaceId,
-            "heirs" : kariahUser.heirs,
-            "billImage" : kariahUser.billImage,
-            "updateFrom" : updateFrom
+            "_id": kariahUser._id,
+            "userId": kariahUser.userId,
+            "kariahUserFullName": kariahUser.kariahUserFullName,
+            "kariahUserIcnumber": kariahUser.kariahUserIcnumber,
+            "addressLine1": kariahUser.addressLine1,
+            "addressLine2": kariahUser.addressLine2,
+            "postCode": kariahUser.postCode,
+            "kariah": kariahUser.kariah,
+            "maritalStatus": kariahUser.maritalStatus,
+            "occupation": kariahUser.occupation,
+            "kariahMosqueGooglePlaceId": kariahUser.kariahMosqueGooglePlaceId,
+            "heirs": kariahUser.heirs,
+            "billImage": kariahUser.billImage,
+            "updateFrom": updateFrom
         };
 
         return this.http.post(this.BASE_URL + "kariahusers/update", data)
@@ -547,19 +547,19 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public notificationFindByUser(userId: String):Observable<any>{
+    public notificationFindByUser(userId: String): Observable<any> {
         var data = {
-            "userId":userId
+            "userId": userId
         }
         return this.http.post(this.BASE_URL + "notif/findByUser", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
-    
-    public notificationReadUserNotification(userId: String, notificationId: String):Observable<any>{
+
+    public notificationReadUserNotification(userId: String, notificationId: String): Observable<any> {
         var data = {
-            "userId":userId,
-            "notificationId":notificationId
+            "userId": userId,
+            "notificationId": notificationId
         }
         return this.http.post(this.BASE_URL + "notif/markReadUn", data)
             .map((res: Response) => res.json())
@@ -616,19 +616,19 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public downloadKariahMemberList(adminId: String) {  
-        let url = this.BASE_URL + "kariahusers/memberList/"+adminId;
+    public downloadKariahMemberList(adminId: String) {
+        let url = this.BASE_URL + "kariahusers/memberList/" + adminId;
         this.iab.create(url, '_system');
-        
+
     }
 
-    public downloadParticipantList(eventId: String){
-        let url = this.BASE_URL + "events/participantsList/"+eventId;
+    public downloadParticipantList(eventId: String) {
+        let url = this.BASE_URL + "events/participantsList/" + eventId;
         this.iab.create(url, '_system');
     }
 
-    public downloadAttendanceList(eventId: String){
-        let url = this.BASE_URL + "events/attendanceList/"+eventId;
+    public downloadAttendanceList(eventId: String) {
+        let url = this.BASE_URL + "events/attendanceList/" + eventId;
         this.iab.create(url, '_system');
     }
 
@@ -640,6 +640,24 @@ export class HttpService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+    public updateKariahStatusByAdmin(updateFrom: string, kariahId: String, userId: String, kariah: String, approvalStatus: String, approvalComment: String, approvalBy: String): Observable<any> {
+        var data = {
+            "updateFrom": updateFrom, // should be current userType (ADMIN)
+            "kariahId": kariahId, // kariah objectId from db
+            "userId": userId, // userId for which kariah application is registered for
+            "kariah": kariah, // name of the mosque (kariah)
+            "approvalStatus": approvalStatus, // "Approved", "Rejected", "Pending"
+            "approvalComment": approvalComment, // required if Rejected
+            "approvalBy": approvalBy // should be current userId (ADMIN)
+        }
+        return this.http.post(this.BASE_URL + "kariahusers/update", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+
+
 
     /*
     public downloadKariahMemberList2(adminId: String): Observable<any> {
@@ -668,7 +686,7 @@ export class HttpService {
         });  
     } 
 
-    public downloadParticipantList(eventId: String): Observable<any> {
+    public downloadParticipantList2(eventId: String): Observable<any> {
         var data = {
             "eventId": eventId
         }
@@ -677,7 +695,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public downloadAttendanceList(eventId: String): Observable<any> {
+    public downloadAttendanceList2(eventId: String): Observable<any> {
         var data = {
             "eventId": eventId
         }
