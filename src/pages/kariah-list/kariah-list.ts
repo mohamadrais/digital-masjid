@@ -20,7 +20,7 @@ export class KariahListPage {
   userType;
   kariahs;
   isAdmin = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global:Globals, public alertCtrl: AlertController,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global:Globals, public alertCtrl: AlertController) {
     this.global.get(AppConstants.USER).then(data => {
       if( data){
         this.userType = data.userType;
@@ -52,7 +52,7 @@ export class KariahListPage {
     
   downloadKariahMembersList(){
     //to download csv file
-    this.httpService.getKariahMemberList("ChIJb_FgVqO1zTERF5BtL8rX80M").subscribe(res => {
+    this.httpService.downloadKariahMemberList("ChIJb_FgVqO1zTERF5BtL8rX80M").subscribe(res => {
       if(res && res.status && res.status.toLowerCase() == "failure"){
         this.failAlert();
       }

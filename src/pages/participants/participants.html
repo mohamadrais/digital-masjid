@@ -16,26 +16,42 @@
 <ion-content class="body-style">
   <ion-list>
     <ion-card ngClass="card-general">
-        <ion-item ngClass="mosque-list" *ngFor="let user of userList">
-            <ion-row>
-              <ion-col col-3 col-md-2>
-                <div class="profile-icon">
-                  <ion-icon name="ios-person"></ion-icon>
-                </div>
-              </ion-col>
-              <ion-col col-9 col-md-10>
-                <div ngClass="mosque-name">
-                  <label>{{ user && user.name }}</label>
-                </div>
-                <div ngClass="mosque-address">
-                  <label>{{ user && user.email }}</label>
-                </div>
-                <div ngClass="mosque-address">
-                  <label>{{ user && user.mobile }}</label>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-item>
+      <ion-item ngClass="mosque-list" *ngFor="let user of userList">
+        <ion-row>
+          <ion-col col-3 col-md-2>
+            <div class="profile-icon">
+              <ion-icon name="ios-person"></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col col-9 col-md-10>
+            <div ngClass="mosque-name">
+              <label>{{ user && user.name }}</label>
+            </div>
+            <div ngClass="mosque-address">
+              <label>{{ user && user.email }}</label>
+            </div>
+            <div ngClass="mosque-address">
+              <label>{{ user && user.mobile }}</label>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
     </ion-card>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+
+  <ion-buttons>
+    <button class="button button-primary rectangle" *ngIf="!isEventEnded" (click)="downloadParticipantsList()">
+      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Participants List
+    </button>
+  </ion-buttons>
+
+  <ion-buttons>
+    <button class="button button-primary rectangle" *ngIf="isEventEnded" (click)="downloadAttendanceList()">
+      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Attendance List
+    </button>
+  </ion-buttons>
+
+</ion-footer>

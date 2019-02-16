@@ -611,7 +611,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public getKariahMemberList(mosqueGooglePlaceId: String): Observable<any> {
+    public downloadKariahMemberList(mosqueGooglePlaceId: String): Observable<any> {
         var data = {
             "mosqueGooglePlaceId": mosqueGooglePlaceId
         }
@@ -620,7 +620,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.text().error || 'Server error'));
     }
 
-    public getParticipantList(eventId: String): Observable<Mosques> {
+    public downloadParticipantList(eventId: String): Observable<any> {
         var data = {
             "eventId": eventId
         }
@@ -629,7 +629,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public getAttendanceList(eventId: String): Observable<Mosques> {
+    public downloadAttendanceList(eventId: String): Observable<any> {
         var data = {
             "eventId": eventId
         }

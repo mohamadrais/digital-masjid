@@ -105,12 +105,12 @@
 </ion-content>
 
 <ion-footer *ngIf="!isAdmin && !isModerator && !this.expiredEvent">
-  <ion-buttons *ngIf="!eventAlreadyJoined && ((event.quota!=0 && event.quota>event.userCount) || event.quota==0)">
+  <ion-buttons *ngIf="!eventAlreadyJoined && ((event.quota!=0 && percent!=100) || event.quota==0)">
     <button class="button button-primary rectangle" (click)="showConfirm()">Join Now</button>
   </ion-buttons>
 
 
-  <ion-buttons *ngIf="!eventAlreadyJoined && (event.quota>0 && event.quota<=event.userCount)">
+  <ion-buttons *ngIf="!eventAlreadyJoined && (event.quota>0 && percent==100)">
       <button class="button button-primary rectangle">Sorry, this event is fully booked</button>
     </ion-buttons>
     

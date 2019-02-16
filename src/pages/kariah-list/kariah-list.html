@@ -5,50 +5,50 @@
   Ionic pages and navigation.
 -->
 <ion-header class="toolbar-mm">
-    <ion-toolbar>
-      <button class="header-btn" ion-button menuToggle>
-        <ion-icon name="ios-menu-outline"></ion-icon>
-      </button>
-      <ion-title>
-        Kariah List
-        <page-notification-bell></page-notification-bell>
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  
-  <ion-content padding>
-    <ion-card ngClass="card-general" *ngFor="let k of kariahs">
-      <ion-item ngClass="events-list">
-        <ion-row>
-          <ion-col col-10 col-md-11>
-              <div ngClass="event-title">
-                <label>{{k.kariahMosqueGooglePlaceId}}</label>
-              </div>
-              <div ngClass="item-dateloc">
-                <label>desc</label>
-              </div>
-          </ion-col>
-          <ion-col col-2 col-md-1>
-  
-            <!--If Already Join-->
-            <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
-  
-            <!--If Not Joining Yet-->
-              <div ngClass="quota-total">desc2</div>
-              <div ngClass="quota-title">desc3</div>
-          </ion-col>
-        </ion-row>
+  <ion-toolbar>
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>
+      Kariah List
+      <page-notification-bell></page-notification-bell>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card ngClass="card-general" *ngFor="let k of kariahs">
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-10 col-md-11>
+          <div ngClass="event-title">
+            <label>{{k.kariahMosqueGooglePlaceId}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>desc</label>
+          </div>
+        </ion-col>
+        <ion-col col-2 col-md-1>
+
+          <!--If Already Join-->
+          <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
+
+          <!--If Not Joining Yet-->
+          <div ngClass="quota-total">desc2</div>
+          <div ngClass="quota-title">desc3</div>
+        </ion-col>
+      </ion-row>
     </ion-item>
   </ion-card>
-  </ion-content>
+</ion-content>
 
-  <ion-footer *ngIf="isAdmin">
+<ion-footer *ngIf="isAdmin">
 
-      <!--Admin Role Button-->
-      <ion-buttons>
-        <button class="button button-primary rectangle" (click)="downloadKariahMembersList()">
-          <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download
-        </button>
-      </ion-buttons>
-    </ion-footer>
+  <!--Admin Role Button-->
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()">
+      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download
+    </button>
+  </ion-buttons>
+</ion-footer>
