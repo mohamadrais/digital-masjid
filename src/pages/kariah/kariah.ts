@@ -60,6 +60,11 @@ export class KariahPage {
         if (data.userType === AppConstants.USER_TYPE_ADMIN) {
           this.currentUserType = AppConstants.USER_TYPE_ADMIN;
           this.isAdmin = true;
+          this.kariahUser = this.navParams.get("admin_kariahMemberDetail");
+          if (this.kariahUser) {
+            this.initKariahUser();
+            this.setEditMode(true);
+          } 
         } else if (data.userType === AppConstants.USER_TYPE_USER) {
           //getListOfKariah_user
           this.userId = data._id;

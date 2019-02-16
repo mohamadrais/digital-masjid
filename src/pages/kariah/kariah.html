@@ -38,19 +38,19 @@
     <ion-list ngClass="lang-container no-margin">
       <ion-item>
         <ion-label floating>Full Name</ion-label>
-        <ion-input [(ngModel)]="kariahUserFullName"></ion-input>
+        <ion-input [(ngModel)]="kariahUserFullName" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 1</ion-label>
-        <ion-input [(ngModel)]="addressLine1"></ion-input>
+        <ion-input [(ngModel)]="addressLine1" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 2</ion-label>
-        <ion-input [(ngModel)]="addressLine2"></ion-input>
+        <ion-input [(ngModel)]="addressLine2" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Postcode</ion-label>
-        <ion-input type="number" [(ngModel)]="postCode"></ion-input>
+        <ion-input type="number" [(ngModel)]="postCode" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Kariah</ion-label>
@@ -58,7 +58,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label floating>IC Number</ion-label>
-        <ion-input type="number" [(ngModel)]="kariahUserIcnumber"></ion-input>
+        <ion-input type="number" [(ngModel)]="kariahUserIcnumber" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Date of Birth</ion-label>
@@ -70,7 +70,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label floating>Marital Status</ion-label>
-        <ion-select [(ngModel)]="maritalStatus">
+        <ion-select [(ngModel)]="maritalStatus" [disabled]="isAdmin">
           <ion-option value="single">Single</ion-option>
           <ion-option value="married">Married</ion-option>
           <ion-option value="divorce">Divorce</ion-option>
@@ -78,10 +78,10 @@
       </ion-item>
       <ion-item>
         <ion-label floating>Occupation</ion-label>
-        <ion-input [(ngModel)]="occupation"></ion-input>
+        <ion-input [(ngModel)]="occupation" [readonly]="isAdmin"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label (click)="addUpdatekariahHeir(null)">Add Heirs
+        <ion-label (click)="addUpdatekariahHeir(null)" [hidden]="isAdmin">Add Heirs
           <button ngClass="lookup-icon">
 
             <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
@@ -97,7 +97,7 @@
             <ion-chip ngClass="ustaz-chip" *ngFor="let k of kariahHeirs; let i = index">
               <ion-label (click)="addUpdatekariahHeir(i)">{{k.h_fullName}} ({{k.h_relation}})</ion-label>
               <button ion-button clear color="light" (click)="deletekariahHeir(i)">
-                <ion-icon name="close-circle"></ion-icon>
+                <ion-icon name="close-circle"  [hidden]="isAdmin"></ion-icon>
               </button>
             </ion-chip>
           </div>
@@ -107,14 +107,14 @@
 
       <ion-item>
         <ion-label>Electric Bill
-          <button ngClass="lookup-icon">
+          <button ngClass="lookup-icon" [hidden]="isAdmin">
 
             <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera"
               (click)="takePhotograph()"></ion-icon>
 
             <div class="button-effect"></div>
           </button>
-          <button ngClass="lookup-icon">
+          <button ngClass="lookup-icon" [hidden]="isAdmin">
 
             <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image"
               (click)="selectImage()"></ion-icon>

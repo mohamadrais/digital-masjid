@@ -632,6 +632,15 @@ export class HttpService {
         this.iab.create(url, '_system');
     }
 
+    public getKariahUsersByAdminIdList(adminId: String): Observable<any> {
+        var data = {
+            "adminId": adminId
+        }
+        return this.http.post(this.BASE_URL + "kariahusers/getKariahUsersByAdminId", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     /*
     public downloadKariahMemberList2(adminId: String): Observable<any> {
         

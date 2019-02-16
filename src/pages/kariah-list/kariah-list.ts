@@ -5,6 +5,7 @@ import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { KariahPage } from '../kariah/kariah';
 /**
  * Generated class for the KariahPage page.
  *
@@ -31,6 +32,7 @@ export class KariahListPage {
         if (data.userType === AppConstants.USER_TYPE_ADMIN) {
           //getListOfKariah_admin
           this.isAdmin = true;
+          this.getAdminKariahList();
         } else if (data.userType === AppConstants.USER_TYPE_USER) {
           //getListOfKariah_user
           this.getUserKariahList(data._id);
@@ -51,7 +53,9 @@ export class KariahListPage {
   }
 
   getAdminKariahList() {
-
+    this.httpService.getKariahUsersByAdminIdList(this.userId).subscribe(data => {
+      this.kariahs = data;
+    });
   }
 
 
@@ -76,18 +80,22 @@ export class KariahListPage {
   //   }
   // });
 
-failAlert() {
-  const confirm = this.alertCtrl.create({
-    title: 'Error occured',
-    message: 'Please try again later',
-    buttons: [
-      {
-        text: 'Ok',
-        handler: () => {
+  failAlert() {
+    const confirm = this.alertCtrl.create({
+      title: 'Error occured',
+      message: 'Please try again later',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+          }
         }
-      }
-    ]
-  });
-  confirm.present();
-}
+      ]
+    });
+    confirm.present();
+  }
+
+  openKariahDetail(kariahMember){
+    this.navCtrl.push(KariahPage,{"admin_kariahMemberDetail":kariahMember});
+  }
 }

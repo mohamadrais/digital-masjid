@@ -18,16 +18,19 @@
 
 
 <ion-content padding>
-  <ion-card ngClass="card-general" *ngFor="let k of kariahs">
+  <ion-card ngClass="card-general" *ngFor="let k of kariahs" (click)="openKariahDetail(k)">
     <ion-item ngClass="events-list">
       <ion-row>
         <ion-col col-10 col-md-11>
           <div ngClass="event-title">
-            <label>{{k.kariahMosqueGooglePlaceId}}</label>
+            <label>{{k.kariahUserFullName}}</label>
           </div>
           <div ngClass="item-dateloc">
-            <label>desc</label>
+            <label>{{k.occupation}}</label>
           </div>
+          <div ngClass="item-dateloc">
+              <label>{{k.addressLine1}}, {{k.addressLine2}}, {{k.postCode}}</label>
+            </div>
         </ion-col>
         <ion-col col-2 col-md-1>
 
@@ -35,8 +38,9 @@
           <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
 
           <!--If Not Joining Yet-->
-          <div ngClass="quota-total">desc2</div>
-          <div ngClass="quota-title">desc3</div>
+          <div ngClass="quota-total" *ngIf="k.heirs && k.heirs.length>0">{{k.heirs.length}}</div>
+          <div ngClass="quota-total" *ngIf="!k.heirs || k.heirs.length==0">0</div>
+          <div ngClass="quota-title">Heirs</div>
         </ion-col>
       </ion-row>
     </ion-item>
