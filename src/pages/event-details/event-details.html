@@ -112,7 +112,7 @@
 
 
   <ion-buttons *ngIf="!eventAlreadyJoined && (event.quota>0 && percent==100)">
-      <button class="button button-primary rectangle">Sorry, this event is fully booked</button>
+      <button class="button button-primary rectangle" [disabled]="true">Sorry, this event is fully booked</button>
     </ion-buttons>
     
   <!--Decline Button-->
