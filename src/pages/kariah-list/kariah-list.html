@@ -47,8 +47,9 @@
 
   <!--Admin Role Button-->
   <ion-buttons>
-    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()">
-      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download
+    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()"
+      [disabled]="!kariahs || kariahs.length==0">
+        <ion-icon ngClass="edit-icon" name="{{(!kariahs || kariahs.length==0)?'ios-alert-outline':'ios-download'}}"></ion-icon>{{(!kariahs || kariahs.length==0)? 'No Kariah Members' : 'Download as Excel File'}}
     </button>
   </ion-buttons>
 </ion-footer>

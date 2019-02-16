@@ -42,16 +42,24 @@
 
 <ion-footer>
 
-  <ion-buttons>
-    <button class="button button-primary rectangle" *ngIf="!isEventEnded" (click)="downloadParticipantsList()">
-      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Participants List
-    </button>
-  </ion-buttons>
+  <div *ngIf="userList && userList.length>0">
+    <ion-buttons>
+      <button class="button button-primary rectangle" *ngIf="!isEventEnded" (click)="downloadParticipantsList()">
+        <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Participants List
+      </button>
+    </ion-buttons>
 
-  <ion-buttons>
-    <button class="button button-primary rectangle" *ngIf="isEventEnded" (click)="downloadAttendanceList()">
-      <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Attendance List
-    </button>
-  </ion-buttons>
-
+    <ion-buttons>
+      <button class="button button-primary rectangle" *ngIf="isEventEnded" (click)="downloadAttendanceList()">
+        <ion-icon ngClass="edit-icon" name="ios-download"></ion-icon>Download Attendance List
+      </button>
+    </ion-buttons>
+  </div>
+  <div *ngIf="!userList || userList.length==0">
+    <ion-buttons>
+      <button class="button button-primary rectangle" [disabled]="true">
+        <ion-icon ngClass="edit-icon" name="ios-alert-outline"></ion-icon>No Participants
+      </button>
+    </ion-buttons>
+  </div>
 </ion-footer>
