@@ -41,8 +41,8 @@
         </ion-row>
         <ion-row ngClass="details-name-container">
           <div ngClass="event-icon-left">
-            <ion-icon ngClass="share-icon no-margin" name="md-share" (click)="shareEvent()"></ion-icon>
-            <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="!(isAdmin || isModerator)" name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
+            <ion-icon ngClass="share-icon no-margin" name="md-share" (click)="shareEvent()" *ngIf="!expiredEvent"></ion-icon>
+            <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="!(isAdmin || isModerator) && !expiredEvent " name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
             <ion-icon ngClass="like-icon red" name="md-close-circle" (click)="cancelEventConfirm()" *ngIf="isAdmin"></ion-icon><!-- admin will have cancel button -->
           </div>
           <div ngClass="event-details-right">
@@ -124,7 +124,7 @@
 
 <ion-footer *ngIf="expiredEvent">
 
-    <ion-buttons *ngIf="eventAlreadyJoined">
+    <ion-buttons>
         <button class="button button-primary rectangle" [disabled]="expiredEvent">This event has ended</button>
       </ion-buttons>
   

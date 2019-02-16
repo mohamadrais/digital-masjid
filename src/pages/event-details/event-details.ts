@@ -44,7 +44,7 @@ export class EventDetailsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
     public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController) {
-   
+
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
     let event_id = (this.event && this.event._id) ? this.event._id : this.navParams.get("eventId");
 
@@ -55,37 +55,37 @@ export class EventDetailsPage {
     }
 
     this.global.get("USER").then(data => {
-      if(data){
+      if (data) {
         this.currentUser = data;
-      if (this.event) {
-        if (this.event && this.event.users && this.event.users.length > 0) {
-          if (this.event.users.indexOf(data._id)!=-1) {
-            this.eventAlreadyJoined = true;
+        if (this.event) {
+          if (this.event && this.event.users && this.event.users.length > 0) {
+            if (this.event.users.indexOf(data._id) != -1) {
+              this.eventAlreadyJoined = true;
+            }
+          }
+          if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
+            if (this.currentUser.eventsBookmarked.indexOf(this.event._id) != -1) {
+              this.favoriteClicked = true;
+            }
           }
         }
-        if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-          if (this.currentUser.eventsBookmarked.indexOf(this.event._id)!=-1) {
-            this.favoriteClicked = true;
-          }
-        }
-      }
         if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
           this.isAdmin = true;
         } else if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_MODERATOR) {
           this.isModerator = true;
         }
       }
-      
+
     });
     if (!this.event || !this.event.moderator_details || !this.event.mosque_details || this.event.mosque_details.length <= 0 || this.event.moderator_details.length <= 0) {
-     
+
       this.httpService.findEventDetailsById(event_id).subscribe(data => {
 
         //do validation for event expiry
         if (!this.event) {
           this.event = data;
           if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-            if (this.event.users.indexOf(data._id)!=-1) {
+            if (this.event.users.indexOf(data._id) != -1) {
               this.eventAlreadyJoined = true;
             }
             if (this.currentUser.eventsBookmarked.indexOf(this.event._id)) {
@@ -202,9 +202,9 @@ export class EventDetailsPage {
     this.httpService.subscribeEvents(this.event, this.currentUser._id).subscribe(data => {
       this.presentToast(AppConstants.EVENT_JOINED);
       this.eventAlreadyJoined = true;
-      if(this.event.userCount != null){
+      if (this.event.userCount != null) {
         this.event.userCount++;
-      }else if(this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) == -1){
+      } else if (this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) == -1) {
         this.event.users.push(this.currentUser._id);
       }
 
@@ -220,10 +220,10 @@ export class EventDetailsPage {
     this.httpService.unSubscribeEvents(this.event, this.currentUser._id).subscribe(data => {
       this.presentToast(AppConstants.EVENT_DECLINED);
       this.eventAlreadyJoined = false;
-      if(this.event.userCount != null){
+      if (this.event.userCount != null) {
         this.event.userCount;
-      }else if(this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) != -1){
-        this.event.users.splice(this.event.users.indexOf(this.currentUser._id),1);
+      } else if (this.event.users && this.event.users.length > 0 && this.event.users.indexOf(this.currentUser._id) != -1) {
+        this.event.users.splice(this.event.users.indexOf(this.currentUser._id), 1);
       }
 
       this.getGenderCount();
@@ -407,13 +407,19 @@ export class EventDetailsPage {
 
     let mString = "";
 
-    for (let x = 0; x < this.event.moderator_details.length; x++) {
-      if (x < (this.event.moderator_details.length - 1)) {
-        mString += this.event.moderator_details[x].name + ", ";
-      } else {
-        mString += " and " + this.event.moderator_details[x].name;
+    if (this.event.moderator_details.length == 1) {
+      mString += this.event.moderator_details[0].name;
+    } else {
+      for (let x = 0; x < this.event.moderator_details.length; x++) {
+
+        if (x < (this.event.moderator_details.length - 1)) {
+          mString += this.event.moderator_details[x].name + ", ";
+        } else {
+          mString += " and " + this.event.moderator_details[x].name;
+        }
       }
     }
+
 
     this.socialSharing.share("Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title, "", "https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id). //temporary link. need to use place id or lat lng. this link may crash in ios 11
       then(() => {
@@ -425,26 +431,26 @@ export class EventDetailsPage {
       });
   }
 
-  getJoinedPercent(){
-    
-    if(this.event.userCount != null){
+  getJoinedPercent() {
+
+    if (this.event.userCount != null) {
       this.count = this.event.userCount;
-    }else if(this.event.users && this.event.users.length > 0){
+    } else if (this.event.users && this.event.users.length > 0) {
       this.count = this.event.users.length;
-    }else{
+    } else {
       this.count = 0;
     }
-    this.percent = this.count/this.event.quota*100;
+    this.percent = this.count / this.event.quota * 100;
 
     return this.percent
   }
 
-  validateEventExpired(endDtm){
+  validateEventExpired(endDtm) {
     let today = new Date().toISOString();
-    if(today>endDtm){
+    if (today > endDtm) {
       this.expiredEvent = true;
       return true;
-    }else{
+    } else {
       this.expiredEvent = false;
       return false
     }
