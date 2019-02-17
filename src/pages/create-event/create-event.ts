@@ -199,7 +199,7 @@ export class CreateEventPage {
     }
     this.event.event_start_date = this.event_start_date;
     this.event.event_end_date = this.event_end_date;
-    this.event.address = (this.mosque.google_place_id) ? this.mosque.google_place_id : this.mosque._id;
+    this.event.address = this.mosque.google_place_id;
     this.event.event_description = this.event_description;
     this.event.createdTimestamp = new Date().toISOString();
   }
