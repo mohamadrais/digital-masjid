@@ -92,7 +92,7 @@ export class ProfilePage {
   eventdetailsPage(event: MosqueEvent, isUpcoming, index) {
     if (isUpcoming) {
       this.navCtrl.push(EventDetailsPage, {
-        'data': event, "fromProfile": AppConstants.EVENT_UPCOMING,
+        'data': event, "fromUserFlow": true,
         callback: data => {
           if (!data.joined) {
             this.events_upcoming.splice(index,1);
@@ -100,7 +100,7 @@ export class ProfilePage {
         }
       });
     } else {
-      this.navCtrl.push(EventDetailsPage, { 'data': event, "fromProfile": AppConstants.EVENT_HISTORY });
+      this.navCtrl.push(EventDetailsPage, { 'data': event, "fromUserFlow": true });
     }
 
   }

@@ -175,7 +175,7 @@ export class NotificationPage {
   }
 
   read(eventNoti:Notification){
-    this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId});
+    this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId, "fromUserFlow":true});
     this.httpService.notificationReadUserNotification(this.userId, eventNoti._id).subscribe(res =>{
       if(res.status!="failure"){
         //do nothing yet. to be enhanced

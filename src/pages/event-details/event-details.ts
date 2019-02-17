@@ -35,6 +35,7 @@ export class EventDetailsPage {
   currentUser: User;
   updated: boolean = false;
   expiredEvent: boolean = false;
+  cancelledEvent:boolean = false;
 
   percent = 0;
   count = 0;
@@ -48,35 +49,33 @@ export class EventDetailsPage {
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
     let event_id = (this.event && this.event._id) ? this.event._id : this.navParams.get("eventId");
 
-    if (navParams.get('fromProfile') == AppConstants.EVENT_UPCOMING) {
+    if (navParams.get('fromUserFlow') == true) {
       this.eventAlreadyJoined = true;
-    } else if (navParams.get('fromProfile') == AppConstants.EVENT_HISTORY) {
-      this.expiredEvent = true;
     }
 
-    this.global.get("USER").then(data => {
-      if (data) {
-        this.currentUser = data;
-        if (this.event) {
-          if (this.event && this.event.users && this.event.users.length > 0) {
-            if (this.event.users.indexOf(data._id) != -1) {
-              this.eventAlreadyJoined = true;
-            }
-          }
-          if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-            if (this.currentUser.eventsBookmarked.indexOf(this.event._id) != -1) {
-              this.favoriteClicked = true;
-            }
-          }
+    this.currentUser = this.global.getUser();
+    if (this.event) {
+      if (this.event && this.event.users && this.event.users.length > 0) {
+        if (!this.eventAlreadyJoined && this.event.users.indexOf(this.currentUser._id) != -1) {
+          this.eventAlreadyJoined = true;
         }
-        if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
-          this.isAdmin = true;
-        } else if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_MODERATOR) {
-          this.isModerator = true;
+      }
+      if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
+        if (this.currentUser.eventsBookmarked.indexOf(this.event._id) != -1) {
+          this.favoriteClicked = true;
         }
       }
 
-    });
+      if(this.event.event_status && this.event.event_status=="Cancelled"){
+        this.cancelledEvent = true;
+      }
+    }
+    if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+      this.isAdmin = true;
+    } else if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_MODERATOR) {
+      this.isModerator = true;
+    }
+
     if (!this.event || !this.event.moderator_details || !this.event.mosque_details || this.event.mosque_details.length <= 0 || this.event.moderator_details.length <= 0) {
 
       this.httpService.findEventDetailsById(event_id).subscribe(data => {
@@ -85,16 +84,24 @@ export class EventDetailsPage {
         if (!this.event) {
           this.event = data;
           if (this.currentUser.eventsBookmarked && this.currentUser.eventsBookmarked.length > 0) {
-            if (this.event.users.indexOf(data._id) != -1) {
+            if (!this.eventAlreadyJoined && this.event.users.indexOf(data._id) != -1) {
               this.eventAlreadyJoined = true;
             }
             if (this.currentUser.eventsBookmarked.indexOf(this.event._id)) {
               this.favoriteClicked = true;
             }
           }
+
+          if(this.event.event_status && this.event.event_status=="Cancelled"){
+            this.cancelledEvent = true;
+          }
         } else {
           this.event.moderator_details = data.moderator_details;
           this.event.mosque_details = data.mosque_details;
+
+          if(this.event.event_status && this.event.event_status=="Cancelled"){
+            this.cancelledEvent = true;
+          }
         }
 
       })
@@ -445,14 +452,19 @@ export class EventDetailsPage {
     return this.percent
   }
 
-  validateEventExpired(endDtm) {
+  validateEventExpired() {
     let today = new Date().toISOString();
-    if (today > endDtm) {
-      this.expiredEvent = true;
-      return true;
-    } else {
-      this.expiredEvent = false;
-      return false
+    if (this.event && this.event.event_end_date) {
+      if (today > this.event.event_end_date) {
+        this.expiredEvent = true;
+        return true;
+      } else {
+        this.expiredEvent = false;
+        return false
+      }
+    }else{
+      return false;
     }
+
   }
 }
