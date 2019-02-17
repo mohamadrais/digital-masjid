@@ -1,33 +1,27 @@
 <ion-content>
-    <div style="width:1.5rem;height:1.5rem;border-radius:50%;right:0px;background:#fff;color:#a0a0a0; position:absolute;z-index:999999; text-align:center"
-        (click)="close()">
-        <ion-icon name="close"></ion-icon>
-    </div>
-    <div ngClass="details-header">
+    <ion-icon name="close-circle" ngClass="close-popover"></ion-icon>
+    <div ngClass="">
         <ion-row ngClass="dp-container">
             <ion-item [ngClass]="{'error':titleError}">
-                <ion-label floating>Cuurent Approval Status</ion-label>
+                <ion-label stacked>Current Approval Status</ion-label>
                 <ion-input [(ngModel)]="currentApprovalStatus" [readonly]="true"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating *ngIf="currentApprovalStatus!='Pending' ">Current Approval Comment</ion-label>
-                <ion-input [(ngModel)]="currentApprovalComment" [readonly]="true" *ngIf="currentApprovalStatus!='Pending' "></ion-input>
+                <ion-label stacked>New Approval Comment</ion-label>
+                <ion-textarea ngClass="" [(ngModel)]="newApprovalComment"></ion-textarea>
             </ion-item>
             <ion-item>
-                <ion-label floating>New Approval Comment</ion-label>
-                <ion-textarea ngClass="tm-textarea" [(ngModel)]="newApprovalComment"></ion-textarea>
+                <ion-label stacked *ngIf="currentApprovalStatus!='Pending' ">Current Approval Comment</ion-label>
+                <ion-input [(ngModel)]="currentApprovalComment" [readonly]="true" *ngIf="currentApprovalStatus!='Pending' "></ion-input>
             </ion-item>
         </ion-row>
     </div>
-</ion-content>
-<ion-footer>
-    <ion-buttons>
-        <ion-buttons *ngIf="currentApprovalStatus=='Pending' || currentApprovalStatus=='Rejected' ">
-            <button class="button button-primary rectangle" (click)="sendApprovalUpdate('Approved')">Approve</button>
-        </ion-buttons>
-        <ion-buttons *ngIf="currentApprovalStatus=='Pending' || currentApprovalStatus=='Approved' ">
+    <ion-row>
+        <ion-buttons *ngIf="currentApprovalStatus=='Pending' || currentApprovalStatus=='Approved' " ngClass="width-half">
             <button class="button button-primary red rectangle" (click)="sendApprovalUpdate('Rejected')">Reject</button>
         </ion-buttons>
-        <button class="button button-secondary rectangle" (click)="close()">Cancel</button>
-    </ion-buttons>
-</ion-footer>
+        <ion-buttons *ngIf="currentApprovalStatus=='Pending' || currentApprovalStatus=='Rejected' " ngClass="width-half">
+            <button class="button button-primary rectangle" (click)="sendApprovalUpdate('Approved')">Approve</button>
+        </ion-buttons>
+    </ion-row>
+</ion-content>

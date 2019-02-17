@@ -16,8 +16,26 @@
 // automatically applied to the <body> element in the app.
 
 /*Override Ionic*/
+.primary-color{
+  background: #6563A4;
+}
+.success-color{
+  background: #0FDB60;
+}
+.danger-color{
+  background: #F04141;
+}
+.warning-color{
+  background: #FECD00;
+}
 ion-toast.top-toast{
     margin-top:50px !important;
+}
+ion-buttons{
+  margin: 0px;
+}
+.width-half{
+  width: 50%;
 }
 .mt-1{
   margin-top: 5px;
@@ -39,6 +57,9 @@ ion-toast.top-toast{
 }
 .ml-auto{
   margin-left: auto;
+}
+.pull-right{
+  float:right;
 }
 .back-btn{
   color: #fff;
@@ -413,6 +434,8 @@ ion-fab{
 .details-name-container{
   text-align: left;
   margin-top: 2rem;
+  width: 100%;
+  z-index: 2;
 }
 .details-name{
   font-size: 2.5rem;
@@ -424,6 +447,7 @@ ion-fab{
   font-size: 1.5rem;
   font-weight: 100;
   width: 100%;
+  z-index: 2;
 }
 .details-location{
   font-size: 2.5rem;
@@ -463,6 +487,7 @@ ion-fab{
 .details-label{
   font-size: 1.2rem;
   width: 100%;
+  z-index: 2;
 }
 .details-label.map{
   text-align: right;
@@ -567,6 +592,8 @@ ion-fab{
   padding: 2rem 2rem;
   display: block;
   position: relative;
+  background-size: cover;
+  background-image: url(../assets/imgs/event.jpg);
 }
 .home-header{
   height: auto;
@@ -904,9 +931,7 @@ button.noti-icon{
   font-weight: 100;
 }
 .event-details-right{
-  position: absolute;
-  float: right;
-  right: 35px;
+  margin-left: auto;
   line-height: 3rem;
 }
 .event-details-right.pts-container{
@@ -983,6 +1008,7 @@ button.noti-icon{
 .chip-md{
   line-height: 35px;
   color: #fff;
+  background: rgba(101, 99, 164, 0.71);
 }
 .lookup-icon{
   float: right;
@@ -1135,6 +1161,14 @@ ion-popover {
 }
 .edited{
   font-weight: bold;
+}
+.close-popover{
+  right:0px;
+  background:#fff;
+  color:#a0a0a0;
+  position:absolute;
+  z-index:999999;
+  font-size: 2.5rem;
 }
 /*------------Mobile Landscape-------------*/
 @media only screen

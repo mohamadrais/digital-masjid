@@ -21,9 +21,15 @@
   <ion-card ngClass="card-general" *ngFor="let k of kariahs" (click)="openKariahDetail(k)">
     <ion-item ngClass="events-list">
       <ion-row>
-        <ion-col col-10 col-md-11>
+        <ion-col col-12>
           <div ngClass="event-title">
             <label>{{k.kariahUserFullName}}</label>
+            <!-- For Pending Badge -->
+            <ion-badge ngClass="pull-right warning-color">{{k.approvalStatus}}</ion-badge>
+            <!-- For Approve Badge -->
+            <!-- <ion-badge ngClass="pull-right success-color">{{k.approvalStatus}}</ion-badge> -->
+            <!-- For Fail Badge -->
+            <!-- <ion-badge ngClass="pull-right danger-color">{{k.approvalStatus}}</ion-badge> -->
           </div>
           <div ngClass="item-dateloc">
             <label>Address: {{k.addressLine1}}, {{k.addressLine2}}, {{k.postCode}}</label>
@@ -31,17 +37,6 @@
           <div ngClass="item-dateloc">
             <label>Occupation: {{k.occupation}}</label>
           </div>
-        </ion-col>
-        <ion-col col-2 col-md-1>
-
-          <!--If Already Join-->
-          <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
-
-          <!--If Not Joining Yet-->
-          <!-- <div ngClass="quota-total" *ngIf="k.heirs && k.heirs.length>0">{{k.heirs.length}}</div>
-          <div ngClass="quota-total" *ngIf="!k.heirs || k.heirs.length==0">0</div>
-          <div ngClass="quota-title">Heirs</div> -->
-          <div ngClass="quota-total">{{k.approvalStatus}}</div>
         </ion-col>
       </ion-row>
     </ion-item>
