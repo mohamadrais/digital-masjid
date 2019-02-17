@@ -43,6 +43,9 @@ ion-buttons{
 .mb-1{
   margin-bottom: 5px;
 }
+.mb-2{
+  margin-bottom: 10px;
+}
 .mt-2{
   margin-top: 25px;
 }
@@ -754,12 +757,18 @@ ion-fab{
 .refresh-btn{
   background: transparent;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 .refresh-btn h4{
   font-weight: 200;
-  color: #dedede;
+  color: #999;
   margin: unset;
+}
+.refresh-btn h2{
+  color: #999;
+}
+.refresh-btn h6{
+  color: #999;
 }
 .refresh-icon{
   font-size: 1.5rem;
@@ -1147,12 +1156,11 @@ ion-popover {
   width: 100%;
   padding: 7px;
 }
-.padlock{
-  background-image: url("../assets/imgs/padlock.png");
-  width: 100px;
-  height: 100px;
+.empty-bg{
+  width: auto !important;
+  height: 150px !important;
   margin: auto;
-  background-size: cover;
+  opacity: 0.7;
 }
 .status-label{
   color: #d40511;
@@ -1169,6 +1177,15 @@ ion-popover {
   position:absolute;
   z-index:999999;
   font-size: 2.5rem;
+}
+.empty-list{
+  margin-top: 70px;
+}
+.empty-list h6{
+  color: #999;
+}
+.empty-list h2{
+  color: #999;
 }
 /*------------Mobile Landscape-------------*/
 @media only screen

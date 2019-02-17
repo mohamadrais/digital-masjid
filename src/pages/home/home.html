@@ -48,8 +48,10 @@
     <ion-row>
       <ion-col *ngIf="!this.mosques || this.mosques.length==0" (click)="startMosqueList()">
           <button ngClass="refresh-btn">
-              <ion-icon ngClass="refresh-icon big" name="ios-refresh-outline"></ion-icon>
-              <h4>Tap to refresh list</h4>
+              <!-- <ion-icon ngClass="refresh-icon big" name="ios-refresh-outline"></ion-icon> -->
+              <img ngClass="empty-bg" src="assets/imgs/mosque-2.png">
+              <h2>Unable To Fetch Data</h2>
+              <h6>Tap To Refresh List</h6>
           </button>
       </ion-col>
       

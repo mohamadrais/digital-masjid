@@ -30,6 +30,11 @@
 
 <ion-slides #slides ngClass="body-style" (ionSlideWillChange)="segment=''+slides.getActiveIndex();" (ionSlideDidChange)="segment = (slides.getActiveIndex()>=2)? '2' : ''+slides.getActiveIndex();">
   <ion-slide>
+      <div ngClass="empty-list">
+        <img ngClass="empty-bg" src="assets/imgs/tasbih.png">
+        <h2>No Notification</h2>
+        <h6>There Is No Notification For Now</h6>
+      </div>
       <ion-list>
           <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index" [hidden]="!(validateDateTime(e._id,e.event_start_date, e.event_end_date))">
             <ion-item ngClass="events-list">

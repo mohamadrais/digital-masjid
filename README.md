@@ -30,3 +30,7 @@ If build fail, you can try to remove/add platform before building again:
 ionic cordova platform rm android
 ionic cordova platform add android
 ```
+
+Prod release command
+```
+ionic cordova build --prod --aot --release android
