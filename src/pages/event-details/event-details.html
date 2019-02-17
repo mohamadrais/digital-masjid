@@ -104,7 +104,7 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="!isAdmin && !isModerator" [hidden]="(validateEventExpired(event.event_end_date))">
+<ion-footer *ngIf="!isAdmin && !isModerator && !cancelledEvent" [hidden]="(validateEventExpired())">
 
   <ion-buttons *ngIf="!eventAlreadyJoined && ((event.quota!=0 && percent!=100) || event.quota==0)">
     <button class="button button-primary rectangle" (click)="showConfirm()">Join Now</button>
@@ -122,10 +122,10 @@
 
 </ion-footer>
 
-<ion-footer *ngIf="expiredEvent">
+<ion-footer *ngIf="expiredEvent || cancelledEvent">
 
     <ion-buttons>
-        <button class="button button-primary rectangle" [disabled]="expiredEvent">This event has ended</button>
+        <button class="button button-primary rectangle" [disabled]="expiredEvent || cancelledEvent">{{(cancelledEvent)?"This event is cancelled" : "This event has ended"}}</button>
       </ion-buttons>
   
 </ion-footer>

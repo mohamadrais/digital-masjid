@@ -61,7 +61,7 @@
           <ion-row>
             <ion-col>
               <div ngClass="event-title" [ngClass]="{'new': (noti.readFlag=='N')}">
-                <label>{{noti.title}}</label><ion-badge *ngIf="noti.readFlag=='N'" color="danger">New</ion-badge>
+                <label>{{noti.title}}</label><ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
               </div>
               <!-- <label ngClass="status-label">Postponed to</label> -->
               <div ngClass="item-dateloc">
@@ -82,7 +82,7 @@
           <ion-row>
             <ion-col>
               <div ngClass="event-title" [ngClass]="{'new': (noti.readFlag=='N')}">
-                <label>{{noti.title}}</label><ion-badge *ngIf="noti.readFlag=='N'" color="danger">New</ion-badge>
+                <label>{{noti.title}}</label><ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
               </div>
               <!-- <label ngClass="status-label">{{noti.content}}</label> -->
             </ion-col>

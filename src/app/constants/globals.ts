@@ -139,6 +139,13 @@ export class Globals {
   }
 
   /**
+   * Get user object.
+   */
+  getUser() {
+    return this.currentUser;
+  }
+
+  /**
    * Set login user name.
    */
   setUserName(name: string) {

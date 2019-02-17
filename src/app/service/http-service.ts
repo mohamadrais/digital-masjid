@@ -14,7 +14,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/";
-    private BASE_URL: string = "http://159.65.140.100:8080/";
+    // private BASE_URL: string = "http://159.65.140.100:8080/";
+	private BASE_URL:string = "http://192.168.0.106:8080/";
 
     private fileTransfer: FileTransferObject;
 
@@ -120,8 +121,10 @@ export class HttpService {
     public cancelEvent(event: MosqueEvent): Observable<any> {
 
         var data = {
-            "eventId": event._id,
-            "event_title": event.event_title
+            "_id" : event._id,
+            "event_title": event.event_title,
+            "event_start_date" : event.event_start_date,
+            "event_end_date" : event.event_end_date
         }
         console.log(JSON.stringify(data));
         return this.http.post(this.BASE_URL + "events/cancelevent", data)
