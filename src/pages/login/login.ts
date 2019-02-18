@@ -31,7 +31,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private fb: Facebook, private googlePlus: GooglePlus,
     public httpService: HttpService, public global: Globals, public events: Events, public popoverCtrl: PopoverController) {
     console.log('login form:' + this.loginForm)
-    if(this.global.currentUser && this.global.getUserEmail() != null || this.global.getUserEmail() != undefined){
+    if(this.global.currentUser && (this.global.currentUser.email != null || this.global.currentUser.email != undefined)){
       this.userLoggedIn=true;
     }
   }
