@@ -1,4 +1,4 @@
-<ion-content no-padding ngClass="login-body no-scroll" *ngIf="!userLoggedIn">
+<ion-content no-padding ngClass="login-body no-scroll" [hidden]="userLoggedIn">
   <ion-row ngClass="login-container">
     <div ngClass="login-round-container"><img src="assets/icon/logo-login.png"/></div>
   </ion-row>

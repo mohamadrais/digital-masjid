@@ -1,4 +1,4 @@
-<ion-menu [content]="content" *ngIf="this.global.currentUser && (this.global.currentUser.email != null || this.global.currentUser.email != undefined)">
+<ion-menu [content]="content" [hidden]="!(this.global.currentUser && (this.global.currentUser.email != null || this.global.currentUser.email != undefined))">
 
   <ion-content padding>
     <div ngClass="menu-header-container">
