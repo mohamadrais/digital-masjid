@@ -1,5 +1,5 @@
 import { Component,  ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides } from 'ionic-angular';
+import { NavController, NavParams, Slides, LoadingController } from 'ionic-angular';
 import {HttpService} from "../../app/service/http-service";
 import { Globals} from "../../app/constants/globals";
 
@@ -29,9 +29,15 @@ export class ForgotPassword {
   resetSuccess:boolean=false;
   serverError:boolean=false;
   invalidInput=false;
+
+  loading;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    public httpService:HttpService, public global:Globals) {
-      
+    public httpService:HttpService, public global:Globals, public loadingCtrl:LoadingController) {
+      this.loading = this.loadingCtrl.create({
+        spinner: 'crescent',
+        content: 'Loading...'
+      });
   }
 
   ionViewDidLoad() {
@@ -50,6 +56,7 @@ export class ForgotPassword {
         this.invalidInput=false;
         
           if(!this.registered || !this.slides.isEnd()){
+            this.loading.present();
             if(this.slides.isBeginning()){
               console.log("expected slide 0, gotten: "+this.slides.getActiveIndex());
               this.sendVerificationCode();
@@ -80,10 +87,13 @@ export class ForgotPassword {
           this.moveSlide();
           this.flowButton="Next";
         }
+        this.loading.dismiss();
       }else if(data.status=="failure"){
         this.registered=false;
+        this.loading.dismiss();
       }else{
         this.serverError=true;
+        this.loading.dismiss();
       }
     })
     //this.moveSlide();
@@ -96,10 +106,13 @@ export class ForgotPassword {
         this.verifySuccess=true;
         this.moveSlide();
         this.flowButton="Next";
+        this.loading.dismiss();
       }else if(data.status=="failure"){
         this.failure=true;
+        this.loading.dismiss();
       }else{
         this.serverError=true;
+        this.loading.dismiss();
       }
     })
     //this.moveSlide();
@@ -112,8 +125,10 @@ export class ForgotPassword {
         console.log("data from saveResettedPassword: "+data);
         this.resetSuccess=true;
         this.moveSlide();
+        this.loading.dismiss();
       }else{
         this.serverError=false;
+        this.loading.dismiss();
       }
     })
     //this.moveSlide();
