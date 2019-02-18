@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController, Loading } from 'ionic-angular';
 import { EventDetailsPage } from '../event-details/event-details';
 import { CreateEventPage } from '../create-event/create-event';
 import { FeedbackPage } from '../feedback/feedback';
@@ -44,6 +44,7 @@ export class HomePage {
   longitude: number = 0;
   geo: any
 
+  loading;
   service = new google.maps.places.AutocompleteService();
 
   constructor(public navCtrl: NavController, public httpService:HttpService, public geolocation: Geolocation, public geocoder: NativeGeocoder, public global:Globals, public locations: LocationsProvider, public loadingCtrl: LoadingController, public network:Network, public alertCtrl:AlertController,public zone: NgZone) {
@@ -59,6 +60,7 @@ export class HomePage {
     this.geocoderGoogle = new google.maps.Geocoder;
     let elem = document.createElement("div");
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
+    
   }
 
   ionViewDidLoad(){
@@ -75,18 +77,11 @@ export class HomePage {
       alert.present();
       
     }else{
-      let loading = this.loadingCtrl.create({
-        spinner: 'crescent',
-        content: 'Loading...'
-      });
   
-      loading.present();
+      this.startLoading();
 
       setTimeout(() => {
-        if(loading){
-          loading.dismiss()
-          loading = null;
-        }
+        this.resetLoading();
       }, 10000)
       
       // get permission for location status
@@ -105,8 +100,7 @@ export class HomePage {
                   this.mosques=data;
                   console.log(this.mosques);
                   this.readCurrentLocation();
-                  loading.dismiss();
-                  loading = null;
+                  this.resetLoading();
                 });
             }else{
               //request gps enable
@@ -118,41 +112,56 @@ export class HomePage {
                       console.log(data);
                       this.mosques=data;
                       this.readCurrentLocation();
-                      loading.dismiss();
-                      loading = null;
+                      this.resetLoading();
                     },
                     error => {
-                      loading.dismiss();
+                      this.resetLoading();
                       console.log(error);
                     });
                 }else{
-                  loading.dismiss();
-                  loading = null;
+                  this.resetLoading();
                 }
               },
               error => {
-                loading.dismiss();
-                loading = null;
+                this.resetLoading();
                 console.log(error);
               })
             }
           },
           error => {
-            loading.dismiss();
-            loading = null;
+            this.resetLoading();
             console.log(error);
           });
         }else{
-          loading.dismiss();
-          loading = null;
+          this.resetLoading();
         }
       },
       error => {
-        loading.dismiss();
-        loading = null;
+        this.resetLoading();
         console.log(error);
       });
     }  
+  }
+
+  resetLoading(){
+    if(this.loading){
+      this.loading.dismiss();
+      this.loading.onDidDismiss(() =>{
+      this.loading = null;
+      });
+    }
+  }
+
+  startLoading(){
+
+    if(!this.loading){
+      this.loading = this.loadingCtrl.create({
+        spinner: 'crescent',
+        content: 'Loading...'
+      });
+    }
+    this.loading.present();
+    
   }
   
   eventdetailsPage(event:Event){

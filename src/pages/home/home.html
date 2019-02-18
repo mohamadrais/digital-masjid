@@ -46,7 +46,7 @@
     <div ngClass="item-header">Completed</div> -->
 
     <ion-row>
-      <ion-col *ngIf="(!this.mosques || this.mosques.length==0) && (loading != null)" (click)="startMosqueList()">
+      <ion-col *ngIf="(!this.mosques || this.mosques.length==0) && (!loading)" (click)="startMosqueList()">
           <button ngClass="refresh-btn">
               <!-- <ion-icon ngClass="refresh-icon big" name="ios-refresh-outline"></ion-icon> -->
               <img ngClass="empty-bg" src="assets/imgs/mosque-2.png">
