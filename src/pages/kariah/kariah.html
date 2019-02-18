@@ -125,14 +125,20 @@
       <ion-item *ngIf="billThumbnail">
         <img src="{{ billThumbnail }}" imageViewer>
       </ion-item>
-      <ion-item>
-        <ion-label floating>Approval Status</ion-label>
-        <ion-input [(ngModel)]="approvalStatus" [disabled]="true"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Approval Comment</ion-label>
-        <ion-input [(ngModel)]="approvalComment" [disabled]="true"></ion-input>
-      </ion-item>
+
+      <div *ngIf="editMode || isAdmin">
+          <hr/>
+          <ion-label>For Mosque Admin only:</ion-label>
+          
+          <ion-item>
+            <ion-label floating>Approval Status</ion-label>
+            <ion-input [(ngModel)]="approvalStatus" [disabled]="true"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Approval Comment</ion-label>
+            <ion-input [(ngModel)]="approvalComment" [disabled]="true"></ion-input>
+          </ion-item>
+      </div>
 
     </ion-list>
   </ion-row>
