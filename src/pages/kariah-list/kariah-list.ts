@@ -25,21 +25,18 @@ export class KariahListPage {
   kariahs;
   isAdmin = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global: Globals, public alertCtrl: AlertController, private diagnostic: Diagnostic, private iab: InAppBrowser) {
-    this.global.get(AppConstants.USER).then(data => {
-      if (data) {
-        this.userId = data._id;
-        this.userType = data.userType;
-        if (data.userType === AppConstants.USER_TYPE_ADMIN) {
+    
+        this.userId = this.global.getUserId();
+        this.userType = this.global.getUserType();
+        if (this.userType === AppConstants.USER_TYPE_ADMIN) {
           //getListOfKariah_admin
           this.isAdmin = true;
           this.getAdminKariahList();
-        } else if (data.userType === AppConstants.USER_TYPE_USER) {
+        } else if (this.userType === AppConstants.USER_TYPE_USER) {
           //getListOfKariah_user
-          this.getUserKariahList(data._id);
+          this.getUserKariahList(this.userId);
           this.isAdmin = false;
         }
-      }
-    });
   }
 
   ionViewDidLoad() {

@@ -40,23 +40,18 @@ export class MosquePage {
     this.mosque = navParams.get('data');
     this.getMosqueRating(this.mosque._id);
     // mosque._id now equals google_place_id
-      
-    this.global.get(AppConstants.USER).then(data => {
+
+    this.userId = this.global.getUserId();
+    this.userType = this.global.getUserType();
+
+    this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
+      this.events = data;
+      this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
       if (data) {
-        this.userId = data._id;
-        this.userType = data.userType;
+        this.eventsSize = data.length;
       }
-    }).then(() => {
-      
-      this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
-        this.events = data;
-        this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
-        if (data) {
-          this.eventsSize = data.length;
-        }
-      }, error => {
-        console.log(error)
-      });
+    }, error => {
+      console.log(error)
     });
   }
 
@@ -169,7 +164,7 @@ export class MosquePage {
   }
 
   popoverRating(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverMosqueRatingPage, { "userId": this.userId, "mosque": this.mosque,  }, { showBackdrop: true, cssClass: "popover-rating" });
+    let popover = this.popoverCtrl.create(PopoverMosqueRatingPage, { "userId": this.userId, "mosque": this.mosque, }, { showBackdrop: true, cssClass: "popover-rating" });
     popover.present({
       ev: myEvent
     });
@@ -211,11 +206,11 @@ export class MosquePage {
   //   });
   // }
 
-  validateDateTime(startDtm, endDtm, index){
+  validateDateTime(startDtm, endDtm, index) {
     let today = new Date().toISOString();
 
     let firstEndDtm = endDtm;
-    let secondEndDtm = (index!= this.events.length-1)?this.events[index].event_end_date:'';
+    let secondEndDtm = (index != this.events.length - 1) ? this.events[index].event_end_date : '';
 
     let firstDtmParts = firstEndDtm.split("T");
     let firstEndDate = firstDtmParts[0];
@@ -223,30 +218,32 @@ export class MosquePage {
     let endDtmParts = secondEndDtm.split("T");
     let secondEndDate = endDtmParts[0];
 
-    if(firstEndDtm){
+    if (firstEndDtm) {
       firstDtmParts = firstEndDtm.split("T");
       firstEndDate = firstDtmParts[0];
     }
-    if(secondEndDtm){
+    if (secondEndDtm) {
       endDtmParts = secondEndDtm.split("T");
       secondEndDate = endDtmParts[0];
     }
-    
-    if( (firstEndDate && secondEndDate) && (firstEndDate!=secondEndDate) || index==0){
+
+    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index == 0) {
       return this.getCategoryLabel(today, startDtm, endDtm)
+    }else{
+      return '';
     }
-    
+
   }
 
-  getCategoryLabel(today, startDtm, endDtm){
-      if(startDtm <=today && today<endDtm){
-        return 'Active events';
-      }else if(startDtm > today){
-        return 'Upcoming events'
-      }else if(today > endDtm){
-        return 'History events'
-      }else{
-        return ''
-      }
+  getCategoryLabel(today, startDtm, endDtm) {
+    if (startDtm <= today && today < endDtm) {
+      return 'Active events';
+    } else if (startDtm > today) {
+      return 'Upcoming events'
+    } else if (today > endDtm) {
+      return 'History events'
+    } else {
+      return ''
+    }
   }
 }

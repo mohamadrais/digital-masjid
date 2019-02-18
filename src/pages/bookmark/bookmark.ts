@@ -4,7 +4,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { Globals } from "../../app/constants/globals";
 import { HttpService } from "../../app/service/http-service";
 import { EventDetailsPage } from '../event-details/event-details';
-import {MosqueEvent} from "../../app/models/MosqueEvents";
+import { MosqueEvent } from "../../app/models/MosqueEvents";
 /**
  * Generated class for the BookmarkPage page.
  *
@@ -21,14 +21,12 @@ export class BookmarkPage {
 
   event_bookmarks;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public global:Globals, public httpService:HttpService) {
-    this.global.get("USER").then(data => {
-     
-      this.httpService.bookmarkList(data._id).subscribe(bookmarks => {
-        this.event_bookmarks = bookmarks;
-        
-        console.log(JSON.stringify(this.event_bookmarks));
-      });
+  constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
+
+    this.httpService.bookmarkList(this.global.getUserId()).subscribe(bookmarks => {
+      this.event_bookmarks = bookmarks;
+
+      console.log(JSON.stringify(this.event_bookmarks));
     });
   }
 
@@ -36,28 +34,28 @@ export class BookmarkPage {
     console.log('ionViewDidLoad BookmarkPage');
   }
 
-  eventdetailsPage(event:MosqueEvent){
-    this.navCtrl.push(EventDetailsPage,{'data':event});
+  eventdetailsPage(event: MosqueEvent) {
+    this.navCtrl.push(EventDetailsPage, { 'data': event });
   }
 
-  public getEventDate(event_date:string):string{
+  public getEventDate(event_date: string): string {
     var date = null;
-    if( event_date ){
-        try{
-           var eventdate = new Date(event_date);
-           date = eventdate.getDate()+"/"+(eventdate.getMonth()+1)+"/"+eventdate.getFullYear()+" "+eventdate.getUTCHours()+":"+eventdate.getMinutes();
-        }catch(e){
+    if (event_date) {
+      try {
+        var eventdate = new Date(event_date);
+        date = eventdate.getDate() + "/" + (eventdate.getMonth() + 1) + "/" + eventdate.getFullYear() + " " + eventdate.getUTCHours() + ":" + eventdate.getMinutes();
+      } catch (e) {
 
-        }
+      }
     } else {
-        var today = new Date();
-        date = today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+" "+today.getUTCHours()+":"+today.getMinutes();
+      var today = new Date();
+      date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
     return date;
   }
 
-  getSeatsLeft(event:MosqueEvent):number{
+  getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.users.length);
   }
 

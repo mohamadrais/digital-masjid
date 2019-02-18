@@ -70,7 +70,7 @@ export class MyApp {
             events.publish('userType:ustaz', true);
             this.ustazProfilePage();
           }
-          if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+          if (this.userId && (!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
             if (this.global.generalSettings.pushToken != "") {
               if (await this.sendPushTokenToServer(this.global.generalSettings.pushToken, this.userId, this.userMobile)) {
                 this.global.generalSettings.pushTokenSentFlag = true;
@@ -89,11 +89,11 @@ export class MyApp {
         { title: 'Home', component: HomePage },
         { title: 'Profile', component: ProfilePage },
         { title: 'Qibla Finder', component: QiblaPage },
-        { title: 'Settings', component: SettingsPage },
-        { title: 'Feedback', component: FeedbackPage },
+        // { title: 'Settings', component: SettingsPage },
+        // { title: 'Feedback', component: FeedbackPage },
         { title: 'Bookmark', component: BookmarkPage },
         { title: 'Kariah', component: KariahPage },
-        { title: 'Market', component: MarketPage },
+        // { title: 'Market', component: MarketPage },
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
       ];
@@ -133,8 +133,8 @@ export class MyApp {
           { title: 'Home', component: AdminHomePage },
           { title: 'Profile', component: ProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
-          { title: 'Settings', component: SettingsPage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Settings', component: SettingsPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'Kariah List', component: KariahListPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
@@ -145,8 +145,8 @@ export class MyApp {
         this.pages = [
           { title: 'Home', component: UstazProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
-          { title: 'Settings', component: SettingsPage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Settings', component: SettingsPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -157,11 +157,11 @@ export class MyApp {
           { title: 'Home', component: HomePage },
           { title: 'Profile', component: ProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
-          { title: 'Settings', component: SettingsPage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Settings', component: SettingsPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'Bookmark', component: BookmarkPage },
           { title: 'Kariah', component: KariahPage },
-          { title: 'Market', component: MarketPage },
+          // { title: 'Market', component: MarketPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -373,18 +373,19 @@ export class MyApp {
           console.log(`Logout: error getting device info: ${err}`);
         }
         if (deviceInfo) {
-          await this.httpService.logoutUser(deviceInfo, this.userId).subscribe(data => {
+          await this.httpService.logoutUser(deviceInfo, this.global.getUserId()).subscribe(data => {
             if (data) {
               console.log("successfully marked user as logged out in server");
-              this.global.set("USER", null);
               this.global.generalSettings.pushTokenSentFlag = false;
             } else {
               console.log("no data returned from logoutUser");
             }
+            this.global.clearAllGlobals();
             this.nav.setRoot(p.component);
           }, error => {
             console.log("error during logoutUser", error);
             this.nav.setRoot(p.component);
+            this.global.clearAllGlobals();
           })
         }
       }

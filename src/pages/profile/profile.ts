@@ -34,9 +34,7 @@ export class ProfilePage {
   }
 
   getStoredData() {
-    this.global.get(AppConstants.USER).then(data => {
-      if (data) {
-        this.userData = data;
+        this.userData = this.global.getUser();
         this.name = this.userData.name;
         this.email = this.userData.email;
         // this.pointsCollected = this.userData.pointsCollected;
@@ -47,8 +45,6 @@ export class ProfilePage {
         this.pointsCollected = 0;
         this.findEvents(AppConstants.EVENT_HISTORY);
         this.findEvents(AppConstants.EVENT_UPCOMING);
-      }
-    });
   }
 
   editProfile() {

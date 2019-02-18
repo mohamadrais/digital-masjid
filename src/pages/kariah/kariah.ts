@@ -11,6 +11,7 @@ import { HomePage } from "../home/home";
 import { AdminHomePage } from '../admin-home/admin-home';
 import { Camera } from '@ionic-native/camera';
 import { PopoverKariahApprovalPage } from './popover-kariah-approval';
+import { User } from '../../app/models/User';
 
 /**
  * Generated class for the KariahPage page.
@@ -54,43 +55,41 @@ export class KariahPage {
   mosqueGooglePlaceId: any; // auto-fill mosque google place id from previous mosque page
   kariah: any; // auto-fill mosque title from previous mosque page
   kariahUser: KariahUser;
-  isRoot=false;
-  
+  isRoot = false;
+  userData: User;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
     this.isRoot = this.navParams.get("fromSideMenu");
-    this.global.get(AppConstants.USER).then(data => {
-      if (data) {
-        if (data.userType === AppConstants.USER_TYPE_ADMIN) {
-          this.currentUserType = AppConstants.USER_TYPE_ADMIN;
-          this.isAdmin = true;
-          this.kariahUser = this.navParams.get("admin_kariahMemberDetail");
-          this.newApproverId = data._id;
-          if (this.kariahUser) {
-            this.initKariahUser();
-            this.setEditMode(true);
-          } 
-        } else if (data.userType === AppConstants.USER_TYPE_USER) {
-          //getListOfKariah_user
-          this.userId = data._id;
-          this.currentUserType = AppConstants.USER_TYPE_USER;
-          this.isAdmin = false;
-
-          //temp comment the global storage because to check if online search working or not
-          this.kariahUser = null//this.global.getKariahUser();
-
-          if (this.kariahUser) {
-            this.initKariahUser();
-            this.setEditMode(true);
-          } else {
-            this.getUserKariahOnline(this.userId);
-          }
-
-        }
+    this.userData = this.global.getUser();
+    if (this.userData.userType === AppConstants.USER_TYPE_ADMIN) {
+      this.currentUserType = AppConstants.USER_TYPE_ADMIN;
+      this.isAdmin = true;
+      this.kariahUser = this.navParams.get("admin_kariahMemberDetail");
+      this.newApproverId = this.userData._id;
+      if (this.kariahUser) {
+        this.initKariahUser();
+        this.setEditMode(true);
       }
-    });
+    } else if (this.userData.userType === AppConstants.USER_TYPE_USER) {
+      //getListOfKariah_user
+      this.userId = this.userData._id;
+      this.currentUserType = AppConstants.USER_TYPE_USER;
+      this.isAdmin = false;
+
+      //temp comment the global storage because to check if online search working or not
+      this.kariahUser = null//this.global.getKariahUser();
+
+      if (this.kariahUser) {
+        this.initKariahUser();
+        this.setEditMode(true);
+      } else {
+        this.getUserKariahOnline(this.userId);
+      }
+
+    }
   }
 
   ionViewDidLoad() {
@@ -211,15 +210,15 @@ export class KariahPage {
   serverResponseSuccess(resStatus) {
     let mode = (this.editMode) ? 'update' : 'create';
     let alertTitle = 'Kariah membership succesfully ' + ((this.editMode) ? 'updated' : 'created');
-    if(!resStatus){
+    if (!resStatus) {
       alertTitle = 'Kariah membership could not be' + ((this.editMode) ? 'updated' : 'created');
     }
     const confirm = this.alertCtrl.create({
       title: alertTitle,
-      message:(resStatus)?"":"Please retry later",
+      message: (resStatus) ? "" : "Please retry later",
       buttons: [
         {
-          text: (resStatus)?"Alhamdulillah":"Close",
+          text: (resStatus) ? "Alhamdulillah" : "Close",
           handler: () => {
             console.log(mode + ' clicked');
             this.global.set("KARIAH_USER", this.newKariahUser)
@@ -350,7 +349,7 @@ export class KariahPage {
     viewHeir.present();
   }
 
-  showApprovalConfirm(){
+  showApprovalConfirm() {
     let mode = (this.editMode) ? 'update' : 'create';
 
     const confirm = this.alertCtrl.create({
@@ -377,9 +376,9 @@ export class KariahPage {
   }
 
   popoverKariahApproval(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverKariahApprovalPage, { 
-      "currentUserType": this.currentUserType, 
-      "newApproverId": this.newApproverId, 
+    let popover = this.popoverCtrl.create(PopoverKariahApprovalPage, {
+      "currentUserType": this.currentUserType,
+      "newApproverId": this.newApproverId,
       "kariahUser": this.kariahUser,
       "currentApprovalStatus": this.kariahUser.approvalStatus,
       "currentApprovalComment": this.kariahUser.approvalComment,

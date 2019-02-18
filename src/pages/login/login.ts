@@ -26,10 +26,14 @@ export class LoginPage {
   //username:string;
   validUser: boolean = true;
   loginForm = { username: '', password: '' }
+  userLoggedIn=false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private fb: Facebook, private googlePlus: GooglePlus,
     public httpService: HttpService, public global: Globals, public events: Events, public popoverCtrl: PopoverController) {
     console.log('login form:' + this.loginForm)
+    if(this.global.currentUser && this.global.getUserEmail() != null || this.global.getUserEmail() != undefined){
+      this.userLoggedIn=true;
+    }
   }
 
   forgotPasswordPage() {
@@ -56,20 +60,10 @@ export class LoginPage {
     this.navCtrl.setRoot(UstazProfilePage);
   }
 
-  authenticateUser() {
-    this.httpService.authenticateUser(this.loginForm.username, this.loginForm.password).subscribe(async data => {
+  authenticateUser(username, password) {
+    this.httpService.authenticateUser(username, password).subscribe(async data => {
       //if( data && data.userType != undefined ){
       if (data && data.userType != undefined) {
-        // send push token to server each time succesfully login
-        if ((!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
-          if (this.global.generalSettings.pushToken != "") {
-            var resultSendPushTokenToServer = await this.sendPushTokenToServer(this.global.generalSettings.pushToken, data._id, data.mobile);
-            if (resultSendPushTokenToServer) {
-              this.global.generalSettings.pushTokenSentFlag = true;
-              console.log("pushTokenSentFlag inside authenticate user: " + this.global.generalSettings.pushTokenSentFlag);
-            }
-          }
-        }
 
         this.global.set(AppConstants.USER, data);
         this.global.setUser(data);
@@ -84,6 +78,17 @@ export class LoginPage {
         else {
           this.homePage();
           this.events.publish('userType:user');
+        }
+
+        // send push token to server each time succesfully login
+        if (data._id && (!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+          if (this.global.generalSettings.pushToken != "") {
+            var resultSendPushTokenToServer = await this.sendPushTokenToServer(this.global.generalSettings.pushToken, data._id, data.mobile);
+            if (resultSendPushTokenToServer) {
+              this.global.generalSettings.pushTokenSentFlag = true;
+              console.log("pushTokenSentFlag inside authenticate user: " + this.global.generalSettings.pushTokenSentFlag);
+            }
+          }
         }
       } else {
         this.validUser = false;

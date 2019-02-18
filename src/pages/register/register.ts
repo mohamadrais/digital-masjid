@@ -18,6 +18,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
+  providers:[LoginPage]
 })
 export class RegisterPage {
 
@@ -36,7 +37,7 @@ export class RegisterPage {
   dob: string;
   deviceInfo: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public login: LoginPage) {
     //if loggedIn
     this.userData = this.navParams.get("data");
     if (this.userData) {
@@ -72,7 +73,7 @@ export class RegisterPage {
             }
             else {
               this.showConfirm();
-              this.navCtrl.setRoot(LoginPage);
+              this.login.authenticateUser(this.email, this.password);
             }
           }
         }, error => {
@@ -150,7 +151,7 @@ export class RegisterPage {
   showConfirm() {
     const confirm = this.alertCtrl.create({
       title: 'Congratulation!',
-      message: 'Welcome to TM Saff where you will never miss a single event again.',
+      message: 'Welcome to Digital Masjid where you will never miss a single event again.',
       buttons: [
         {
           text: 'OK',

@@ -4,69 +4,80 @@
     <ion-title>Event Notification</ion-title>
   </ion-navbar>
   <ion-toolbar>
-      <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
-        <ion-segment-button value="0">
-          <ion-badge color="danger" *ngIf="toAttendCount>0">{{toAttendCount}}</ion-badge>
-          <ion-icon name="log-in"></ion-icon>
-          <label>Check-in</label>
-        </ion-segment-button>
-        <ion-segment-button value="1">
-          <ion-badge color="danger" *ngIf="unreadRescheduleCount>0">{{unreadRescheduleCount}}</ion-badge>
-          <ion-icon name="calendar"></ion-icon>
-          <label>Reschedule</label>
-        </ion-segment-button>
-        <ion-segment-button value="2">
-            <ion-badge color="danger" *ngIf="unreadCancelCount>0">{{unreadCancelCount}}</ion-badge>
-            <ion-icon name="md-close-circle"></ion-icon>
-            <label>Canceled</label>
-          </ion-segment-button>
-          <!-- <ion-segment-button value="3">
+    <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
+      <ion-segment-button value="0">
+        <ion-badge color="danger" *ngIf="toAttendCount>0">{{toAttendCount}}</ion-badge>
+        <ion-icon name="log-in"></ion-icon>
+        <label>Check-in</label>
+      </ion-segment-button>
+      <ion-segment-button value="1">
+        <ion-badge color="danger" *ngIf="unreadRescheduleCount>0">{{unreadRescheduleCount}}</ion-badge>
+        <ion-icon name="calendar"></ion-icon>
+        <label>Reschedule</label>
+      </ion-segment-button>
+      <ion-segment-button value="2">
+        <ion-badge color="danger" *ngIf="unreadCancelCount>0">{{unreadCancelCount}}</ion-badge>
+        <ion-icon name="md-close-circle"></ion-icon>
+        <label>Canceled</label>
+      </ion-segment-button>
+      <!-- <ion-segment-button value="3">
             <ion-icon name="megaphone"></ion-icon>
             <label>News</label>
           </ion-segment-button> -->
-      </ion-segment>
-    </ion-toolbar>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-slides #slides ngClass="body-style" (ionSlideWillChange)="segment=''+slides.getActiveIndex();" (ionSlideDidChange)="segment = (slides.getActiveIndex()>=2)? '2' : ''+slides.getActiveIndex();">
+<ion-slides #slides ngClass="body-style" (ionSlideWillChange)="segment=''+slides.getActiveIndex();"
+  (ionSlideDidChange)="segment = (slides.getActiveIndex()>=2)? '2' : ''+slides.getActiveIndex();">
   <ion-slide>
-      <div ngClass="empty-list">
-        <img ngClass="empty-bg" src="assets/imgs/tasbih.png">
-        <h2>No Notification</h2>
-        <h6>There Is No Notification For Now</h6>
-      </div>
-      <ion-list>
-          <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index" [hidden]="!(validateDateTime(e._id,e.event_start_date, e.event_end_date))">
-            <ion-item ngClass="events-list">
-              <ion-row>
-                <ion-col>
-                  <!-- <label>{{e.category}} - {{e.event_title}}</label> -->
-                  <label>{{e.event_title}}</label>
-                  <label>{{e.mosque_details[0].title}}</label>
-                  <div ngClass="item-dateloc">
-                    <label ngClass="edited">{{e.event_start_date}} - {{e.event_end_date}}</label>
-                  </div>
-                  <div class="row">
-                    <button class="button button-primary attend-btn not rectangle" (click)="cancelReservation(i)">Cancel Reservation</button>
-                    <button class="button button-primary attend-btn rectangle" (click)="validateAttendance(i)">Attend</button>
-                  </div>
-                </ion-col>
-              </ion-row>
-            </ion-item>
-          </ion-card>
-        </ion-list>
+    <div ngClass="empty-list" *ngIf="!eventsToBeAttended || (eventsToBeAttended && eventsToBeAttended.length==0)">
+      <img ngClass="empty-bg" src="assets/imgs/tasbih.png">
+      <h2>No Check-In Event Notification</h2>
+      <h6>There Is No Check-In Event Notification For Now</h6>
+    </div>
+    <ion-list>
+      <ion-card ngClass="card-slide" *ngFor="let e of eventsToBeAttended; let i = index"
+        [hidden]="!(validateDateTime(e._id,e.event_start_date, e.event_end_date))">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col>
+              <!-- <label>{{e.category}} - {{e.event_title}}</label> -->
+              <label>{{e.event_title}}</label>
+              <label>{{e.mosque_details[0].title}}</label>
+              <div ngClass="item-dateloc">
+                <label ngClass="edited">{{e.event_start_date}} - {{e.event_end_date}}</label>
+              </div>
+              <div class="row">
+                <button class="button button-primary attend-btn not rectangle" (click)="cancelReservation(i)">Cancel
+                  Reservation</button>
+                <button class="button button-primary attend-btn rectangle"
+                  (click)="validateAttendance(i)">Attend</button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+    </ion-list>
   </ion-slide>
-  
+
   <!-- EVENT RESCHEDULE -->
   <ion-slide ngClass="forgot-pass">
+    <div ngClass="empty-list" *ngIf="!eventsRescheduled || (eventsRescheduled && eventsRescheduled.length==0)">
+      <img ngClass="empty-bg" src="assets/imgs/tasbih.png">
+      <h2>No Rescheduled Event Notification</h2>
+      <h6>There Is No Rescheduled Event Notification For Now</h6>
+    </div>
     <ion-list>
 
-      <ion-card ngClass="card-slide" *ngFor="let noti of eventsRescheduled; let i = index" (click)="read(noti); noti.readFlag = 'Y'">
+      <ion-card ngClass="card-slide" *ngFor="let noti of eventsRescheduled; let i = index"
+        (click)="read(noti); noti.readFlag = 'Y'">
         <ion-item ngClass="events-list">
           <ion-row>
             <ion-col>
               <div ngClass="event-title" [ngClass]="{'new': (noti.readFlag=='N')}">
-                <label>{{noti.title}}</label><ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
+                <label>{{noti.title}}</label>
+                <ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
               </div>
               <!-- <label ngClass="status-label">Postponed to</label> -->
               <div ngClass="item-dateloc">
@@ -81,13 +92,20 @@
 
   <!-- EVENT CANCEL -->
   <ion-slide>
+    <div ngClass="empty-list" *ngIf="!eventsCancel || (eventsCancel && eventsCancel.length==0)">
+      <img ngClass="empty-bg" src="assets/imgs/tasbih.png">
+      <h2>No Cancelled Event Notification</h2>
+      <h6>There Is No Cancelled Event Notification For Now</h6>
+    </div>
     <ion-list>
-      <ion-card ngClass="card-slide" *ngFor="let noti of eventsCancel; let i = index" (click)="read(noti); noti.readFlag = 'Y'">
+      <ion-card ngClass="card-slide" *ngFor="let noti of eventsCancel; let i = index"
+        (click)="read(noti); noti.readFlag = 'Y'">
         <ion-item ngClass="events-list">
           <ion-row>
             <ion-col>
               <div ngClass="event-title" [ngClass]="{'new': (noti.readFlag=='N')}">
-                <label>{{noti.title}}</label><ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
+                <label>{{noti.title}}</label>
+                <ion-badge style="border-radius:50%" *ngIf="noti.readFlag=='N'" color="danger">&nbsp;</ion-badge>
               </div>
               <!-- <label ngClass="status-label">{{noti.content}}</label> -->
             </ion-col>
@@ -96,7 +114,7 @@
       </ion-card>
     </ion-list>
   </ion-slide>
-  
+
   <!-- <ion-slide>
     Advertisment or others
   </ion-slide> -->

@@ -1,8 +1,8 @@
-<ion-content no-padding ngClass="login-body no-scroll">
+<ion-content no-padding ngClass="login-body no-scroll" *ngIf="!userLoggedIn">
   <ion-row ngClass="login-container">
     <div ngClass="login-round-container"><img src="assets/icon/logo-login.png"/></div>
   </ion-row>
-  <form (ngSubmit)="authenticateUser()">  
+  <form (ngSubmit)="authenticateUser(this.loginForm.username, this.loginForm.password)">  
     <ion-row ngClass="login-radio no-margin">
       <ion-card ngClass="login-card">
           <ion-list ngClass="lang-container no-margin">

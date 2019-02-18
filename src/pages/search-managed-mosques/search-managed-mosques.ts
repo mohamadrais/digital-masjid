@@ -16,63 +16,59 @@ import { AppConstants } from "../../app/constants/app-constants";
   templateUrl: 'search-managed-mosques.html',
 })
 export class SearchManagedMosquesPage {
-  mosqueSearch={title:""};
-  mosqueList:Array<string> = [];
+  mosqueSearch = { title: "" };
+  mosqueList: Array<string> = [];
   selectedMosque;
   userData;
   userEmail;
   callback;
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService:HttpService, public global:Globals) {
-    this.global.get(AppConstants.USER).then(data => {
-      if( data){
-        this.userData = data;
-        this.userEmail = this.userData.email;
-        console.log("userEmail: "+this.userEmail);
-      }
-    });
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global: Globals) {
+    this.userData = this.global.getUser();
+    this.userEmail = this.userData.email;
+    console.log("userEmail: " + this.userEmail);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchManagedMosquesPage');
   }
 
-  onInput(event){
+  onInput(event) {
     console.log("onInput event:");
     console.log(event);
-    if (event._value.length >= 1){
+    if (event._value.length >= 1) {
       this.getManagedMosquesList(event._value, this.userEmail)
     }
   }
 
-  getManagedMosquesList(input:string, email:string){
+  getManagedMosquesList(input: string, email: string) {
     this.httpService.getManagedMosquesList(input, email).subscribe(data => {
       console.log("get managed mosques list from getManagedMosquesList: ");
       //console.log(JSON.stringify(data));
       //console.log(data[0].mosqueObjects);
-      if( data ){
+      if (data) {
         this.mosqueList = data[0].mosqueObjects;
         //console.log("this.mosqueList: "+this.mosqueList);
-      } 
+      }
     }, error => {
       console.log(error)
     })
   }
 
-  selectMosque(mod){
-    if(!this.selectedMosque || (this.selectedMosque && (this.selectedMosque.email!= mod.email))){
+  selectMosque(mod) {
+    if (!this.selectedMosque || (this.selectedMosque && (this.selectedMosque.email != mod.email))) {
       this.selectedMosque = mod;
-    }else{
+    } else {
       this.selectedMosque = '';
     }
-    
+
     console.log(this.selectedMosque);
   }
 
-  close(){
-    this.navCtrl.pop().then(()=>{
+  close() {
+    this.navCtrl.pop().then(() => {
       this.navParams.get('callback')(this.selectedMosque);
-   });
-    
+    });
+
   }
 }

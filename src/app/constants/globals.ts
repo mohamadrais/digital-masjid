@@ -36,11 +36,11 @@ export class Globals {
         if (val) this.generalSettings = <GeneralSettings>val;
       });
 
-      this.storage.get(AppConstants.KARIAH_USER).then((val) => {
+      this.storage.get(this.KARIAH_USER).then((val) => {
         if (val) this.kariahUser = <KariahUser>val;
       });
 
-      this.storage.get(AppConstants.USER).then((val) => {
+      this.storage.get(this.APP_USER).then((val) => {
         if (val) this.currentUser = <User>val;
         observer.next(this.currentUser);
         observer.complete();
@@ -74,12 +74,12 @@ export class Globals {
   }
 
   setUser(user: User) {
-    this.currentUser = user;
+    this.currentUser = <User>user;
     this.storage.set(this.APP_USER, user);
   }
 
   setKariahUser(kariahUser:KariahUser){
-    this.kariahUser = kariahUser;
+    this.kariahUser = <KariahUser> kariahUser;
     this.storage.set(this.KARIAH_USER, this.kariahUser);
   }
 
@@ -99,8 +99,9 @@ export class Globals {
     console.log("Globals.clearAllGlobals");
 
     this.storage.remove(this.APP_USER);
-    this.currentUser = new User();
-    this.kariahUser = new KariahUser();
+    this.currentUser = null;
+    this.storage.remove(this.KARIAH_USER);
+    this.kariahUser = null;
 
     this.storage.remove(this.GENERAL_SETTINGS);
     this.generalSettings = new GeneralSettings();

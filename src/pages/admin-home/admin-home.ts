@@ -27,24 +27,19 @@ export class AdminHomePage {
   userData;
   events: Array<MosqueEvent> = [];
   eventsSize: number = 0;
-  updated="";
-  address="";
+  updated = "";
+  address = "";
   constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals, public geolocation: Geolocation, public geocoder: NativeGeocoder) {
-
-    this.global.get(AppConstants.USER).then(data => {
-      if (data) {
-        this.userData = data;
-        this.nickname = this.userData.name; //this.userData.nickname;
-        this.getMosqueManaged();
-      }
-    })
+    this.userData = this.global.getUser();
+    this.nickname = this.userData.name; //this.userData.nickname;
+    this.getMosqueManaged();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminHomePage');
   }
 
-  getMosqueManaged(){
+  getMosqueManaged() {
     this.readCurrentLocation();
     this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
       this.events = data;
@@ -102,20 +97,20 @@ export class AdminHomePage {
     return (event.quota - event.users.length);
   }
 
-  readCurrentLocation(){
-    let today:Date = new Date();
-    this.updated = today.getDate()+"/"+(today.getMonth()+1)+" "+today.getUTCHours()+":"+today.getMinutes();
+  readCurrentLocation() {
+    let today: Date = new Date();
+    this.updated = today.getDate() + "/" + (today.getMonth() + 1) + " " + today.getUTCHours() + ":" + today.getMinutes();
     let options = {
       maximumAge: 3000,
       enableHighAccuracy: true,
       timeout: 50000
     };
-  
+
     this.geolocation.getCurrentPosition(options).then((position: Geoposition) => {
       this.geocoder.reverseGeocode(position.coords.latitude, position.coords.longitude).then((res: NativeGeocoderReverseResult[]) => {
         this.address = res[0].locality
-        console.log('home.address : '+this.address );
-       })
+        console.log('home.address : ' + this.address);
+      })
     }).catch((err) => {
       console.log(err);
     })

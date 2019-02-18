@@ -53,12 +53,9 @@ export class HomePage {
       query: ''
     };
     
-    this.global.get(AppConstants.USER).then(data => {
-      if( data){
-        this.userData = data;
-        this.nickname = this.userData.name; //this.userData.nickname;
-      }
-    });
+    this.userData = this.global.getUser();
+    this.nickname = this.userData.name; //this.userData.nickname;
+
     this.geocoderGoogle = new google.maps.Geocoder;
     let elem = document.createElement("div");
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
@@ -84,6 +81,13 @@ export class HomePage {
       });
   
       loading.present();
+
+      setTimeout(() => {
+        if(loading){
+          loading.dismiss()
+          loading = null;
+        }
+      }, 10000)
       
       // get permission for location status
       this.locations.getPermissionLocation().subscribe(dataGrantedAccess =>{
@@ -102,6 +106,7 @@ export class HomePage {
                   console.log(this.mosques);
                   this.readCurrentLocation();
                   loading.dismiss();
+                  loading = null;
                 });
             }else{
               //request gps enable
@@ -114,6 +119,7 @@ export class HomePage {
                       this.mosques=data;
                       this.readCurrentLocation();
                       loading.dismiss();
+                      loading = null;
                     },
                     error => {
                       loading.dismiss();
@@ -121,24 +127,29 @@ export class HomePage {
                     });
                 }else{
                   loading.dismiss();
+                  loading = null;
                 }
               },
               error => {
                 loading.dismiss();
+                loading = null;
                 console.log(error);
               })
             }
           },
           error => {
             loading.dismiss();
+            loading = null;
             console.log(error);
           });
         }else{
           loading.dismiss();
+          loading = null;
         }
       },
       error => {
         loading.dismiss();
+        loading = null;
         console.log(error);
       });
     }  
