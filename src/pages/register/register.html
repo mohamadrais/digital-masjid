@@ -47,7 +47,7 @@
 
       <ion-item>
         <ion-label floating>Mobile Number</ion-label>
-        <ion-input [(ngModel)]="mobile" type="number"></ion-input>
+        <ion-input type="number"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Prefered Mosque</ion-label>
@@ -61,6 +61,8 @@
 </ion-content>
 
 <ion-footer>
+  <div style="padding: 15px; color: #6b6a6a;">By clicking sign up, you agree to our <a href="https://legal.sfo2.cdn.digitaloceanspaces.com/privacy-policy.html"><b>Terms and Conditions</b></a></div>
+    
   <ion-buttons>
     <button class="button button-primary rectangle" (click)="(editMode)? updateUser(): registerUser()">{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
