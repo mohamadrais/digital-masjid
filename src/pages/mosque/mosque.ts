@@ -34,8 +34,6 @@ export class MosquePage {
   userId: string = "";
   userType: string = "";
 
-
-
   constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform, public global: Globals, public popoverCtrl: PopoverController) {
     this.mosque = navParams.get('data');
     this.getMosqueRating(this.mosque._id);
@@ -210,7 +208,7 @@ export class MosquePage {
     let today = new Date().toISOString();
 
     let firstEndDtm = endDtm;
-    let secondEndDtm = (index != this.events.length - 1) ? this.events[index].event_end_date : '';
+    let secondEndDtm = (index+1 <= this.events.length - 1 ) ? this.events[index+1].event_end_date : '';
 
     let firstDtmParts = firstEndDtm.split("T");
     let firstEndDate = firstDtmParts[0];
@@ -227,7 +225,7 @@ export class MosquePage {
       secondEndDate = endDtmParts[0];
     }
 
-    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index == 0) {
+    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate)) {
       this.events[index].event_header = this.getCategoryLabel(today, startDtm, endDtm);
       return this.events[index].event_header;
     }else{
