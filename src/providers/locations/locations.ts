@@ -247,6 +247,7 @@ export class LocationsProvider {
       //console.log(mosque);
       let foundMosque = this.findRegisteredMosqueId(places[i].place_id, registeredMosques);
       if(foundMosque>=0){
+        mosque.isRegistered = true;
         mosque._id = registeredMosques[foundMosque].google_place_id;
         this.httpService.countActiveEvents(mosque._id).subscribe(data =>{
           mosque.active_events_no = data;

@@ -10,5 +10,5 @@ export class Mosques{
     photo   :string ;//= 'assets/imgs/bg-home.jpg';
     createdTimestamp:string ;
     created_by    :string;
-    
+    isRegistered    :boolean=false;
 }
