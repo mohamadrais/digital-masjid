@@ -21,4 +21,6 @@ export class MosqueEvent {
     event_description:string;
     event_status:string;
 
+    //as header seperator
+    event_header=''
 }

@@ -228,7 +228,8 @@ export class MosquePage {
     }
 
     if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index == 0) {
-      return this.getCategoryLabel(today, startDtm, endDtm)
+      this.events[index].event_header = this.getCategoryLabel(today, startDtm, endDtm);
+      return this.events[index].event_header;
     }else{
       return '';
     }

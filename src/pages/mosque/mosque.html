@@ -58,7 +58,7 @@
   </div>
   <ion-list>
     <div *ngFor="let event of events; let i = index">
-      <div ngClass="item-header">{{validateDateTime(event.event_start_date, event.event_end_date, i)}}</div>
+      <div ngClass="item-header" [hidden]="!event.event_header">{{validateDateTime(event.event_start_date, event.event_end_date, i)}}</div>
 
       <!-- Other Event Status -->
       <!-- <div ngClass="item-header">Upcoming</div>
