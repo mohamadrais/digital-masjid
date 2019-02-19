@@ -225,7 +225,7 @@ export class MosquePage {
       secondEndDate = endDtmParts[0];
     }
 
-    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate)) {
+    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index!=0) {
       this.events[index].event_header = this.getCategoryLabel(today, startDtm, endDtm);
       return this.events[index].event_header;
     }else{
