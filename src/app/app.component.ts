@@ -51,7 +51,7 @@ export class MyApp {
   userMobile: String;
 
   constructor(platform: Platform, private statusBar: StatusBar, splashScreen: SplashScreen,
-    public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private app:App) {
+    public global: Globals, public httpService: HttpService, public connectivity: ConnectivityProvider, public events: Events, public network: Network, private toastCtrl: ToastController, private fcm: FcmProvider, private app: App) {
     platform.ready().then(() => {
 
       this.global.initGlobals().subscribe(async data => {
@@ -83,7 +83,7 @@ export class MyApp {
           this.nav.setRoot(LoginPage);
         }
       });
-        
+
       this.pages = [
         { title: 'Home', component: HomePage },
         { title: 'Profile', component: ProfilePage },
@@ -198,6 +198,8 @@ export class MyApp {
       // Online event
       this.events.subscribe('network:online', async () => {
         console.log('network:online ==> ' + this.network.type);
+        //need to be careful in case error happen in push, below code is not fully tested after new fix by aishah
+        this.userId =  this.global.getUserId();
         if (!this.global.generalSettings.pushTokenSentFlag) {
           if ((this.global.generalSettings.pushToken != "")
             && this.userId) {
@@ -228,16 +230,16 @@ export class MyApp {
 
       // Listen to incoming messages
       fcm.listenToNotifications().pipe(
-        
+
         tap(msg => {
 
-          let notiData = {"notification":msg};
+          let notiData = { "notification": msg };
 
-          if(this.nav.getActive().component != NotificationPage){
-            let duration:number = 3000;
-            let elapsedTime:number = 0;
-            let intervalHandler = setInterval( () => { elapsedTime += 10; },10);
-  
+          if (this.nav.getActive().component != NotificationPage) {
+            let duration: number = 3000;
+            let elapsedTime: number = 0;
+            let intervalHandler = setInterval(() => { elapsedTime += 10; }, 10);
+
             let toastNotification = this.toastCtrl.create({
               message: msg.title,
               position: 'top',
@@ -245,23 +247,23 @@ export class MyApp {
               dismissOnPageChange: true,
               duration: duration,
               closeButtonText: "View",
-              cssClass:"top-toast"
+              cssClass: "top-toast"
             });
-        
+
             toastNotification.onWillDismiss(() => {
               console.log('Dismissed offline toast');
               clearInterval(intervalHandler);
-              if(elapsedTime < duration ) {
+              if (elapsedTime < duration) {
                 this.app.getActiveNav().push(NotificationPage, notiData);
               }
             });
-        
+
             toastNotification.present();
-          }else{
+          } else {
             //update notification page live view
             this.events.publish("notification:updateView", notiData);
           }
-          
+
         })
       ).subscribe();
 
@@ -363,7 +365,7 @@ export class MyApp {
   }
 
   async openPage(p) {
-    if(p.component != this.nav.getActive().component){
+    if (p.component != this.nav.getActive().component) {
       if (p.title == 'Log Out') {
         var deviceInfo;
         try {
@@ -376,11 +378,24 @@ export class MyApp {
             if (data) {
               console.log("successfully marked user as logged out in server");
               this.global.generalSettings.pushTokenSentFlag = false;
+              this.global.clearAllGlobals();
+              // Get push token
+              this.fcm.getToken()
+                .then(pushToken => {
+                  console.log('Device registered', pushToken);
+                  this.global.generalSettings.pushToken = pushToken;
+                  this.nav.setRoot(p.component);
+                })
+                .catch(err => {
+                  console.log(`Error registering device: ${err}`);
+                  this.nav.setRoot(p.component);
+                });
             } else {
               console.log("no data returned from logoutUser");
+              this.global.clearAllGlobals();
+              this.nav.setRoot(p.component);
             }
-            this.global.clearAllGlobals();
-            this.nav.setRoot(p.component);
+            
           }, error => {
             console.log("error during logoutUser", error);
             this.nav.setRoot(p.component);
@@ -388,11 +403,11 @@ export class MyApp {
           })
         }
       }
-      this.nav.setRoot(p.component, {fromSideMenu:true});
-    }else{
+      this.nav.setRoot(p.component, { fromSideMenu: true });
+    } else {
       //do nothing
     }
-    
+
   }
 
   feedbackPage() {

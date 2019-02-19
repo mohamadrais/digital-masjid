@@ -81,7 +81,7 @@ export class LoginPage {
         }
 
         // send push token to server each time succesfully login
-        if (data._id && (!this.global.generalSettings.pushTokenSentFlag) && this.global.generalSettings.networkAvailable) {
+        if (data._id && (!this.global.generalSettings.pushTokenSentFlag)){// && this.global.generalSettings.networkAvailable) {
           if (this.global.generalSettings.pushToken != "") {
             var resultSendPushTokenToServer = await this.sendPushTokenToServer(this.global.generalSettings.pushToken, data._id, data.mobile);
             if (resultSendPushTokenToServer) {
