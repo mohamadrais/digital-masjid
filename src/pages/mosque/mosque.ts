@@ -42,6 +42,14 @@ export class MosquePage {
     this.userId = this.global.getUserId();
     this.userType = this.global.getUserType();
 
+    this.initData()
+  }
+
+  ionViewDidEnter(){
+    this.initData();
+  }
+
+  initData(){
     this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
       this.events = data;
       this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
@@ -57,11 +65,11 @@ export class MosquePage {
     this.navCtrl.push(EventDetailsPage, {
       'data': event,
       callback: data => {
-        if (!data.joined) {
-          this.events[index].users.splice(data.userId, 1);
-        } else {
-          this.events[index].users.push(data.userId);
-        }
+        // if (!(data.joined)) {
+        //   this.events[index].users.splice(data.userId, 1);
+        // } else {
+        //   this.events[index].users.push(data.userId);
+        // }
       }
     });
   }
