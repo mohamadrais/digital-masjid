@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, PopoverController, Events } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpService } from "../../app/service/http-service";
 import { ImageProvider } from '../../providers/image/image';
@@ -58,7 +58,7 @@ export class KariahPage {
   isRoot = false;
   userData: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController, public events:Events) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
@@ -94,6 +94,10 @@ export class KariahPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KariahPage');
+
+    this.events.subscribe('userType:admin', data => {
+      this.getUserKariahOnline(this.userId);
+    });
   }
 
   initKariahUser() {

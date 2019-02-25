@@ -235,6 +235,41 @@ export class MyApp {
 
           let notiData = { "notification": msg };
 
+          let customData = (JSON.parse(msg.customData));
+          let notificationType = customData.notificationType;
+
+          if(notificationType == AppConstants.NOTIFICATION_TYPE_KARIAH_MEMBERSHIP_STATUS){
+            if(this.nav.getActive().component != KariahPage){
+              let duration: number = 3000;
+            let elapsedTime: number = 0;
+            let intervalHandler = setInterval(() => { elapsedTime += 10; }, 10);
+
+            let toastNotification = this.toastCtrl.create({
+              message: msg.title,
+              position: 'top',
+              showCloseButton: true,
+              dismissOnPageChange: true,
+              duration: duration,
+              closeButtonText: "View",
+              cssClass: "top-toast"
+            });
+
+            toastNotification.onWillDismiss(() => {
+              console.log('Dismissed notification toast');
+              clearInterval(intervalHandler);
+              if (elapsedTime < duration) {
+                this.app.getActiveNav().push(KariahPage);
+              }
+            });
+
+            toastNotification.present();
+            } else {
+              //update notification page live view
+              this.events.publish("kariah:updateView");
+            }
+            return true;
+          }
+
           if (this.nav.getActive().component != NotificationPage) {
             let duration: number = 3000;
             let elapsedTime: number = 0;
@@ -251,7 +286,7 @@ export class MyApp {
             });
 
             toastNotification.onWillDismiss(() => {
-              console.log('Dismissed offline toast');
+              console.log('Dismissed notification toast');
               clearInterval(intervalHandler);
               if (elapsedTime < duration) {
                 this.app.getActiveNav().push(NotificationPage, notiData);

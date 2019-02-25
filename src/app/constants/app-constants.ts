@@ -7,6 +7,7 @@ export class AppConstants {
 
     public static NOTIFICATION_TYPE_EVENT_RESCHEDULE = "EventReschedule";
     public static NOTIFICATION_TYPE_EVENT_CANCEL = "EventCancel";
+    public static NOTIFICATION_TYPE_KARIAH_MEMBERSHIP_STATUS = "KariahMembershipStatus";
 
     public static EVENT_UPCOMING="UPCOMING";
     public static EVENT_HISTORY="HISTORY";
