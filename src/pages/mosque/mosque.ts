@@ -33,6 +33,7 @@ export class MosquePage {
   emptyStarArray: Array<number> = [];
   userId: string = "";
   userType: string = "";
+  showKariahButton = false;
 
   constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform, public global: Globals, public popoverCtrl: PopoverController) {
     this.mosque = navParams.get('data');
@@ -43,6 +44,11 @@ export class MosquePage {
     this.userType = this.global.getUserType();
 
     this.initData()
+    
+    let kariahUser = this.global.getKariahUser()
+    if(!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId != this.mosque.google_place_id))){
+      this.showKariahButton=true;
+    }
   }
 
   ionViewDidEnter(){
