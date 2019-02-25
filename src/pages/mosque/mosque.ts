@@ -46,7 +46,7 @@ export class MosquePage {
     this.initData()
     
     let kariahUser = this.global.getKariahUser()
-    if(!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId != this.mosque.google_place_id))){
+    if(!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque.google_place_id))){
       this.showKariahButton=true;
     }
   }
