@@ -16,6 +16,7 @@ import { LocationsProvider } from '../../providers/locations/locations'
 import { Mosques } from '../../app/models/Mosques';
 // import { SearchMosquePage } from '../search-mosque/search-mosque';
 import { Network } from '@ionic-native/network';
+import * as momenttz from 'moment-timezone';
 import { Observable } from 'rxjs/Rx';
 import { googlemaps } from 'googlemaps';
 
@@ -213,8 +214,9 @@ export class HomePage {
   }
 
   readCurrentLocation(){
-    let today:Date = new Date();
-    this.updated = today.getDate()+"/"+(today.getMonth()+1)+" "+today.getUTCHours()+":"+today.getMinutes();
+    // let today:Date = new Date();
+    // this.updated = today.getDate()+"/"+(today.getMonth()+1)+" "+today.getUTCHours()+":"+today.getMinutes();
+    this.updated = momenttz().tz("Asia/Singapore").format("D/M HH:mm");
     let options = {
       maximumAge: 3000,
       enableHighAccuracy: true,

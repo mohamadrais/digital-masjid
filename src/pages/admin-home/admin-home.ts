@@ -8,6 +8,7 @@ import { HttpService } from "../../app/service/http-service";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
+import * as momenttz from 'moment-timezone';
 
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
@@ -98,8 +99,9 @@ export class AdminHomePage {
   }
 
   readCurrentLocation() {
-    let today: Date = new Date();
-    this.updated = today.getDate() + "/" + (today.getMonth() + 1) + " " + today.getUTCHours() + ":" + today.getMinutes();
+    // let today: Date = new Date();
+    // this.updated = today.getDate() + "/" + (today.getMonth() + 1) + " " + today.getUTCHours() + ":" + today.getMinutes();
+    this.updated = momenttz().tz("Asia/Singapore").format("D/M HH:mm");
     let options = {
       maximumAge: 3000,
       enableHighAccuracy: true,

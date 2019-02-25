@@ -43,19 +43,22 @@ export class MosquePage {
     this.userId = this.global.getUserId();
     this.userType = this.global.getUserType();
 
-    this.initData()
-    
-    let kariahUser = this.global.getKariahUser()
-    if(!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque.google_place_id))){
-      this.showKariahButton=true;
-    }
-  }
-
-  ionViewDidEnter(){
     this.initData();
   }
 
-  initData(){
+  ionViewDidEnter() {
+    this.initData();
+    let kariahUser = this.global.getKariahUser()
+    if (!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque._id))) {
+      this.showKariahButton = true;
+    }
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad MosquePage');
+  }
+
+  initData() {
     this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
       this.events = data;
       this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
@@ -222,7 +225,7 @@ export class MosquePage {
     let today = new Date().toISOString();
 
     let firstEndDtm = endDtm;
-    let secondEndDtm = (index+1 <= this.events.length - 1 ) ? this.events[index+1].event_end_date : '';
+    let secondEndDtm = (index + 1 <= this.events.length - 1) ? this.events[index + 1].event_end_date : '';
 
     let firstDtmParts = firstEndDtm.split("T");
     let firstEndDate = firstDtmParts[0];
@@ -239,10 +242,10 @@ export class MosquePage {
       secondEndDate = endDtmParts[0];
     }
 
-    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index!=0) {
+    if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index != 0) {
       this.events[index].event_header = this.getCategoryLabel(today, startDtm, endDtm);
       return this.events[index].event_header;
-    }else{
+    } else {
       return '';
     }
 

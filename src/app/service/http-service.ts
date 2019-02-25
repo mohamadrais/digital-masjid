@@ -14,7 +14,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/";
-    private BASE_URL: string = "http://159.65.140.100:8080/";
+    // private BASE_URL:string = "http://159.65.140.100:8080/";
+    private BASE_URL: string = "http://192.168.0.106:8080/";
+    // private BASE_URL: string = "http://157.230.242.73:8080/";
 
     private fileTransfer: FileTransferObject;
 
@@ -505,7 +507,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public registerKariahUser(newKariahUser: KariahUser): Observable<KariahUser> {
+    public registerKariahUser(newKariahUser: KariahUser): Observable<any> {
         var data = {
             "userId": newKariahUser.userId,
             "kariahUserFullName": newKariahUser.kariahUserFullName,

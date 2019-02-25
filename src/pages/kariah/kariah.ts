@@ -58,7 +58,7 @@ export class KariahPage {
   isRoot = false;
   userData: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController, public events:Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController, public events: Events) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
@@ -181,7 +181,11 @@ export class KariahPage {
             this.serverResponseSuccess(true);
           } else {
             this.serverResponseSuccess(true);
+            this.global.setKariahUser(data);
           }
+        }
+        else if (data && data.status && data.status == "failure") {
+          this.serverResponseSuccess(false);
         }
       }, error => {
         console.log("error creating new kariah user: " + error);
@@ -198,10 +202,15 @@ export class KariahPage {
       this.prepareData();
 
       this.httpService.updateKariahUser(this.newKariahUser, this.currentUserType).subscribe(data => {
-        if (data.status == "success") {
+        if (data && data.status && data.status == "success") {
           console.log("successfully updated kariah user details");
           this.serverResponseSuccess(true);
+          this.global.setKariahUser(data);
         }
+        else if (data && data.status && data.status == "failure"){
+          this.serverResponseSuccess(false);
+        }
+
       }, error => {
         console.log("error updating kariah user: " + error);
         this.serverResponseSuccess(false);
@@ -213,13 +222,13 @@ export class KariahPage {
 
   serverResponseSuccess(resStatus) {
     let mode = (this.editMode) ? 'update' : 'create';
-    let alertTitle = 'Kariah membership succesfully ' + ((this.editMode) ? 'updated' : 'created');
+    let alertTitle = 'Kariah membership successfully ' + ((this.editMode) ? 'updated' : 'created');
     if (!resStatus) {
-      alertTitle = 'Kariah membership could not be' + ((this.editMode) ? 'updated' : 'created');
+      alertTitle = 'Kariah membership could not be ' + ((this.editMode) ? 'updated' : 'created');
     }
     const confirm = this.alertCtrl.create({
       title: alertTitle,
-      message: (resStatus) ? "" : "Please retry later",
+      message: (resStatus) ? "" : "Please retry later.",
       buttons: [
         {
           text: (resStatus) ? "Alhamdulillah" : "Close",
