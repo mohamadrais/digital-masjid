@@ -121,9 +121,8 @@
     </button>
   </ion-fab> -->
 
-  <ion-fab bottom="" right="" *ngIf="mosque.isRegistered">
-    <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="kariahPage()"
-      *ngIf="showKariahButton">
+  <ion-fab bottom="" right="" *ngIf="mosque.isRegistered && showKariahButton">
+    <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="kariahPage()">
       <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
       </ion-icon><span class="button-inner">
         <ion-icon name="ios-people" role="img" class="icon" aria-label="logo infaq"></ion-icon>
