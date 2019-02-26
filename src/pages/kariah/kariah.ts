@@ -184,6 +184,7 @@ export class KariahPage {
           } else {
             this.global.setKariahUser(data);
             this.serverResponseSuccess(true);
+            this.getUserKariahOnline(this.userId);
           }
         }
         else if (data && data.status && data.status == "failure") {
