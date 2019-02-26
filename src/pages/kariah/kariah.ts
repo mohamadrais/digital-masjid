@@ -207,7 +207,7 @@ export class KariahPage {
       this.httpService.updateKariahUser(this.newKariahUser, this.currentUserType).subscribe(data => {
         if (data && data.status && data.status == "success") {
           console.log("successfully updated kariah user details");
-          if(data.result && data.result.length > 0){
+          if(data.result){
             this.global.setKariahUser(data.result);
           }
           this.serverResponseSuccess(true);

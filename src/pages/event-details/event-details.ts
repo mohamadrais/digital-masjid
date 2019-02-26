@@ -108,10 +108,10 @@ export class EventDetailsPage {
       })
     }
 
-    this.httpService.countMaleParticipants(event_id).subscribe(data => {
-      this.event.maleCount = data;
-      this.event.femaleCount = this.event.userCount - this.event.maleCount;
-    });
+    // this.httpService.countMaleParticipants(event_id).subscribe(data => {
+    //   this.event.maleCount = data;
+    //   this.event.femaleCount = this.event.userCount - this.event.maleCount;
+    // });
   }
 
   goBack() {
@@ -216,7 +216,7 @@ export class EventDetailsPage {
         this.event.users.push(this.currentUser._id);
       }
 
-      this.getGenderCount();
+      // this.getGenderCount();
       this.updated = true;
     }, error => {
       console.log("Issue occured while joining the event");
@@ -234,7 +234,7 @@ export class EventDetailsPage {
         this.event.users.splice(this.event.users.indexOf(this.currentUser._id), 1);
       }
 
-      this.getGenderCount();
+      // this.getGenderCount();
       this.updated = true;
     }, error => {
       console.log("Issue occured while declining the event");
@@ -396,12 +396,12 @@ export class EventDetailsPage {
     return (event.quota - event.users.length);
   }
 
-  getGenderCount() {
-    this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
-      this.event.maleCount = data;
-      this.event.femaleCount = this.event.userCount - this.event.maleCount;
-    });
-  }
+  // getGenderCount() {
+  //   this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
+  //     this.event.maleCount = data;
+  //     this.event.femaleCount = this.event.userCount - this.event.maleCount;
+  //   });
+  // }
 
   openMap(event: MosqueEvent) {
     if (this.platform.is('ios')) {
