@@ -400,6 +400,34 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    public verifyEmail(email: String): Observable<any> {
+        var data = {
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/verifyEmail", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public verifyEmailToken(token: String, email: String): Observable<any> {
+        var data = {
+            "token": token,
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/verifyEmailToken", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public checkEmailExists(email: String): Observable<any> {
+        var data = {
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/checkEmailExists", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     public resetPassword(email: String, code: String, resetPassword: String, ): Observable<any> {
         var data = {
             "email": email,

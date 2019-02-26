@@ -45,7 +45,13 @@ export class LoginPage {
   }
 
   registerPage() {
-    this.navCtrl.push(RegisterPage)
+    this.navCtrl.push(RegisterPage,{
+      callback: data =>{
+        if(data.forgotPassword){
+          this.forgotPasswordPage();
+        }
+      }
+    })
   }
 
   homePage() {

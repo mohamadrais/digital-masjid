@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, Slides, LoadingController, TextInput } from 'ionic-angular';
 import { HttpService } from "../../app/service/http-service";
 import { Globals } from "../../app/constants/globals";
 import { RegisterPage } from '../register/register';
@@ -18,6 +18,8 @@ import { RegisterPage } from '../register/register';
 })
 export class ForgotPassword {
   @ViewChild(Slides) slides: Slides;
+  @ViewChild("verificationCode") verificationCodeElem:TextInput;
+  @ViewChild("password") passwordElem:TextInput;
   email: string;
   code: string;
   resetPassword: string;
@@ -66,7 +68,8 @@ export class ForgotPassword {
             this.verifyToken();
           } else if (this.slides.getActiveIndex() == 2) {// if current slide is third slide
             console.log("expected slide 2, gotten: " + this.slides.getActiveIndex());
-            this.saveResettedPassword(this.code);
+            (this.resetPassword && this.resetPassword2 && (this.resetPassword == this.resetPassword2))?this.saveResettedPassword(this.code):'';
+            // this.saveResettedPassword(this.code);
           }
         } else {
           this.flowButton = "Close";
@@ -87,6 +90,9 @@ export class ForgotPassword {
         if (this.slides.getActiveIndex() == 0) {
           this.moveSlide();
           this.flowButton = "Next";
+          setTimeout(()=>{
+            this.verificationCodeElem.setFocus();
+          },500);
         }
         this.loading.dismiss();
       } else if (data.status == "failure") {
@@ -108,6 +114,9 @@ export class ForgotPassword {
         this.moveSlide();
         this.flowButton = "Next";
         this.loading.dismiss();
+        setTimeout(()=>{
+          this.passwordElem.setFocus();
+        },500);
       } else if (data.status == "failure") {
         this.failure = true;
         this.loading.dismiss();
