@@ -13,6 +13,7 @@ import { User } from "../../app/models/User";
 import { Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { AppConstants } from '../../app/constants/app-constants';
+import * as moment from 'moment';
 
 /**
  * Generated class for the EventDetailsPage page.
@@ -335,7 +336,8 @@ export class EventDetailsPage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
   showConfirm() {
     const confirm = this.alertCtrl.create({

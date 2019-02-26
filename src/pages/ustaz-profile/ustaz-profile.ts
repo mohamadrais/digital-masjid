@@ -7,7 +7,7 @@ import { HttpService } from "../../app/service/http-service";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { EventDetailsPage } from '../event-details/event-details';
 import { PopoverRatingPage } from './popover-rating';
-
+import * as moment from 'moment';
 /**
  * Generated class for the UstazProfilePage page.
  *
@@ -152,7 +152,8 @@ export class UstazProfilePage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
 
   calculateStar(avgRating) {

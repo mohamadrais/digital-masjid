@@ -7,6 +7,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 import { EventDetailsPage } from '../event-details/event-details';
 import { RegisterPage } from '../register/register';
 import { User } from '../../app/models/User';
+import * as moment from 'moment';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -37,12 +38,12 @@ export class ProfilePage {
         this.userData = this.global.getUser();
         this.name = this.userData.name;
         this.email = this.userData.email;
-        // this.pointsCollected = this.userData.pointsCollected;
+        this.pointsCollected = parseInt(this.userData.pointsCollected);
 
         if (this.userData.userType == AppConstants.USER_TYPE_USER) {
           this.isUserTypeUser = true;
         }
-        this.pointsCollected = 0;
+        // this.pointsCollected = 0;
         this.findEvents(AppConstants.EVENT_HISTORY);
         this.findEvents(AppConstants.EVENT_UPCOMING);
   }
@@ -68,14 +69,14 @@ export class ProfilePage {
       if (data) {
         if (eventEndType == AppConstants.EVENT_HISTORY) {
           this.events_history = data;
-          data.forEach(element => {
-            this.pointsCollected += element.points;
-          });
+          // data.forEach(element => {
+          //   this.pointsCollected += element.points;
+          // });
         } else if (eventEndType == AppConstants.EVENT_UPCOMING) {
           this.events_upcoming = data;
-          data.forEach(element => {
-            this.pointsCollected += element.points;
-          });
+          // data.forEach(element => {
+          //   this.pointsCollected += element.points;
+          // });
         }
 
         // this.eventsSize = data.length;
@@ -115,7 +116,8 @@ export class ProfilePage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
 
   ionViewDidLoad() {

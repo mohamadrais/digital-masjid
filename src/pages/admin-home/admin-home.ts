@@ -9,6 +9,7 @@ import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import * as momenttz from 'moment-timezone';
+import * as moment from 'moment';
 
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
@@ -91,7 +92,8 @@ export class AdminHomePage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
 
   getSeatsLeft(event: MosqueEvent): number {

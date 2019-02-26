@@ -5,6 +5,7 @@ import { Globals } from "../../app/constants/globals";
 import { HttpService } from "../../app/service/http-service";
 import { EventDetailsPage } from '../event-details/event-details';
 import { MosqueEvent } from "../../app/models/MosqueEvents";
+import * as moment from 'moment';
 /**
  * Generated class for the BookmarkPage page.
  *
@@ -52,7 +53,8 @@ export class BookmarkPage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
 
   getSeatsLeft(event: MosqueEvent): number {

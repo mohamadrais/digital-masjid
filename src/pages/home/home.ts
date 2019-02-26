@@ -17,6 +17,7 @@ import { Mosques } from '../../app/models/Mosques';
 // import { SearchMosquePage } from '../search-mosque/search-mosque';
 import { Network } from '@ionic-native/network';
 import * as momenttz from 'moment-timezone';
+import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { googlemaps } from 'googlemaps';
 
@@ -186,7 +187,8 @@ export class HomePage {
         date = today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+" "+today.getUTCHours()+":"+today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
   feedbackAltPage(){
     this.navCtrl.push(FeedbackAltPage)

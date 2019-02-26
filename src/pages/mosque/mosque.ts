@@ -14,6 +14,7 @@ import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
 import { PopoverMosqueRatingPage } from './popover-mosque-rating';
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-mosque',
@@ -97,7 +98,8 @@ export class MosquePage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
   feedbackPage() {
     this.navCtrl.push(FeedbackPage)

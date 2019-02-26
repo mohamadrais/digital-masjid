@@ -91,12 +91,7 @@
 
       <ion-item [ngClass]="{'error':pointsError}">
         <ion-label floating>Points</ion-label>
-        <ion-select [(ngModel)]="points">
-          <ion-option value="5">5</ion-option>
-          <ion-option value="10">10</ion-option>
-          <ion-option value="15">15</ion-option>
-          <ion-option value="20">20</ion-option>
-        </ion-select>
+        <ion-input type="number" [(ngModel)]="points"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Quota:</ion-label>
