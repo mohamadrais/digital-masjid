@@ -73,6 +73,7 @@ export class LoginPage {
 
         this.global.set(AppConstants.USER, data);
         this.global.setUser(data);
+        this.initKariah(data._id);
         console.log("AppConstants.USER = " + data);
         if (data.userType.toUpperCase() === AppConstants.USER_TYPE_ADMIN) {
           this.adminhomePage();
@@ -105,6 +106,14 @@ export class LoginPage {
     })
   }
 
+  initKariah(userId){
+    this.httpService.getKariahDetails(userId,null).subscribe(data =>{
+      if (data && Array.isArray(data) && data.length > 0) {
+        let kariahUser = data[0];
+        this.global.setKariahUser(kariahUser);
+      }
+    });
+  }
   async sendPushTokenToServer(pushToken, userId, userMobile) {
     return new Promise(async (resolve, reject) => {
       try {
