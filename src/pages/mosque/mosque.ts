@@ -37,8 +37,8 @@ export class MosquePage {
 
   constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public iab: InAppBrowser, public platform: Platform, public global: Globals, public popoverCtrl: PopoverController) {
     this.mosque = navParams.get('data');
-    this.getMosqueRating(this.mosque._id);
-    // mosque._id now equals google_place_id
+    this.getMosqueRating(this.mosque.google_place_id);
+    // mosque.google_place_id now equals google_place_id
 
     this.userId = this.global.getUserId();
     this.userType = this.global.getUserType();
@@ -49,7 +49,7 @@ export class MosquePage {
   ionViewDidEnter() {
     this.initData();
     let kariahUser = this.global.getKariahUser()
-    if (!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque._id))) {
+    if (!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque.google_place_id))) {
       this.showKariahButton = true;
     }
   }
@@ -59,7 +59,7 @@ export class MosquePage {
   }
 
   initData() {
-    this.httpService.findEventsByMosque(this.mosque._id).subscribe(data => {
+    this.httpService.findEventsByMosque(this.mosque.google_place_id).subscribe(data => {
       this.events = data;
       this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1)
       if (data) {
@@ -112,7 +112,7 @@ export class MosquePage {
   }
   kariahPage() {
     this.navCtrl.push(KariahPage, {
-      "mosqueGooglePlaceId": (this.mosque._id) ? this.mosque._id : '',
+      "mosqueGooglePlaceId": (this.mosque.google_place_id) ? this.mosque.google_place_id : '',
       "mosqueTitle": (this.mosque.title) ? this.mosque.title : ''
     })
   }
@@ -186,14 +186,14 @@ export class MosquePage {
     popover.onDidDismiss(data => {
       if (data) {
         this.mosque = data.mosque;
-        this.getMosqueDetails(this.mosque._id);
+        this.getMosqueDetails(this.mosque.google_place_id);
       }
     })
   }
 
 
   // openMap(url){
-  //   let generatedUrl='https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque._id);
+  //   let generatedUrl='https://www.google.com/maps/place/?q=place_id:'+((this.mosque.google_place_id)?this.mosque.google_place_id:this.mosque.google_place_id);
 
   //   if(url){
   //     generatedUrl = url

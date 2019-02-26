@@ -15,7 +15,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 export class HttpService {
     //private BASE_URL:string = "http://159.65.140.100:8686/";
     private BASE_URL:string = "http://159.65.140.100:8080/";
-
+    
     private fileTransfer: FileTransferObject;
 
     constructor(public http: Http, private transfer: FileTransfer, private file: File, private iab: InAppBrowser) {
@@ -528,7 +528,7 @@ export class HttpService {
 
     public updateKariahUser(kariahUser: KariahUser, updateFrom: string): Observable<any> {
         var data = {
-            "_id": kariahUser._id,
+            "kariahId": kariahUser._id,
             "userId": kariahUser.userId,
             "kariahUserFullName": kariahUser.kariahUserFullName,
             "kariahUserIcnumber": kariahUser.kariahUserIcnumber,

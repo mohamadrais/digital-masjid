@@ -79,8 +79,7 @@ export class KariahPage {
       this.currentUserType = AppConstants.USER_TYPE_USER;
       this.isAdmin = false;
 
-      //temp comment the global storage because to check if online search working or not
-      this.kariahUser = null//this.global.getKariahUser();
+      this.kariahUser = this.global.getKariahUser();
 
       if (this.kariahUser) {
         this.initKariahUser();
@@ -152,6 +151,9 @@ export class KariahPage {
 
   prepareData() {
     this.newKariahUser = new KariahUser();
+    if (this.editMode){
+      this.newKariahUser._id = this._id;
+    }
     this.newKariahUser.userId = this.userId;
     this.newKariahUser.kariahUserFullName = this.kariahUserFullName;
     this.newKariahUser.kariahUserIcnumber = this.kariahUserIcnumber;
@@ -180,8 +182,8 @@ export class KariahPage {
           if (this.isAdmin) {
             this.serverResponseSuccess(true);
           } else {
-            this.serverResponseSuccess(true);
             this.global.setKariahUser(data);
+            this.serverResponseSuccess(true);
           }
         }
         else if (data && data.status && data.status == "failure") {
@@ -204,8 +206,10 @@ export class KariahPage {
       this.httpService.updateKariahUser(this.newKariahUser, this.currentUserType).subscribe(data => {
         if (data && data.status && data.status == "success") {
           console.log("successfully updated kariah user details");
+          if(data.result && data.result.length > 0){
+            this.global.setKariahUser(data.result);
+          }
           this.serverResponseSuccess(true);
-          this.global.setKariahUser(data);
         }
         else if (data && data.status && data.status == "failure"){
           this.serverResponseSuccess(false);
