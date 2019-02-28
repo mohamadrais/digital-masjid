@@ -44,7 +44,7 @@ export class MosquePage {
     this.userId = this.global.getUserId();
     this.userType = this.global.getUserType();
 
-    this.initData();
+    // this.initData();
   }
 
   ionViewDidEnter() {

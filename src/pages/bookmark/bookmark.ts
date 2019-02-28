@@ -23,7 +23,9 @@ export class BookmarkPage {
   event_bookmarks;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
+  }
 
+  ionViewDidEnter(){
     this.httpService.bookmarkList(this.global.getUserId()).subscribe(bookmarks => {
       this.event_bookmarks = bookmarks;
 
