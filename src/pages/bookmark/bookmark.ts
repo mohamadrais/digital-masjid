@@ -25,9 +25,14 @@ export class BookmarkPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter() {
     this.httpService.bookmarkList(this.global.getUserId()).subscribe(bookmarks => {
-      this.event_bookmarks = bookmarks;
+
+      if (bookmarks && Array.isArray(bookmarks) && bookmarks.length > 0) {
+        this.event_bookmarks = bookmarks;
+      } else {
+        this.event_bookmarks = [];
+      }
 
       console.log(JSON.stringify(this.event_bookmarks));
     });
