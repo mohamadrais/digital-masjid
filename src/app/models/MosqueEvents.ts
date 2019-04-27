@@ -1,3 +1,5 @@
+import {Url} from "./MosqueEventsUrl"
+
 export class MosqueEvent {
     _id: string;
     event_title: string;
@@ -20,6 +22,7 @@ export class MosqueEvent {
     created_by: string;
     event_description:string;
     event_status:string;
+    event_url:Array<Url>;
 
     //as header seperator
     event_header=''

@@ -1,0 +1,36 @@
+<!--
+  Generated template for the SignupPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="mm-header">
+  <ion-navbar>
+    <ion-title>{{(updateMode)?'Update':'Add'}} URL
+      <page-notification-bell></page-notification-bell>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-row ngClass="login-radio no-margin">
+      <ion-list ngClass="lang-container no-margin">
+        <ion-item>
+          <ion-label floating>URL Link</ion-label>
+          <ion-input [(ngModel)]="link" name="link"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>URL Display Text</ion-label>
+          <ion-input [(ngModel)]="displayText" name="displayText"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-row>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="addUpdateUrl()">{{(updateMode)?'UPDATE':'ADD'}}</button>
+  </ion-buttons>
+</ion-footer>

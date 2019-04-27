@@ -8,7 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { Device } from '@ionic-native/device';
-import { HttpModule, Http }    from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -46,6 +46,7 @@ import { RegisterPage } from '../pages/register/register';
 import { RegisterUstazPage } from '../pages/register-ustaz/register-ustaz';
 import { EventDetailsPage } from '../pages/event-details/event-details';
 import { CreateEventPage } from '../pages/create-event/create-event';
+import { MosqueEventUrlPage } from '../pages/mosque-event-url/mosque-event-url'
 import { QiblaPage } from '../pages/qibla/qibla';
 import { ProfilePage } from '../pages/profile/profile';
 import { UstazProfilePage } from '../pages/ustaz-profile/ustaz-profile';
@@ -83,6 +84,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     RegisterUstazPage,
     EventDetailsPage,
     CreateEventPage,
+    MosqueEventUrlPage,
     ProfilePage,
     UstazProfilePage,
     PopoverRatingPage,
@@ -149,6 +151,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     RegisterUstazPage,
     EventDetailsPage,
     CreateEventPage,
+    MosqueEventUrlPage,
     UstazProfilePage,
     PopoverRatingPage,
     PopoverMosqueRatingPage,
@@ -193,7 +196,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     Camera,
     Facebook,
     GooglePlus,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     ImageProvider,
     FcmProvider,
     Firebase,
@@ -202,4 +205,4 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     File
   ]
 })
-export class AppModule {}
+export class AppModule { }

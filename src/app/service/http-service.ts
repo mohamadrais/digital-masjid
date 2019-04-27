@@ -13,9 +13,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
 export class HttpService {
-    //private BASE_URL:string = "http://159.65.140.100:8686/";
-    private BASE_URL: string = "http://159.65.140.100:8080/";
-
+    private BASE_URL:string = "http://159.65.140.100:8080/";
+    
     private fileTransfer: FileTransferObject;
 
     constructor(public http: Http, private transfer: FileTransfer, private file: File, private iab: InAppBrowser) {
@@ -88,7 +87,8 @@ export class HttpService {
             "event_end_date": event.event_end_date,
             "event_start_date": event.event_start_date,
             "address": event.address,
-            "event_description": event.event_description
+            "event_description": event.event_description,
+            "event_url": event.event_url
         }
         console.log(JSON.stringify(data));
         return this.http.post(this.BASE_URL + "events/addevent", data)
@@ -109,6 +109,7 @@ export class HttpService {
             "event_start_date": event.event_start_date,
             "address": event.address,
             "event_description": event.event_description,
+            "event_url": event.event_url,
             "isEventDateModified": isEventDateModified
         }
         console.log(JSON.stringify(data));
@@ -400,6 +401,34 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    public verifyEmail(email: String): Observable<any> {
+        var data = {
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/verifyEmail", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public verifyEmailToken(token: String, email: String): Observable<any> {
+        var data = {
+            "token": token,
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/verifyEmailToken", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public checkEmailExists(email: String): Observable<any> {
+        var data = {
+            "email": email
+        };
+        return this.http.post(this.BASE_URL + "users/checkEmailExists", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     public resetPassword(email: String, code: String, resetPassword: String, ): Observable<any> {
         var data = {
             "email": email,
@@ -505,7 +534,7 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public registerKariahUser(newKariahUser: KariahUser): Observable<KariahUser> {
+    public registerKariahUser(newKariahUser: KariahUser): Observable<any> {
         var data = {
             "userId": newKariahUser.userId,
             "kariahUserFullName": newKariahUser.kariahUserFullName,
@@ -528,7 +557,7 @@ export class HttpService {
 
     public updateKariahUser(kariahUser: KariahUser, updateFrom: string): Observable<any> {
         var data = {
-            "_id": kariahUser._id,
+            "kariahId": kariahUser._id,
             "userId": kariahUser.userId,
             "kariahUserFullName": kariahUser.kariahUserFullName,
             "kariahUserIcnumber": kariahUser.kariahUserIcnumber,

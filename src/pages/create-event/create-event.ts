@@ -9,7 +9,7 @@ import { Globals } from "../../app/constants/globals";
 import { AlertController } from 'ionic-angular';
 import { SearchModeratorPage } from '../search-moderator/search-moderator'
 import { SearchManagedMosquesPage } from '../search-managed-mosques/search-managed-mosques';
-
+import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url'
 /**
  * Generated class for the CreateEventPage page.
  *
@@ -27,8 +27,8 @@ export class CreateEventPage {
   category: string;
   ustaz: Array<any> = [];
   mosque;
-  points: string;
-  quota: number
+  points: number;
+  quota: number;
   event_start_date: string;
   event_end_date: string;
   event_description: string;
@@ -43,6 +43,8 @@ export class CreateEventPage {
   unlimitedQuotaFlag: boolean = false;
   didQuotaChange: boolean = false;
   didUstazListChange: boolean = false;
+  didUrlListChange: boolean = false;
+  url: any = []; // link, displayText
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService,
@@ -55,9 +57,17 @@ export class CreateEventPage {
       this.eventId = this.event._id;
       this.event_title = this.event.event_title;
       // this.category = this.event.category;
-      this.ustaz = this.event.moderator_details.slice();
+      this.ustaz = [];
+      if (this.event.moderator_details && this.event.moderator_details.length > 0) {
+        for (var i = 0, len = this.event.moderator_details.length; i < len; i++) {
+          this.ustaz[i] = {}; 
+          for (var prop in this.event.moderator_details[i]) {
+            this.ustaz[i][prop] = this.event.moderator_details[i][prop]; // copy properties
+          }
+        }
+      }
       this.mosque = this.event.mosque_details[0];
-      this.points = this.event.points.toString();
+      this.points = this.event.points;
       if (this.event.quota == null || this.event.quota == 0) {
         this.unlimitedQuotaFlag = true;
       }
@@ -68,6 +78,15 @@ export class CreateEventPage {
       this.event_end_date = this.event.event_end_date;
       this.event_description = this.event.event_description;
       this.event_status = this.event.event_status;
+      this.url = [];
+      if (this.event.event_url && this.event.event_url.length > 0) {
+        for (var i = 0, len = this.event.event_url.length; i < len; i++) {
+          this.url[i] = {}; 
+          for (var prop in this.event.event_url[i]) {
+            this.url[i][prop] = this.event.event_url[i][prop]; // copy properties
+          }
+        }
+      }
       this.editMode = true;
     }
 
@@ -121,7 +140,7 @@ export class CreateEventPage {
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length != b.length) return false;
-  
+
     for (var i = 0; i < a.length; ++i) {
       if (a[i] !== b[i]) return false;
     }
@@ -163,6 +182,8 @@ export class CreateEventPage {
 
 
   updateEvent() {
+    console.log('current event url: ' + JSON.stringify(this.event.event_url));
+    console.log('this url: ' + JSON.stringify(this.url));
     if (this.validateData()) {
 
       this.prepareData();
@@ -189,7 +210,7 @@ export class CreateEventPage {
     this.event.event_title = this.event_title;
     // this.event.category = this.category;
     this.event.ustaz = this.getUstazIdArray();
-    this.event.points = this.points ? parseInt(this.points) : 0;
+    this.event.points = this.points;
 
     // set quota
     if (this.unlimitedQuotaFlag) {
@@ -201,6 +222,7 @@ export class CreateEventPage {
     this.event.event_end_date = this.event_end_date;
     this.event.address = this.mosque.google_place_id;
     this.event.event_description = this.event_description;
+    this.event.event_url = this.url;
     this.event.createdTimestamp = new Date().toISOString();
   }
 
@@ -213,12 +235,12 @@ export class CreateEventPage {
       }
 
       // check if quota changed
-      if (this.event.quota!=null && (this.event.quota < 1 )) {
+      if (this.event.quota != null && (this.event.quota < 1)) {
         if (!this.unlimitedQuotaFlag && this.quota && this.quota != this.event.quota) {
           this.didQuotaChange = true;
         }
-      } 
-      if (this.event.quota!=null && this.event.quota >= 1) {
+      }
+      if (this.event.quota != null && this.event.quota >= 1) {
         if (this.unlimitedQuotaFlag || (this.quota && this.quota != this.event.quota)) {
           this.didQuotaChange = true;
         }
@@ -231,9 +253,15 @@ export class CreateEventPage {
         this.didUstazListChange = true;
       }
 
+      // check if url changed
+      if (!(this.arraysEqual(this.url, this.event.event_url))) {
+        this.didUrlListChange = true;
+      }
+
       return ((this.event_title && this.event_title != this.event.event_title)
         || (this.ustaz && this.ustaz.length > 0 && this.didUstazListChange)
-        || (this.points && (this.points ? parseInt(this.points) : 0) != this.event.points)
+        || (this.didUrlListChange)
+        || (this.points && this.points != this.event.points)
         || (((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.didQuotaChange)
         || (this.event_start_date && this.event_start_date != this.event.event_start_date)
         || (this.event_end_date && this.event_end_date != this.event.event_end_date)
@@ -278,4 +306,48 @@ export class CreateEventPage {
     confirm.present();
   }
 
+
+  //URL
+
+  getUrlIdArray() {
+    let uList = [];
+    for (let x = 0; x < this.url.length; x++) {
+      uList.push(this.url[x]._id);
+    }
+    return uList;
+  }
+
+  addUpdateUrl(index) {
+    this.navCtrl.push(MosqueEventUrlPage, {
+      "data": (index != null) ? this.url[index] : '',
+      callback: data => {
+        console.log('current event url: ' + this.event.event_url);
+        if (index != null) {
+          this.url[index] = data
+        } else {
+          this.url.push(data);
+        }
+      }
+    })
+  }
+
+  deleteUrl(i: number) {
+    this.url.splice(i, 1)
+  }
+
+  // popupUrlDetails(mosqueEvent:MosqueEvent) {
+  //   const viewMosqueEvent = this.alertCtrl.create({
+  //     title: mosqueEvent.event_title,
+  //     message: 'url: ' + mosqueEvent.url,
+  //     buttons: [
+  //       {
+  //         text: 'Ok',
+  //         handler: () => {
+  //           console.log('Ok clicked');
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   viewMosqueEvent.present();
+  // }
 }

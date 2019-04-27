@@ -13,6 +13,9 @@ import { User } from "../../app/models/User";
 import { Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { AppConstants } from '../../app/constants/app-constants';
+import * as moment from 'moment';
+import { Url } from "../../app/models/MosqueEventsUrl"
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 /**
  * Generated class for the EventDetailsPage page.
@@ -35,7 +38,7 @@ export class EventDetailsPage {
   currentUser: User;
   updated: boolean = false;
   expiredEvent: boolean = false;
-  cancelledEvent:boolean = false;
+  cancelledEvent: boolean = false;
 
   percent = 0;
   count = 0;
@@ -44,7 +47,7 @@ export class EventDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
-    public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController) {
+    public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController, public iab: InAppBrowser) {
 
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
     let event_id = (this.event && this.event._id) ? this.event._id : this.navParams.get("eventId");
@@ -66,7 +69,7 @@ export class EventDetailsPage {
         }
       }
 
-      if(this.event.event_status && this.event.event_status=="Cancelled"){
+      if (this.event.event_status && this.event.event_status == "Cancelled") {
         this.cancelledEvent = true;
       }
     }
@@ -92,14 +95,14 @@ export class EventDetailsPage {
             }
           }
 
-          if(this.event.event_status && this.event.event_status=="Cancelled"){
+          if (this.event.event_status && this.event.event_status == "Cancelled") {
             this.cancelledEvent = true;
           }
         } else {
           this.event.moderator_details = data.moderator_details;
           this.event.mosque_details = data.mosque_details;
 
-          if(this.event.event_status && this.event.event_status=="Cancelled"){
+          if (this.event.event_status && this.event.event_status == "Cancelled") {
             this.cancelledEvent = true;
           }
         }
@@ -107,10 +110,10 @@ export class EventDetailsPage {
       })
     }
 
-    this.httpService.countMaleParticipants(event_id).subscribe(data => {
-      this.event.maleCount = data;
-      this.event.femaleCount = this.event.userCount - this.event.maleCount;
-    });
+    // this.httpService.countMaleParticipants(event_id).subscribe(data => {
+    //   this.event.maleCount = data;
+    //   this.event.femaleCount = this.event.userCount - this.event.maleCount;
+    // });
   }
 
   goBack() {
@@ -156,6 +159,7 @@ export class EventDetailsPage {
           this.event.points = data.points;
           this.event.quota = data.quota;
           this.event.event_description = data.event_description;
+          this.event.event_url = data.event_url;
           this.updated = true;
         }
       }
@@ -215,7 +219,7 @@ export class EventDetailsPage {
         this.event.users.push(this.currentUser._id);
       }
 
-      this.getGenderCount();
+      // this.getGenderCount();
       this.updated = true;
     }, error => {
       console.log("Issue occured while joining the event");
@@ -233,7 +237,7 @@ export class EventDetailsPage {
         this.event.users.splice(this.event.users.indexOf(this.currentUser._id), 1);
       }
 
-      this.getGenderCount();
+      // this.getGenderCount();
       this.updated = true;
     }, error => {
       console.log("Issue occured while declining the event");
@@ -335,7 +339,8 @@ export class EventDetailsPage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
   showConfirm() {
     const confirm = this.alertCtrl.create({
@@ -394,12 +399,12 @@ export class EventDetailsPage {
     return (event.quota - event.users.length);
   }
 
-  getGenderCount() {
-    this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
-      this.event.maleCount = data;
-      this.event.femaleCount = this.event.userCount - this.event.maleCount;
-    });
-  }
+  // getGenderCount() {
+  //   this.httpService.countMaleParticipants(this.event._id).subscribe(data => {
+  //     this.event.maleCount = data;
+  //     this.event.femaleCount = this.event.userCount - this.event.maleCount;
+  //   });
+  // }
 
   openMap(event: MosqueEvent) {
     if (this.platform.is('ios')) {
@@ -408,6 +413,19 @@ export class EventDetailsPage {
       let label = encodeURI('My Label');
       window.open('geo:0,0?q=' + event.mosque_details[0].title, '_system');
     }
+  }
+
+  openLink(url: Url) {
+    console.log("clicked link: " + url.link + ", displayText: " + url.displayText);
+    var pattern = /^((http|https|ftp):\/\/)/;
+
+    if (!pattern.test(url.link)) {
+      url.link = "http://" + url.link;
+    }
+
+    // window.open(url.link, '_system', 'location=yes');
+    const browser = this.iab.create(url.link, '_self', 'location=yes');
+    browser.show();
   }
 
   shareEvent() {
@@ -462,7 +480,7 @@ export class EventDetailsPage {
         this.expiredEvent = false;
         return false
       }
-    }else{
+    } else {
       return false;
     }
 

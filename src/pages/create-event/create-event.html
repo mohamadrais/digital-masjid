@@ -91,12 +91,7 @@
 
       <ion-item [ngClass]="{'error':pointsError}">
         <ion-label floating>Points</ion-label>
-        <ion-select [(ngModel)]="points">
-          <ion-option value="5">5</ion-option>
-          <ion-option value="10">10</ion-option>
-          <ion-option value="15">15</ion-option>
-          <ion-option value="20">20</ion-option>
-        </ion-select>
+        <ion-input type="number" [(ngModel)]="points"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Quota:</ion-label>
@@ -115,6 +110,30 @@
       </ion-item>
     </ion-list>
   </ion-row>
+  <ion-item>
+    <ion-label (click)="addUpdateUrl(null)">URL
+      <button ngClass="lookup-icon">
+  
+        <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+  
+        <div class="button-effect"></div>
+      </button>
+    </ion-label>
+  </ion-item>
+  
+  <ion-item [ngClass]="{'error':locationError}" *ngIf="this.url && this.url.length>0">
+    <ion-label>
+      <div *ngIf="this.url && this.url.length>0">
+        <ion-chip ngClass="ustaz-chip" *ngFor="let u of url; let i = index">
+          <ion-label (click)="addUpdateUrl(i)">{{u.displayText}}</ion-label>
+          <button ion-button clear color="light" (click)="deleteUrl(i)">
+            <ion-icon name="close-circle" ></ion-icon>
+          </button>
+        </ion-chip>
+      </div>
+    </ion-label>
+  </ion-item>
+
   <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
   <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt">All fields are mandatory!</ion-label>
   <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label>

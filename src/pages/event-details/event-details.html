@@ -40,10 +40,20 @@
             <label>{{event.event_description}}</label>
           </div>
         </ion-row>
+        <ion-row ngClass="details-name-container" *ngIf="this.event.event_url && this.event.event_url.length>0">
+          <div ngClass="details-label">Extra info:</div>
+          <div ngClass="details-name">
+            <div *ngIf="this.event.event_url && this.event.event_url.length>0">
+              <ion-chip *ngFor="let u of event.event_url; let i = index" (click)="openLink(u)">
+                <ion-label>{{u.displayText}}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </ion-row>
         <ion-row ngClass="details-name-container">
           <div ngClass="event-icon-left">
             <ion-icon ngClass="share-icon no-margin" name="md-share" (click)="shareEvent()" *ngIf="!expiredEvent"></ion-icon>
-            <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="!(isAdmin || isModerator) && !expiredEvent " name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
+            <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="(!(isAdmin || isModerator) && !expiredEvent) || favoriteClicked" name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
             <ion-icon ngClass="like-icon red" name="md-close-circle" (click)="cancelEventConfirm()" *ngIf="isAdmin"></ion-icon><!-- admin will have cancel button -->
           </div>
           <div ngClass="event-details-right">
