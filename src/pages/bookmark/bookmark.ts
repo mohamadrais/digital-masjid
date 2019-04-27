@@ -5,6 +5,7 @@ import { Globals } from "../../app/constants/globals";
 import { HttpService } from "../../app/service/http-service";
 import { EventDetailsPage } from '../event-details/event-details';
 import { MosqueEvent } from "../../app/models/MosqueEvents";
+import * as moment from 'moment';
 /**
  * Generated class for the BookmarkPage page.
  *
@@ -22,9 +23,16 @@ export class BookmarkPage {
   event_bookmarks;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
+  }
 
+  ionViewWillEnter() {
     this.httpService.bookmarkList(this.global.getUserId()).subscribe(bookmarks => {
-      this.event_bookmarks = bookmarks;
+
+      if (bookmarks && Array.isArray(bookmarks) && bookmarks.length > 0) {
+        this.event_bookmarks = bookmarks;
+      } else {
+        this.event_bookmarks = [];
+      }
 
       console.log(JSON.stringify(this.event_bookmarks));
     });
@@ -52,7 +60,8 @@ export class BookmarkPage {
       date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
-    return date;
+    // return date;
+    return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
 
   getSeatsLeft(event: MosqueEvent): number {

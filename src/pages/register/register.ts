@@ -8,6 +8,9 @@ import { LoginPage } from "../login/login";
 import { AlertController } from 'ionic-angular';
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ForgotPassword } from '../forgot-password/forgotPassword';
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -18,7 +21,7 @@ import { AppConstants } from "../../app/constants/app-constants";
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
-  providers:[LoginPage]
+  providers: [LoginPage]
 })
 export class RegisterPage {
 
@@ -26,6 +29,7 @@ export class RegisterPage {
   name: string;
   nickname: string;
   password: string;
+  confirmPassword: string;
   icnumber: string;
   gender: string;
   mobile: string;
@@ -36,8 +40,9 @@ export class RegisterPage {
   editMode: boolean = false;
   dob: string;
   deviceInfo: any;
+  verifiedEmail = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public login: LoginPage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public login: LoginPage, public iab: InAppBrowser) {
     //if loggedIn
     this.userData = this.navParams.get("data");
     if (this.userData) {
@@ -222,5 +227,90 @@ export class RegisterPage {
         reject(false);
       }
     })
+  }
+
+  verifyToken() {
+    const confirm = this.alertCtrl.create({
+      title: 'We have sent verification code to ' + this.email + ".",
+      subTitle:"Please fill in the code into the input below:",
+      enableBackdropDismiss: false,
+      inputs: [
+        {
+          name: 'verificationCode',
+          placeholder: 'Verification Code'
+        }
+      ],
+      buttons: [
+        {
+          text: 'OK',
+          handler: data => {
+            if (data.verificationCode) {
+              this.httpService.verifyEmailToken(data.verificationCode, this.email).subscribe(data => {
+                if (data.status == "success") {
+                  this.verifiedEmail = true;
+                } else if (data.status == "failure") {
+                  alert(data.message);
+                } else {
+                  alert("Server error");
+                }
+              })
+            }
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  sendVerificationCode() {
+    this.httpService.checkEmailExists(this.email).subscribe(data => {
+      if (data.status == "failure") {
+        this.httpService.verifyEmail(this.email).subscribe(data => {
+          if (data.status == "success") {
+            console.log("data from sendVerificationCode: " + data);
+            this.verifyToken();
+          } else if (data.status == "failure") {
+            alert(data.message);
+          } else {
+            alert("Server error");
+          }
+        })
+      }else if(data.status == "success"){
+        const emailExistAlert = this.alertCtrl.create({
+          title: 'Email address ' + this.email + ' already exists!',
+          subTitle:"Please click on 'Forgot Password' if you wish to reset your password instead",
+          buttons: [
+            {
+              text: 'Reset Password',
+              handler: () => {
+                this.navCtrl.pop().then(() => {
+                  this.navParams.get('callback')({"forgotPassword":true});
+                });
+              }
+            },
+            {
+              text: 'Cancel',
+              handler: data =>{
+                //do nothing
+              }
+            }
+          ]
+        });
+        emailExistAlert.present();
+      }
+
+    })
+
+    //this.moveSlide();
+  }
+
+  terms() {
+    const browser = this.iab.create("https://legal.sfo2.cdn.digitaloceanspaces.com/privacy-policy.html", '_self', 'location=yes');
+    browser.show();
+  }
+
+  removeVerifiedEmail() {
+    this.email = '';
+    this.verifiedEmail = false;
   }
 }

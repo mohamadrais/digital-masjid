@@ -19,7 +19,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <div *ngIf="isRoot && !kariah">
     <ion-row>
       <ion-col>
@@ -37,21 +37,22 @@
 
   <ion-row ngClass="login-radio no-margin" [hidden]="isRoot && !kariah">
     <ion-list ngClass="lang-container no-margin">
+      <form>
       <ion-item>
         <ion-label floating>Full Name</ion-label>
-        <ion-input [(ngModel)]="kariahUserFullName" [readonly]="isAdmin"></ion-input>
+        <ion-input [(ngModel)]="kariahUserFullName" [readonly]="isAdmin" name="fullname"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 1</ion-label>
-        <ion-input [(ngModel)]="addressLine1" [readonly]="isAdmin"></ion-input>
+        <ion-input [(ngModel)]="addressLine1" [readonly]="isAdmin" name="add1"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Address Line 2</ion-label>
-        <ion-input [(ngModel)]="addressLine2" [readonly]="isAdmin"></ion-input>
+        <ion-input [(ngModel)]="addressLine2" [readonly]="isAdmin" name="add2"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Postcode</ion-label>
-        <ion-input type="number" [(ngModel)]="postCode" [readonly]="isAdmin"></ion-input>
+        <ion-input type="number" [(ngModel)]="postCode" [readonly]="isAdmin" name="postcode"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Kariah</ion-label>
@@ -59,7 +60,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label floating>IC Number</ion-label>
-        <ion-input type="number" [(ngModel)]="kariahUserIcnumber" [readonly]="isAdmin"></ion-input>
+        <ion-input type="number" [(ngModel)]="kariahUserIcnumber" [readonly]="isAdmin" name="ic"></ion-input>
       </ion-item>
       <!-- <ion-item>
         <ion-label floating>Date of Birth</ion-label>
@@ -71,7 +72,7 @@
       </ion-item> -->
       <ion-item>
         <ion-label floating>Marital Status</ion-label>
-        <ion-select [(ngModel)]="maritalStatus" [disabled]="isAdmin">
+        <ion-select [(ngModel)]="maritalStatus" [disabled]="isAdmin" name="marital">
           <ion-option value="single">Single</ion-option>
           <ion-option value="married">Married</ion-option>
           <ion-option value="divorce">Divorce</ion-option>
@@ -79,8 +80,9 @@
       </ion-item>
       <ion-item>
         <ion-label floating>Occupation</ion-label>
-        <ion-input [(ngModel)]="occupation" [readonly]="isAdmin"></ion-input>
+        <ion-input [(ngModel)]="occupation" [readonly]="isAdmin" name="occupation"></ion-input>
       </ion-item>
+    </form>
       <ion-item>
         <ion-label (click)="addUpdatekariahHeir(null)">Heirs
           <button ngClass="lookup-icon" [hidden]="isAdmin">

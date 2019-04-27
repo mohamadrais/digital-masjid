@@ -21,7 +21,7 @@ export class PopoverMosqueRatingPage {
     constructor(public viewCtrl: ViewController, public navParams: NavParams, public global: Globals, public httpService: HttpService, public popoverCtrl: PopoverController) {
         this.user_id = this.navParams.get("userId");
         this.mosque = this.navParams.get("mosque");
-        this.google_place_id = this.mosque._id;
+        this.google_place_id = this.mosque.google_place_id;
         this.httpService.getMosqueRatingByUser(this.user_id, this.google_place_id).subscribe(data=>{
             if(data){
                 this.ori_ratings = data.rating;

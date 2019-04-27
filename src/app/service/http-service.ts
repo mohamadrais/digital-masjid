@@ -13,6 +13,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Injectable()
 export class HttpService {
+
     private BASE_URL:string = "http://159.65.140.100:8080/";
     
     private fileTransfer: FileTransferObject;

@@ -10,60 +10,83 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-row ngClass="login-radio no-margin">
-    <ion-list ngClass="lang-container no-margin">
-      <ion-item>
-        <ion-label floating>Name</ion-label>
-        <ion-input [(ngModel)]="name"></ion-input>
-      </ion-item>
-      <!-- <ion-item>
+<ion-content padding>
+  <form>
+    <ion-row ngClass="login-radio no-margin">
+      <ion-list ngClass="lang-container no-margin">
+        <ion-item>
+          <ion-label floating>Name</ion-label>
+          <ion-input [(ngModel)]="name" name="username"></ion-input>
+        </ion-item>
+        <!-- <ion-item>
         <ion-label floating>Nickname</ion-label>
-        <ion-input [(ngModel)]="nickname"></ion-input>
+        <ion-input [(ngModel)]="nickname" name="nickname"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Gender</ion-label>
-        <ion-select [(ngModel)]="gender">
+        <ion-select [(ngModel)]="gender" name="gender">
           <ion-option value="male" [selected]="gender == 'male'">Male</ion-option>
           <ion-option value="female" [selected]="gender == 'female'">Female</ion-option>
         </ion-select>
       </ion-item> -->
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input [(ngModel)]="email" [disabled]="editMode" type="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="password"></ion-input>
-      </ion-item>
-      <!-- <ion-item>
+        <ion-item *ngIf="!verifiedEmail">
+          <ion-label floating>Email</ion-label>
+          <ion-input [(ngModel)]="email" [disabled]="editMode" type="email" *ngIf="!verifiedEmail" name="email">
+          </ion-input>
+        </ion-item>
+        <ion-label *ngIf="verifiedEmail" padding>
+          Email
+          <ion-chip ngClass="ustaz-chip">
+            <ion-label>{{email}}</ion-label>
+            <button ion-button clear color="light" (click)="removeVerifiedEmail()">
+              <ion-icon name="close-circle"></ion-icon>
+            </button>
+          </ion-chip>
+        </ion-label>
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!editMode">
+          <ion-label floating>Confirm Password</ion-label>
+          <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"></ion-input>
+        </ion-item>
+        <ion-label *ngIf="password && confirmPassword && (password != confirmPassword) && !editMode"
+          ngClass="error-prompt">Password and confirm password is not same</ion-label>
+        <!-- <ion-item>
         <ion-label floating>IC Number</ion-label>
         <ion-input [(ngModel)]="icnumber" [disabled]="editMode" type="number"></ion-input>
       </ion-item> -->
-      <ion-item>
-        <ion-label floating>Date of Birth</ion-label>
-        <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dob"></ion-datetime>
-      </ion-item>
+        <ion-item>
+          <ion-label floating>Date of Birth</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dob" name="dob"></ion-datetime>
+        </ion-item>
 
-      <ion-item>
-        <ion-label floating>Mobile Number</ion-label>
-        <ion-input type="number"></ion-input>
-      </ion-item>
-      <!-- <ion-item>
+        <ion-item>
+          <ion-label floating>Mobile Number</ion-label>
+          <ion-input type="number" [(ngModel)]="mobile" name="mobile"></ion-input>
+        </ion-item>
+        <!-- <ion-item>
         <ion-label floating>Prefered Mosque</ion-label>
         <ion-input [(ngModel)]="preferredMosque"></ion-input>
       </ion-item> -->
-    </ion-list>
-  </ion-row>
-  <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
-  <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt" >All fields are mandatory!</ion-label>
-  <ion-label *ngIf="!valid && editMode" ngClass="error-prompt" >Nothing to update!</ion-label>
+      </ion-list>
+    </ion-row>
+    <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
+    <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt">All fields are mandatory!</ion-label>
+    <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label>
+  </form>
 </ion-content>
 
 <ion-footer>
-  <div style="padding: 15px; color: #6b6a6a;">By clicking sign up, you agree to our <a href="https://legal.sfo2.cdn.digitaloceanspaces.com/privacy-policy.html"><b>Terms and Conditions</b></a></div>
-    
-  <ion-buttons>
-    <button class="button button-primary rectangle" (click)="(editMode)? updateUser(): registerUser()">{{(editMode)?'Update Profile':'Sign Up'}}</button>
+  <div style="padding: 15px; color: #6b6a6a;background:rgb(255, 255, 255)">By clicking sign up, you agree to our <a
+      (click)="terms()"><b>Terms and
+        Conditions</b></a></div>
+  <ion-buttons text-center>
+    <button class="button button-primary register rectangle small" (click)="sendVerificationCode()"
+      [disabled]="!email || verifiedEmail">{{verifiedEmail?"Email Verified":"Verify Email"}}<ion-icon
+        name="checkmark-circle" *ngIf="verifiedEmail"></ion-icon></button>
+    <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()"
+      [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
 </ion-footer>

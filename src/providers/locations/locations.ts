@@ -191,11 +191,11 @@ export class LocationsProvider {
   }
 
   
-  //send near_places id's to BE, BE respond with all place_id found
+  //send near_places google_place_id's to BE, BE respond with all google_place_ids found
   getRegisteredMosquesOnline(places):Observable<any>{
     return Observable.create(observer =>{
-      let mosque_ids:Array<any> = this.prepareMosqueIdArray(places);
-      this.httpService.getRegisteredMosquesById(mosque_ids).subscribe(data => {
+      let mosque_google_place_ids:Array<any> = this.prepareMosqueIdArray(places);
+      this.httpService.getRegisteredMosquesById(mosque_google_place_ids).subscribe(data => {
         if( data ){
           let finalNearbyItems = this.prepareMosqueData(data, places);
           observer.next(finalNearbyItems);
@@ -219,17 +219,17 @@ export class LocationsProvider {
   }
 
   prepareMosqueIdArray(places):Array<any>{
-    let mosque_ids = [];
+    let mosque_google_place_ids = [];
 
     if(places && Array.isArray(places) && places.length > 0){
       for (var i = 0; i < places.length; i++) {
-        mosque_ids.push(places[i].place_id)
+        mosque_google_place_ids.push(places[i].place_id)
       }
     }else{
-      mosque_ids.push(places.place_id);
+      mosque_google_place_ids.push(places.place_id);
     }
   
-    return mosque_ids;
+    return mosque_google_place_ids;
   }
 
   prepareMosqueData(data, places){
@@ -248,14 +248,14 @@ export class LocationsProvider {
       let foundMosque = this.findRegisteredMosqueId(places[i].place_id, registeredMosques);
       if(foundMosque>=0){
         mosque.isRegistered = true;
-        mosque._id = registeredMosques[foundMosque].google_place_id;
-        this.httpService.countActiveEvents(mosque._id).subscribe(data =>{
+        mosque.google_place_id = registeredMosques[foundMosque].google_place_id;
+        this.httpService.countActiveEvents(mosque.google_place_id).subscribe(data =>{
           mosque.active_events_no = data;
         })
         mosque.title = registeredMosques[foundMosque].title;
         mosque.address = registeredMosques[foundMosque].address;
       }else{
-        mosque._id = places[i].place_id;
+        mosque.google_place_id = places[i].place_id;
 
         if(places[i].structured_formatting){ //autocomplete
           mosque.title = places[i].structured_formatting.main_text;

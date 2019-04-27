@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, PopoverController, Events } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpService } from "../../app/service/http-service";
 import { ImageProvider } from '../../providers/image/image';
@@ -58,7 +58,7 @@ export class KariahPage {
   isRoot = false;
   userData: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private iab: InAppBrowser, private _IMAGE: ImageProvider, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public camera: Camera, public popoverCtrl: PopoverController, public events: Events) {
 
     this.mosqueGooglePlaceId = this.navParams.get("mosqueGooglePlaceId");
     this.kariah = this.navParams.get("mosqueTitle");
@@ -79,8 +79,7 @@ export class KariahPage {
       this.currentUserType = AppConstants.USER_TYPE_USER;
       this.isAdmin = false;
 
-      //temp comment the global storage because to check if online search working or not
-      this.kariahUser = null//this.global.getKariahUser();
+      this.kariahUser = this.global.getKariahUser();
 
       if (this.kariahUser) {
         this.initKariahUser();
@@ -94,6 +93,10 @@ export class KariahPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KariahPage');
+
+    this.events.subscribe('userType:admin', data => {
+      this.getUserKariahOnline(this.userId);
+    });
   }
 
   initKariahUser() {
@@ -148,6 +151,9 @@ export class KariahPage {
 
   prepareData() {
     this.newKariahUser = new KariahUser();
+    if (this.editMode){
+      this.newKariahUser._id = this._id;
+    }
     this.newKariahUser.userId = this.userId;
     this.newKariahUser.kariahUserFullName = this.kariahUserFullName;
     this.newKariahUser.kariahUserIcnumber = this.kariahUserIcnumber;
@@ -176,8 +182,13 @@ export class KariahPage {
           if (this.isAdmin) {
             this.serverResponseSuccess(true);
           } else {
+            this.global.setKariahUser(data);
             this.serverResponseSuccess(true);
+            this.getUserKariahOnline(this.userId);
           }
+        }
+        else if (data && data.status && data.status == "failure") {
+          this.serverResponseSuccess(false);
         }
       }, error => {
         console.log("error creating new kariah user: " + error);
@@ -194,10 +205,17 @@ export class KariahPage {
       this.prepareData();
 
       this.httpService.updateKariahUser(this.newKariahUser, this.currentUserType).subscribe(data => {
-        if (data.status == "success") {
+        if (data && data.status && data.status == "success") {
           console.log("successfully updated kariah user details");
+          if(data.result){
+            this.global.setKariahUser(data.result);
+          }
           this.serverResponseSuccess(true);
         }
+        else if (data && data.status && data.status == "failure"){
+          this.serverResponseSuccess(false);
+        }
+
       }, error => {
         console.log("error updating kariah user: " + error);
         this.serverResponseSuccess(false);
@@ -209,13 +227,13 @@ export class KariahPage {
 
   serverResponseSuccess(resStatus) {
     let mode = (this.editMode) ? 'update' : 'create';
-    let alertTitle = 'Kariah membership succesfully ' + ((this.editMode) ? 'updated' : 'created');
+    let alertTitle = 'Kariah membership successfully ' + ((this.editMode) ? 'updated' : 'created');
     if (!resStatus) {
-      alertTitle = 'Kariah membership could not be' + ((this.editMode) ? 'updated' : 'created');
+      alertTitle = 'Kariah membership could not be ' + ((this.editMode) ? 'updated' : 'created');
     }
     const confirm = this.alertCtrl.create({
       title: alertTitle,
-      message: (resStatus) ? "" : "Please retry later",
+      message: (resStatus) ? "" : "Please retry later.",
       buttons: [
         {
           text: (resStatus) ? "Alhamdulillah" : "Close",

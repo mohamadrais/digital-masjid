@@ -26,14 +26,14 @@ export class LoginPage {
   //username:string;
   validUser: boolean = true;
   loginForm = { username: '', password: '' }
-  userLoggedIn=false;
+  //userLoggedIn=false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private fb: Facebook, private googlePlus: GooglePlus,
     public httpService: HttpService, public global: Globals, public events: Events, public popoverCtrl: PopoverController) {
     console.log('login form:' + this.loginForm)
-    if(this.global.currentUser && (this.global.currentUser.email != null || this.global.currentUser.email != undefined)){
-      this.userLoggedIn=true;
-    }
+    // if(this.global.currentUser && (this.global.currentUser.email != null || this.global.currentUser.email != undefined)){
+    //   this.userLoggedIn=true;
+    // }
   }
 
   forgotPasswordPage() {
@@ -45,7 +45,13 @@ export class LoginPage {
   }
 
   registerPage() {
-    this.navCtrl.push(RegisterPage)
+    this.navCtrl.push(RegisterPage,{
+      callback: data =>{
+        if(data.forgotPassword){
+          this.forgotPasswordPage();
+        }
+      }
+    })
   }
 
   homePage() {
@@ -67,6 +73,7 @@ export class LoginPage {
 
         this.global.set(AppConstants.USER, data);
         this.global.setUser(data);
+        this.initKariah(data._id);
         console.log("AppConstants.USER = " + data);
         if (data.userType.toUpperCase() === AppConstants.USER_TYPE_ADMIN) {
           this.adminhomePage();
@@ -81,7 +88,7 @@ export class LoginPage {
         }
 
         // send push token to server each time succesfully login
-        if (data._id && (!this.global.generalSettings.pushTokenSentFlag)){// && this.global.generalSettings.networkAvailable) {
+        if (data._id && (!this.global.generalSettings.pushTokenSentFlag)) {// && this.global.generalSettings.networkAvailable) {
           if (this.global.generalSettings.pushToken != "") {
             var resultSendPushTokenToServer = await this.sendPushTokenToServer(this.global.generalSettings.pushToken, data._id, data.mobile);
             if (resultSendPushTokenToServer) {
@@ -99,6 +106,14 @@ export class LoginPage {
     })
   }
 
+  initKariah(userId){
+    this.httpService.getKariahDetails(userId,null).subscribe(data =>{
+      if (data && Array.isArray(data) && data.length > 0) {
+        let kariahUser = data[0];
+        this.global.setKariahUser(kariahUser);
+      }
+    });
+  }
   async sendPushTokenToServer(pushToken, userId, userMobile) {
     return new Promise(async (resolve, reject) => {
       try {

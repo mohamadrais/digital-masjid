@@ -13,34 +13,37 @@
 </ion-header>
 
 <ion-content>
-  <ion-row ngClass="login-radio no-margin">
-    <ion-list ngClass="lang-container no-margin">
-      <ion-item>
-        <ion-label floating>Heir's Full Name</ion-label>
-        <ion-input [(ngModel)]="kariahHeirs.h_fullName"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Heir's IC Number</ion-label>
-        <ion-input [(ngModel)]="kariahHeirs.h_icnumber" type="phone"></ion-input>
-      </ion-item>
-      <!-- <ion-item>
+  <form>
+    <ion-row ngClass="login-radio no-margin">
+      <ion-list ngClass="lang-container no-margin">
+        <ion-item>
+          <ion-label floating>Heir's Full Name</ion-label>
+          <ion-input [(ngModel)]="kariahHeirs.h_fullName" name="fullname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Heir's IC Number</ion-label>
+          <ion-input [(ngModel)]="kariahHeirs.h_icnumber" type="phone" name="phone"></ion-input>
+        </ion-item>
+        <!-- <ion-item>
         <ion-label floating>Age</ion-label>
-        <ion-input [(ngModel)]="kariahHeirs.age" type="number"></ion-input>
+        <ion-input [(ngModel)]="kariahHeirs.age" type="number" name="age"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Date of Birth</ion-label>
         <ion-datetime [(ngModel)]="kariahHeirs.dateOfBirth" displayFormat="DD/MM/YYYY"></ion-datetime>
       </ion-item> -->
-      <ion-item>
-        <ion-label floating>Relation to the Heir</ion-label>
-        <ion-input [(ngModel)]="kariahHeirs.h_relation"></ion-input>
-      </ion-item>
-     </ion-list>
-     </ion-row>
+        <ion-item>
+          <ion-label floating>Relation to the Heir</ion-label>
+          <ion-input [(ngModel)]="kariahHeirs.h_relation" name="relation"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-row>
+  </form>
 </ion-content>
 
 <ion-footer>
   <ion-buttons>
-    <button class="button button-primary rectangle" (click)="addUpdateAccount()">{{(updateMode)?'UPDATE':'ADD'}}</button>
+    <button class="button button-primary rectangle"
+      (click)="addUpdateAccount()">{{(updateMode)?'UPDATE':'ADD'}}</button>
   </ion-buttons>
 </ion-footer>

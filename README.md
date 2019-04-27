@@ -34,3 +34,12 @@ ionic cordova platform add android
 Prod release command
 ```
 ionic cordova build --prod --aot --release android
+
+
+-------------
+
+Execution failed for task ':app:transformDexArchiveWithExternalLibsDexMergerForDebug'.
+> java.lang.RuntimeException: java.lang.RuntimeException: com.android.builder.dexing.DexArchiveMergerException: Unable to merge dex
+
+solution:
+cordova clean android

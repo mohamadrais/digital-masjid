@@ -39,7 +39,7 @@ export class PopoverKariahApprovalPage {
 
     sendApprovalUpdate(formApprovalStatus) {
         if (formApprovalStatus == 'Rejected' && (this.newApprovalComment == null || this.newApprovalComment == '' || this.newApprovalComment == this.currentApprovalComment)) {
-            this.showAlert("invalid", "Please provide a new reject reason in Approval Comment field.");
+            this.showAlert("invalid", "Please provide a new reject reason in the New Approval Comment field.");
         }
         else {
             this.newApprovalStatus = formApprovalStatus;
