@@ -423,9 +423,9 @@ export class EventDetailsPage {
       url.link = "http://" + url.link;
     }
 
-    // window.open(url.link, '_system', 'location=yes');
-    const browser = this.iab.create(url.link, '_self', 'location=yes');
-    browser.show();
+    window.open(url.link, '_system', 'location=yes');
+    // const browser = this.iab.create(url.link, '_self', 'location=yes');
+    // browser.show();
   }
 
   shareEvent() {
