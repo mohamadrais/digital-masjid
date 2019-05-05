@@ -66,7 +66,7 @@ export class MosquePage {
     this.httpService.findEventsByMosque(this.mosque.google_place_id).subscribe(data => {
       this.events = data;
       this.events = (data || []).sort((a: MosqueEvent, b: MosqueEvent) => a.event_end_date < b.event_end_date ? 1 : -1);
-      this.events.forEach((e, index) =>{
+      this.events.forEach((e, index) => {
         this.validateDateTime(e.event_start_date, e.event_end_date, index);
       })
       if (data) {
@@ -114,9 +114,13 @@ export class MosquePage {
     this.navCtrl.push(FeedbackAltPage)
   }
   infaqPage() {
-    // this.navCtrl.push(InfaqPage)
-    const browser = this.iab.create('https://app.senangpay.my/payment/898154475783162');
-    browser.show();
+    this.navCtrl.push(InfaqPage, {
+      'data': this.mosque,
+      callback: data => {
+      }
+    });
+    // const browser = this.iab.create('https://app.senangpay.my/payment/898154475783162');
+    // browser.show();
   }
   kariahPage() {
     this.navCtrl.push(KariahPage, {
@@ -252,7 +256,7 @@ export class MosquePage {
 
     if ((firstEndDate && secondEndDate) && (firstEndDate != secondEndDate) || index != 0) {
       this.events[index].event_header = this.getCategoryLabel(today, startDtm, endDtm, index);
-      
+
       return this.events[index].event_header;
     } else {
       return '';
@@ -262,17 +266,17 @@ export class MosquePage {
 
   getCategoryLabel(today, startDtm, endDtm, index) {
     if (startDtm <= today && today < endDtm) {
-      if(!this.currFirstActive){
+      if (!this.currFirstActive) {
         this.currFirstActive = this.events[index]._id;
       }
       return 'Active events';
     } else if (startDtm > today) {
-      if(!this.currFirstUpcoming){
+      if (!this.currFirstUpcoming) {
         this.currFirstUpcoming = this.events[index]._id;
       }
       return 'Upcoming events'
     } else if (today > endDtm) {
-      if(!this.currFirstHistory){
+      if (!this.currFirstHistory) {
         this.currFirstHistory = this.events[index]._id;
       }
       return 'History events'

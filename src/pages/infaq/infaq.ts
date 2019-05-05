@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Mosques } from '../../app/models/Mosques';
+import { User } from "../../app/models/User";
+import { Globals } from "../../app/constants/globals";
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 /**
  * Generated class for the InfaqPage page.
@@ -15,7 +19,13 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class InfaqPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  mosque: Mosques;
+  currentUser: User;
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals) {
+    this.mosque = navParams.get('data');
+    this.currentUser = this.global.getUser();
   }
 
   ionViewDidLoad() {
