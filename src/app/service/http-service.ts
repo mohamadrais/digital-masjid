@@ -6,6 +6,7 @@ import { User } from '../models/User';
 import { MosqueEvent } from '../models/MosqueEvents';
 import { FeedBack } from '../models/FeedBack';
 import { Mosques } from '../models/Mosques';
+import { Donations } from '../models/Donations';
 import { KariahUser } from '../models/KariahUser'
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -14,7 +15,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
 
-    private BASE_URL:string = "http://159.65.140.100:8080/";
+    public BASE_URL:string = "http://159.65.140.100:8080/";
     
     private fileTransfer: FileTransferObject;
 
@@ -688,7 +689,12 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-
+    public createInfaq(donation): Observable<any> {
+        var data = donation;
+        return this.http.post(this.BASE_URL + "infaq/create", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
 
 
     /*

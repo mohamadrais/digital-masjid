@@ -10,5 +10,45 @@
 
 
 <ion-content>
-    <iframe ngClass="qibla-finder" src="https://www.billplz.com/tmsaff"></iframe>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>Masjid</ion-label>
+        <ion-input type="text" readonly="true" value="Masjid Seri Kembangan" [(ngModel)]="this.donation.mosqueTitle"></ion-input>
+      </ion-item>
+      <ion-list radio-group [(ngModel)]="this.donation.category">
+        <ion-list-header>
+          Select Category
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Medical</ion-label>
+          <ion-radio value="Medical"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Academic</ion-label>
+          <ion-radio value="Academic"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Foodbank</ion-label>
+          <ion-radio value="Foodbank"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label floating>Amount</ion-label>
+        <ion-input type="number" min="2.00" step="0.01" [(ngModel)]="this.donation.amount"></ion-input>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+<ion-footer>
+    <ion-buttons text-center>
+      <button class="button button-primary rectangle" (click)="pay()"
+        [disabled]="!this.donation.category || !this.donation.amount">{{"Pay Infaq"}}
+      </button>
+    </ion-buttons>
+  </ion-footer>
