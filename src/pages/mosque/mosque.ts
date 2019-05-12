@@ -15,6 +15,7 @@ import { PopoverMosqueRatingPage } from './popover-mosque-rating';
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import * as moment from 'moment';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-mosque',
@@ -283,5 +284,10 @@ export class MosquePage {
     } else {
       return ''
     }
+  }
+
+  goBack() {
+    this.navCtrl.setRoot(HomePage, {
+    });
   }
 }

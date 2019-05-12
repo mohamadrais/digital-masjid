@@ -1,8 +1,11 @@
 <ion-header class="mm-header">
-
-  <ion-navbar>
-    <ion-title>Mosque Profile
-      <page-notification-bell></page-notification-bell>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start left>
+      <button ion-button large (click)="goBack()">
+        <ion-icon name="arrow-back" ngClass="back-btn"><span></span></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Mosque Profile<page-notification-bell></page-notification-bell>
     </ion-title>
   </ion-navbar>
 
