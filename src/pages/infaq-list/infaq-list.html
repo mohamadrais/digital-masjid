@@ -1,0 +1,71 @@
+<!--
+  Generated template for the BookmarkPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="toolbar-mm">
+  <ion-toolbar>
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>
+      Infaq List
+      <page-notification-bell></page-notification-bell>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <!-- <ion-card ngClass="card-general" *ngFor="let i of infaqs" (click)="openInfaqDetail(i)"> -->
+  <ion-card ngClass="card-general" *ngFor="let i of infaqs">
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div ngClass="event-title">
+            <label>{{i.mosqueTitle}}</label>
+            <ion-badge ngClass="pull-right warning-color">{{i.orderStatus}}</ion-badge>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>Order Id: {{i.orderId}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>Category: {{i.category}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>Amount: RM {{i.amount}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>Payment by:</label><br>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].name}} </label><br>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].email}}</label><br>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].mobile}}</label>
+          </div>
+          <div ngClass="item-dateloc">
+            <label>Transaction Date: {{i.transactionDate}}</label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-footer *ngIf="isAdmin"> -->
+<ion-footer *ngIf="!infaqs || infaqs.length==0">
+
+  <!--Admin Role Button-->
+  <!-- <ion-buttons>
+    <button class="button button-primary rectangle" (click)="downloadInfaqMembersList()"
+      [disabled]="!infaqs || infaqs.length==0">
+      <ion-icon ngClass="edit-icon" name="{{(!infaqs || infaqs.length==0)?'ios-alert-outline':'ios-download'}}">
+      </ion-icon>
+      {{(!infaqs || infaqs.length==0)? 'No Infaq Lists' : 'Download as Excel File'}}
+    </button>
+  </ion-buttons> -->
+  <ion-buttons *ngIf="!infaqs || infaqs.length==0">
+    <button *ngIf="!infaqs || infaqs.length==0" class="button button-primary rectangle" [disabled]="true">
+      No Infaq Lists
+    </button>
+  </ion-buttons>
+</ion-footer>

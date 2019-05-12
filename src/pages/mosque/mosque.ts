@@ -115,7 +115,7 @@ export class MosquePage {
   }
   infaqPage() {
     this.navCtrl.push(InfaqPage, {
-      'data': this.mosque,
+      'mosqueData': this.mosque,
       callback: data => {
       }
     });

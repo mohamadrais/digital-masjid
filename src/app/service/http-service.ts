@@ -696,6 +696,16 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    public getInfaqDetails(userId, userType): Observable<any> {
+        var data =  {
+            "userId": userId,
+            "userType": userType
+        };
+        return this.http.post(this.BASE_URL + "infaq/list", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
 
     /*
     public downloadKariahMemberList2(adminId: String): Observable<any> {
