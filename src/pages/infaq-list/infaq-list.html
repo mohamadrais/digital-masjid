@@ -18,8 +18,7 @@
 
 
 <ion-content padding>
-  <!-- <ion-card ngClass="card-general" *ngFor="let i of infaqs" (click)="openInfaqDetail(i)"> -->
-  <ion-card ngClass="card-general" *ngFor="let i of infaqs">
+  <ion-card ngClass="card-general" *ngFor="let i of infaqs" (click)="openInfaqDetail(i)">
     <ion-item ngClass="events-list">
       <ion-row>
         <ion-col col-12>
@@ -38,7 +37,8 @@
           </div>
           <div ngClass="item-dateloc">
             <label>Payment by:</label><br>
-            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].name}} </label><br>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].name}}
+            </label><br>
             <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].email}}</label><br>
             <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.user_details[0].mobile}}</label>
           </div>

@@ -18,7 +18,7 @@
     <ion-card-content>
       <ion-item>
         <ion-label floating>Masjid</ion-label>
-        <ion-input type="text" readonly="true" value="Masjid Seri Kembangan" [(ngModel)]="this.donation.mosqueTitle">
+        <ion-input type="text" readonly="true" [(ngModel)]="this.donation.mosqueTitle">
         </ion-input>
       </ion-item>
       <ion-list radio-group [(ngModel)]="this.donation.category" [disabled]="this.showPaymentResult==true">
@@ -44,7 +44,8 @@
 
       <ion-item>
         <ion-label floating>Amount</ion-label>
-        <ion-input type="number" min="2.00" step="0.01" [(ngModel)]="this.donation.amount" [disabled]="this.showPaymentResult==true"></ion-input>
+        <ion-input type="number" min="2.00" step="0.01" [(ngModel)]="this.donation.amount"
+          [disabled]="this.showPaymentResult==true"></ion-input>
       </ion-item>
 
     </ion-card-content>

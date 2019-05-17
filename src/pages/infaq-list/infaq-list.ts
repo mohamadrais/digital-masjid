@@ -77,7 +77,7 @@ export class InfaqListPage {
   //   confirm.present();
   // }
 
-  // openInfaqDetail(infaqMember){
-  //   this.navCtrl.push(InfaqPage,{"admin_infaqMemberDetail":infaqMember});
-  // }
+  openInfaqDetail(infaq) {
+    this.navCtrl.push(InfaqPage, { "infaqDetail": infaq, fromSideMenu: true});
+  }
 }

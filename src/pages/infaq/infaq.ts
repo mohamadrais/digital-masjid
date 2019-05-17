@@ -12,6 +12,7 @@ import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
 import * as CryptoJS from 'crypto-js';
 import { dateDataSortValue } from 'ionic-angular/umd/util/datetime-util';
 import { MosquePage } from '../mosque/mosque';
+import { InfaqListPage } from '../infaq-list/infaq-list';
 
 /**
  * Generated class for the InfaqPage page.
@@ -34,14 +35,21 @@ export class InfaqPage {
   success: string = '';
   showPaymentResult: boolean = false;
   paymentResult: string = '';
+  isRoot = false;
 
   constructor(public navCtrl: NavController, public iab: InAppBrowser, public navParams: NavParams, public global: Globals, public httpService: HttpService, public platform: Platform) {
     console.log('constructor InfaqPage ' + new Date());
-    if (navParams.get('mosqueData') != null && navParams.get('mosqueData') != '') {
-      this.mosque = navParams.get('mosqueData');
-      this.currentUser = this.global.getUser();
+    this.currentUser = this.global.getUser();
+    this.paymentData = new PaymentData();
+      
+    this.isRoot = this.navParams.get("fromSideMenu");
+    if (this.isRoot == true){
       this.donation = new Donations();
-      this.paymentData = new PaymentData();
+      this.donation = this.navParams.get("infaqDetail");
+    }
+    else if (navParams.get('mosqueData') != null && navParams.get('mosqueData') != '') {
+      this.mosque = navParams.get('mosqueData');
+      this.donation = new Donations();
       this.donation.userId = this.currentUser._id;
       this.donation.orderId = this.currentUser._id + '-' + this.getCurrentTimestamp();
 
@@ -184,9 +192,15 @@ export class InfaqPage {
   }
 
   goBack() {
-    this.navCtrl.setRoot(MosquePage, {
-      "data": this.mosque
-    });
+    if(this.isRoot){
+      this.navCtrl.setRoot(InfaqListPage, {
+      });
+    }
+    else {
+      this.navCtrl.setRoot(MosquePage, {
+        "data": this.mosque
+      });
+    }
   }
 
 }
