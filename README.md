@@ -1,12 +1,15 @@
 # DigitalMasjid
 
 ### Prerequisites
+Install Android Studio, NodeJS, Git and then Ionic CLI:
+```
+npm install -g ionic
+```
 
 After checkout, do:
 ```
 npm install
 ```
-
 
 Then install the following dependencies / plugins before build:
 ```
