@@ -1,10 +1,16 @@
 # DigitalMasjid
 
 ### Prerequisites
-Install Android Studio, NodeJS, Git and then Ionic & Cordova CLI globally:
+Install Android Studio, Java (JDK), NodeJS, Git and then Ionic & Cordova CLI globally:
 ```
 npm install -g ionic
 npm install -g cordova
+```
+
+Make sure following system variables are defined, below are default installation paths:
+```
+ANDROID_HOME --> C:\Users\username\AppData\Local\Android\Sdk
+JAVA_HOME --> C:\Program Files\Java\jdk-version
 ```
 
 After checkout, do:
