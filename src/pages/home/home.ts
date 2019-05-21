@@ -26,14 +26,14 @@ import { googlemaps } from 'googlemaps';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  events:Array<Event> = [];
-  mosques:Array<Mosques> = [];
-  mosquesSize:number = 0;
-  user:Array<User> = [];
-  address:string = "";
-  updated:string = "";
-  nickname:string = "";
-  userData:User;
+  events: Array<Event> = [];
+  mosques: Array<Mosques> = [];
+  mosquesSize: number = 0;
+  user: Array<User> = [];
+  address: string = "";
+  updated: string = "";
+  nickname: string = "";
+  userData: User;
 
   geocoderGoogle: any;
   GooglePlaces: any;
@@ -49,161 +49,161 @@ export class HomePage {
   loading;
   service = new google.maps.places.AutocompleteService();
 
-  constructor(public navCtrl: NavController, public httpService:HttpService, public geolocation: Geolocation, public geocoder: NativeGeocoder, public global:Globals, public locations: LocationsProvider, public loadingCtrl: LoadingController, public network:Network, public alertCtrl:AlertController,public zone: NgZone) {
-    
+  constructor(public navCtrl: NavController, public httpService: HttpService, public geolocation: Geolocation, public geocoder: NativeGeocoder, public global: Globals, public locations: LocationsProvider, public loadingCtrl: LoadingController, public network: Network, public alertCtrl: AlertController, public zone: NgZone) {
+
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
     };
-    
+
     this.userData = this.global.getUser();
     this.nickname = this.userData.name; //this.userData.nickname;
 
     this.geocoderGoogle = new google.maps.Geocoder;
     let elem = document.createElement("div");
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
-    
+
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     this.startMosqueList();
   }
 
-  startMosqueList(){
-    if(!this.network || this.network.type.toLowerCase()=="none" || this.network.type.toLowerCase()=="unknown"){
+  startMosqueList() {
+    if (!this.network || this.network.type.toLowerCase() == "none" || this.network.type.toLowerCase() == "unknown") {
       let alert = this.alertCtrl.create({
         title: "Can't connect to server",
         subTitle: 'Please make sure there is internet connection',
         buttons: ['Dismiss']
       });
       alert.present();
-      
-    }else{
-  
+
+    } else {
+
       this.startLoading();
 
       setTimeout(() => {
         this.resetLoading();
       }, 10000)
-      
-      // get permission for location status
-      this.locations.getPermissionLocation().subscribe(dataGrantedAccess =>{
 
-        if(dataGrantedAccess){
+      // get permission for location status
+      this.locations.getPermissionLocation().subscribe(dataGrantedAccess => {
+
+        if (dataGrantedAccess) {
           // get gps location sensor is enabled...
-          this.locations.getGPSLocationEnabled().subscribe(locationEnabled =>{
-            console.log("location is enabled???"+locationEnabled);
-            
-            if(locationEnabled==true){
-              
-                this.locations.getMosqueList().subscribe(data =>{
-                  console.log("datareturned???"+data);
-                  console.log(data);
-                  this.mosques=data;
-                  console.log(this.mosques);
-                  this.readCurrentLocation();
-                  this.resetLoading();
-                });
-            }else{
+          this.locations.getGPSLocationEnabled().subscribe(locationEnabled => {
+            console.log("location is enabled???" + locationEnabled);
+
+            if (locationEnabled == true) {
+
+              this.locations.getMosqueList().subscribe(data => {
+                console.log("datareturned???" + data);
+                console.log(data);
+                this.mosques = data;
+                console.log(this.mosques);
+                this.readCurrentLocation();
+                this.resetLoading();
+              });
+            } else {
               //request gps enable
-              this.locations.requestEnableGPS().subscribe(requestedStatus=>{
-                console.log("successss???"+requestedStatus);
-                if(requestedStatus==true){
-                    this.locations.getMosqueList().subscribe(data =>{
-                      console.log("datareturned???"+data);
-                      console.log(data);
-                      this.mosques=data;
-                      this.readCurrentLocation();
-                      this.resetLoading();
-                    },
+              this.locations.requestEnableGPS().subscribe(requestedStatus => {
+                console.log("successss???" + requestedStatus);
+                if (requestedStatus == true) {
+                  this.locations.getMosqueList().subscribe(data => {
+                    console.log("datareturned???" + data);
+                    console.log(data);
+                    this.mosques = data;
+                    this.readCurrentLocation();
+                    this.resetLoading();
+                  },
                     error => {
                       this.resetLoading();
                       console.log(error);
                     });
-                }else{
+                } else {
                   this.resetLoading();
                 }
               },
-              error => {
-                this.resetLoading();
-                console.log(error);
-              })
+                error => {
+                  this.resetLoading();
+                  console.log(error);
+                })
             }
           },
-          error => {
-            this.resetLoading();
-            console.log(error);
-          });
-        }else{
+            error => {
+              this.resetLoading();
+              console.log(error);
+            });
+        } else {
           this.resetLoading();
         }
       },
-      error => {
-        this.resetLoading();
-        console.log(error);
-      });
-    }  
+        error => {
+          this.resetLoading();
+          console.log(error);
+        });
+    }
   }
 
-  resetLoading(){
-    if(this.loading){
+  resetLoading() {
+    if (this.loading) {
       this.loading.dismiss();
-      this.loading.onDidDismiss(() =>{
-      this.loading = null;
+      this.loading.onDidDismiss(() => {
+        this.loading = null;
       });
     }
   }
 
-  startLoading(){
+  startLoading() {
 
-    if(!this.loading){
+    if (!this.loading) {
       this.loading = this.loadingCtrl.create({
         spinner: 'crescent',
         content: 'Loading...'
       });
     }
     this.loading.present();
-    
+
   }
-  
-  eventdetailsPage(event:Event){
-    this.navCtrl.push(EventDetailsPage,{'data':event});
+
+  eventdetailsPage(event: Event) {
+    this.navCtrl.push(EventDetailsPage, { 'data': event });
   }
-  createeventPage(){
+  createeventPage() {
     this.navCtrl.push(CreateEventPage)
   }
 
-  public getEventDate(event_date:string):string{
+  public getEventDate(event_date: string): string {
     var date = null;
-    if( event_date ){
-        try{
-           var eventdate = new Date(event_date);
-           date = eventdate.getDate()+"/"+(eventdate.getMonth()+1)+"/"+eventdate.getFullYear()+" "+eventdate.getUTCHours()+":"+eventdate.getMinutes();
-        }catch(e){
+    if (event_date) {
+      try {
+        var eventdate = new Date(event_date);
+        date = eventdate.getDate() + "/" + (eventdate.getMonth() + 1) + "/" + eventdate.getFullYear() + " " + eventdate.getUTCHours() + ":" + eventdate.getMinutes();
+      } catch (e) {
 
-        }
+      }
     } else {
-        var today = new Date();
-        date = today.getDate()+"/"+(today.getMonth()+1)+"/"+today.getFullYear()+" "+today.getUTCHours()+":"+today.getMinutes();
+      var today = new Date();
+      date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear() + " " + today.getUTCHours() + ":" + today.getMinutes();
     }
 
     // return date;
     return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
-  feedbackAltPage(){
+  feedbackAltPage() {
     this.navCtrl.push(FeedbackAltPage)
   }
-  mosquePage(mosque:Mosques){
-    this.navCtrl.push(MosquePage,{'data':mosque})
+  mosquePage(mosque: Mosques) {
+    this.navCtrl.push(MosquePage, { 'data': mosque })
   }
 
-  mosquePageOnline(item){
-    this.locations.getRegisteredMosquesOnline(item).subscribe( mosque => {
-        if(mosque && Array.isArray(mosque) && mosque.length>0){
-          this.mosquePage(mosque[0]);
-        }else{
-          this.mosquePage(mosque);
-        }
+  mosquePageOnline(item) {
+    this.locations.getRegisteredMosquesOnline(item).subscribe(mosque => {
+      if (mosque && Array.isArray(mosque) && mosque.length > 0) {
+        this.mosquePage(mosque[0]);
+      } else {
+        this.mosquePage(mosque);
+      }
     });
   }
 
@@ -211,11 +211,11 @@ export class HomePage {
   //   this.navCtrl.push(SearchMosquePage)
   // }
 
-  getSeatsLeft(event:MosqueEvent):number{
+  getSeatsLeft(event: MosqueEvent): number {
     return (event.quota - event.userCount);
   }
 
-  readCurrentLocation(){
+  readCurrentLocation() {
     // let today:Date = new Date();
     // this.updated = today.getDate()+"/"+(today.getMonth()+1)+" "+today.getUTCHours()+":"+today.getMinutes();
     this.updated = momenttz().tz("Asia/Singapore").format("D/M HH:mm");
@@ -224,12 +224,12 @@ export class HomePage {
       enableHighAccuracy: true,
       timeout: 50000
     };
-  
+
     this.geolocation.getCurrentPosition(options).then((position: Geoposition) => {
       this.geocoder.reverseGeocode(position.coords.latitude, position.coords.longitude).then((res: NativeGeocoderReverseResult[]) => {
         this.address = res[0].locality
-        console.log('home.address : '+this.address );
-       })
+        console.log('home.address : ' + this.address);
+      })
     }).catch((err) => {
       console.log(err);
     })
@@ -249,30 +249,45 @@ export class HomePage {
   //     console.log(error)
   //   })
   // }
-  searchMosque(){
+  searchMosque() {
     if (this.autocomplete.query == '') {
       this.autocompleteItems = [];
       return;
-     }
- 
-     let me = this;
-     this.service.getPlacePredictions({
-     input: this.autocomplete.query,
-     componentRestrictions: {
-       country: 'my'//to be changed in future which depends on user's registered country, or remove if there is no restriction
-     },
-     types: ['establishment'],
-    }, (predictions, status) => {
+    }
+
+    let me = this;
+
+    this.locations.getMosqueSearchList(this.autocomplete.query).subscribe(searchResult => {
       me.autocompleteItems = [];
- 
-    me.zone.run(() => {
-      if (predictions != null) {
-         predictions.forEach((prediction) => {
-           me.autocompleteItems.push(prediction);
-         });
+      me.zone.run(() => {
+        if (searchResult != null) {
+          searchResult.forEach(res => {
+            me.autocompleteItems.push(res);
+          })
+          console.log("/n/n/n/nTEXT SEARCH/n/n/n/n");
+          console.log(searchResult);
         }
-      });
+      })
     });
+
+    //  let me = this;
+    //  this.service.getPlacePredictions({
+    //  input: this.autocomplete.query,
+    //  componentRestrictions: {
+    //    country: 'my'//to be changed in future which depends on user's registered country, or remove if there is no restriction
+    //  },
+    //  types: ['establishment'],
+    // }, (predictions, status) => {
+    //   me.autocompleteItems = [];
+
+    // me.zone.run(() => {
+    //   if (predictions != null) {
+    //      predictions.forEach((prediction) => {
+    //        me.autocompleteItems.push(prediction);
+    //      });
+    //     }
+    //   });
+    // });
 
     // this.navCtrl.push(SearchManagedMosquesPage, {"fromHomePage":true});
   }
