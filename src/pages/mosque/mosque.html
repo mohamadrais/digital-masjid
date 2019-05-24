@@ -124,7 +124,7 @@
     </button>
   </ion-fab> -->
 
-  <ion-fab bottom="" right="" *ngIf="mosque.isRegistered && showKariahButton">
+  <ion-fab bottom="" right="" *ngIf="mosque.isRegistered">
     <button color="light" ion-fab="" class="fab fab-ios fab-ios-light float-btn" style="transition: none 0s ease 0s;">
       <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
       </ion-icon><span class="button-inner">
@@ -143,14 +143,14 @@
         <div class="button-effect"></div>
         <ion-label>Kariah</ion-label>
       </button>
-      <!-- <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="feedbackAltPage()">
+      <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="feedbackAltPage()">
         <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
         </ion-icon><span class="button-inner">
           <ion-icon name="mail-open" role="img" class="icon" aria-label="logo feedback"></ion-icon>
         </span>
         <div class="button-effect"></div>
         <ion-label>Mosque Feedback</ion-label>
-      </button> -->
+      </button>
       <!-- <button ion-fab="" class="fab fab-ios fab-in-list fab-ios-in-list float-btn-sub" (click)="askUstazPage()">
         <ion-icon class="fab-close-icon icon icon-ios ion-ios-close" name="close" role="img" aria-label="close">
         </ion-icon><span class="button-inner">
