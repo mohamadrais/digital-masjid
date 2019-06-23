@@ -1,8 +1,12 @@
 <ion-header class="mm-header">
 
-  <ion-navbar>
-    <ion-title>Infaq
-      <page-notification-bell></page-notification-bell>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start left>
+      <button ion-button large (click)="goBack()">
+        <ion-icon name="arrow-back" ngClass="back-btn"><span></span></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Infaq<page-notification-bell></page-notification-bell>
     </ion-title>
   </ion-navbar>
 
@@ -10,5 +14,50 @@
 
 
 <ion-content>
-    <iframe ngClass="qibla-finder" src="https://www.billplz.com/tmsaff"></iframe>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>Masjid</ion-label>
+        <ion-input type="text" readonly="true" [(ngModel)]="this.donation.mosqueTitle">
+        </ion-input>
+      </ion-item>
+      <ion-list radio-group [(ngModel)]="this.donation.category" [disabled]="this.showPaymentResult==true">
+        <ion-list-header>
+          Select Category
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Medical</ion-label>
+          <ion-radio value="Medical"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Academic</ion-label>
+          <ion-radio value="Academic"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Foodbank</ion-label>
+          <ion-radio value="Foodbank"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label floating>Amount</ion-label>
+        <ion-input type="number" min="2.00" step="0.01" [(ngModel)]="this.donation.amount"
+          [disabled]="this.showPaymentResult==true"></ion-input>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
+  <ion-item>
+    <ion-label [hidden]="this.showPaymentResult==false">{{paymentResult}}</ion-label>
+  </ion-item>
 </ion-content>
+<ion-footer>
+  <ion-buttons text-center [hidden]="this.showPaymentResult==true">
+    <button class="button button-primary rectangle" (click)="pay()"
+      [disabled]="!this.donation.category || !this.donation.amount">Pay Infaq
+    </button>
+  </ion-buttons>
+</ion-footer>

@@ -20,6 +20,7 @@ import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
+import { InfaqListPage } from '../pages/infaq-list/infaq-list';
 import { KariahListPage } from '../pages/kariah-list/kariah-list';
 import { KariahPage } from '../pages/kariah/kariah';
 import { AskPage } from '../pages/ask/ask';
@@ -89,10 +90,11 @@ export class MyApp {
         { title: 'Profile', component: ProfilePage },
         { title: 'Qibla Finder', component: QiblaPage },
         // { title: 'Settings', component: SettingsPage },
-        // { title: 'Feedback', component: FeedbackPage },
         { title: 'Bookmark', component: BookmarkPage },
         { title: 'Kariah', component: KariahPage },
+        { title: 'Infaq List', component: InfaqListPage },
         // { title: 'Market', component: MarketPage },
+        { title: 'Feedback', component: FeedbackPage },
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
       ];
@@ -133,8 +135,9 @@ export class MyApp {
           { title: 'Profile', component: ProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
           // { title: 'Settings', component: SettingsPage },
-          // { title: 'Feedback', component: FeedbackPage },
+          { title: 'Infaq List', component: InfaqListPage },
           { title: 'Kariah List', component: KariahListPage },
+          { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -145,7 +148,7 @@ export class MyApp {
           { title: 'Home', component: UstazProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
           // { title: 'Settings', component: SettingsPage },
-          // { title: 'Feedback', component: FeedbackPage },
+          { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -157,10 +160,11 @@ export class MyApp {
           { title: 'Profile', component: ProfilePage },
           { title: 'Qibla Finder', component: QiblaPage },
           // { title: 'Settings', component: SettingsPage },
-          // { title: 'Feedback', component: FeedbackPage },
           { title: 'Bookmark', component: BookmarkPage },
+          { title: 'Infaq List', component: InfaqListPage },
           { title: 'Kariah', component: KariahPage },
           // { title: 'Market', component: MarketPage },
+          { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];

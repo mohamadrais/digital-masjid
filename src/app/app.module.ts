@@ -58,6 +58,7 @@ import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
+import { InfaqListPage } from '../pages/infaq-list/infaq-list';
 import { KariahPage } from '../pages/kariah/kariah';
 import { KariahListPage } from '../pages/kariah-list/kariah-list';
 import { KariahOtherAccountPage } from '../pages/kariah-other-account/kariah-other-account';
@@ -102,6 +103,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     SearchManagedMosquesPage,
     MarketPage,
     InfaqPage,
+    InfaqListPage,
     KariahPage,
     KariahListPage,
     KariahOtherAccountPage,
@@ -169,6 +171,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     SearchManagedMosquesPage,
     MarketPage,
     InfaqPage,
+    InfaqListPage,
     KariahPage,
     KariahListPage,
     KariahOtherAccountPage,
