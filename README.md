@@ -69,3 +69,23 @@ Solution:
 ```
 cordova clean android
 ```
+
+-------------------------------------------
+
+6 steps on fixing Gradle issue since AndroidX release 
+( https://developer.android.com/jetpack/androidx)
+
+1. ionic cordova platform rm android
+2. ionic cordova plugin remove cordova-plugin-firebase
+3. ionic cordova platform add android@8.0.0
+
+4. in platforms>android>build.gradle, replace classpath 'com.google.gms:google-services:4.1.0' into classpath 'com.google.gms:google-services:4.2.0' 
+
+5. replace google-service.json in platform>android>src>main with our project version from android-build
+
+6. for error...
+[string/fb_app_id] C:\dev\digital-masjid-frontend\platforms\android\app\src\main\res\values\facebookconnect.xml [string/fb_app_id] C:\dev\digital-masjid-frontend\platforms\android\app\src\main\res\values\strings.xml: Error: Duplicate resources
+
+...resolve by deleting facebookconnect.xml in \platforms\android\app\src\main\res\values\facebookconnect.xml 
+
+7. <need to figure how to put back .jks keystore file for publishing later>
