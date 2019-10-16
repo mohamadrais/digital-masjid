@@ -14,6 +14,7 @@ import { InAppBrowser, InAppBrowserEvent } from '@ionic-native/in-app-browser';
 import { PopoverMosqueRatingPage } from './popover-mosque-rating';
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
+import { Url } from "../../app/models/MosqueEventsUrl";
 import * as moment from 'moment';
 import { HomePage } from '../home/home';
 
@@ -144,6 +145,19 @@ export class MosquePage {
       let label = encodeURI('My Label');
       window.open('geo:0,0?q=' + this.mosque.title, '_system');
     }
+  }
+
+  openLink(url: Url) {
+    console.log("clicked link: " + url.link + ", displayText: " + url.displayText);
+    var pattern = /^((http|https|ftp):\/\/)/;
+
+    if (!pattern.test(url.link)) {
+      url.link = "http://" + url.link;
+    }
+
+    window.open(url.link, '_system', 'location=yes');
+    // const browser = this.iab.create(url.link, '_self', 'location=yes');
+    // browser.show();
   }
 
   getMosqueDetails(google_place_id: string) {

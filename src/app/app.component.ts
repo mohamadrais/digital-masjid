@@ -22,6 +22,7 @@ import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
 import { InfaqListPage } from '../pages/infaq-list/infaq-list';
 import { KariahListPage } from '../pages/kariah-list/kariah-list';
+import { MosqueManagePage } from '../pages/mosque-manage/mosque-manage';
 import { KariahPage } from '../pages/kariah/kariah';
 import { AskPage } from '../pages/ask/ask';
 import { BookmarkPage } from '../pages/bookmark/bookmark';
@@ -137,6 +138,7 @@ export class MyApp {
           // { title: 'Settings', component: SettingsPage },
           { title: 'Infaq List', component: InfaqListPage },
           { title: 'Kariah List', component: KariahListPage },
+          { title: 'Manage Mosque', component: MosqueManagePage },
           { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }

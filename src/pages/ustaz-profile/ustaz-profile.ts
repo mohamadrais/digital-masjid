@@ -7,6 +7,7 @@ import { HttpService } from "../../app/service/http-service";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { EventDetailsPage } from '../event-details/event-details';
 import { PopoverRatingPage } from './popover-rating';
+import { RegisterPage } from '../register/register';
 import * as moment from 'moment';
 /**
  * Generated class for the UstazProfilePage page.
@@ -25,6 +26,8 @@ export class UstazProfilePage {
   events_upcoming: Array<MosqueEvent> = [];
   name: string = "";
   email: string = "";
+  userImage: string = "";
+  user_url: any = [];
   avgRating: string = "0";
   ratersCount: string = "0";
   userType: string = "";
@@ -50,6 +53,18 @@ export class UstazProfilePage {
         // this.moderator.avgRating = data.avgRating;
         // this.moderator.ratersCount = data.ratersCount;
         this.calculateStar(this.moderator.avgRating);
+        this.user_url = [];
+        if (this.moderator.user_url && this.moderator.user_url.length != 0) {
+          for (var i = 0, len = this.moderator.user_url.length; i < len; i++) {
+            this.user_url[i] = {}; 
+            for (var prop in this.moderator.user_url[i]) {
+              this.user_url[i][prop] = this.moderator.user_url[i][prop]; // copy properties
+            }
+          }
+        }
+        if (this.moderator.userImage && this.moderator.userImage.length != 0) {
+          this.userImage = this.moderator.userImage;
+        }
       }
       // get ustaz details from server
       else {
@@ -67,6 +82,18 @@ export class UstazProfilePage {
       // this.moderator.ratersCount = data.ratersCount;
       this.getRating(this.moderator._id);
       // this.calculateStar(this.avgRating);
+      this.user_url = [];
+      if (this.moderator.user_url && this.moderator.user_url.length != 0) {
+        for (var i = 0, len = this.moderator.user_url.length; i < len; i++) {
+          this.user_url[i] = {}; 
+          for (var prop in this.moderator.user_url[i]) {
+            this.user_url[i][prop] = this.moderator.user_url[i][prop]; // copy properties
+          }
+        }
+      }
+      if (this.moderator.userImage && this.moderator.userImage.length != 0) {
+        this.userImage = this.moderator.userImage;
+      }
     }
     this.userType = this.global.getUserType();
     this.userId = this.global.getUserId();
@@ -106,6 +133,18 @@ export class UstazProfilePage {
         this.moderator = data;
         this.name = this.moderator.name;
         this.email = this.moderator.email;
+        this.user_url = [];
+        if (this.moderator.user_url && this.moderator.user_url.length != 0) {
+          for (var i = 0, len = this.moderator.user_url.length; i < len; i++) {
+            this.user_url[i] = {}; 
+            for (var prop in this.moderator.user_url[i]) {
+              this.user_url[i][prop] = this.moderator.user_url[i][prop]; // copy properties
+            }
+          }
+        }
+        if (this.moderator.userImage && this.moderator.userImage.length != 0) {
+          this.userImage = this.moderator.userImage;
+        }
         this.getRating(moderatorId);
       }
     }, error => {
@@ -183,6 +222,31 @@ export class UstazProfilePage {
     popover.onDidDismiss(data => {
       if (data) {
         this.getUstazDetails(this.moderator._id);
+      }
+    })
+  }
+
+  getStoredData() {
+    this.moderator = this.global.getUser();
+    this.name = this.moderator.name;
+    this.email = this.moderator.email;
+    this.userImage = this.moderator.userImage;
+    this.user_url = [];
+    for (var i = 0, len = this.moderator.user_url.length; i < len; i++) {
+      this.user_url[i] = {}; 
+      for (var prop in this.moderator.user_url[i]) {
+        this.user_url[i][prop] = this.moderator.user_url[i][prop]; // copy properties
+      }
+    }
+  }
+
+  editProfile() {
+    this.navCtrl.push(RegisterPage, {
+      "data": this.moderator,
+      callback: data => {
+        if (data) {
+          this.getStoredData();
+        }
       }
     })
   }

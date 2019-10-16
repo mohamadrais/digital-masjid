@@ -6,10 +6,13 @@ import { HttpService } from "../../app/service/http-service";
 import { HomePage } from '../home/home';
 import { LoginPage } from "../login/login";
 import { AlertController } from 'ionic-angular';
+import { ImageProvider } from '../../providers/image/image';
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ForgotPassword } from '../forgot-password/forgotPassword';
+import { Url } from "../../app/models/MosqueEventsUrl";
+import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url';
 
 /**
  * Generated class for the RegisterPage page.
@@ -33,27 +36,49 @@ export class RegisterPage {
   icnumber: string;
   gender: string;
   mobile: string;
+  user_url: any = [];
+  userThumbnail: any = ""; //Model for storing selected image value
+  userImage: any = ""; //Model for storing selected image value
   preferredMosque: string;
   private user: User;
   valid: boolean = true;
   userData: User;
+  isUstaz: boolean = false;
+  isAdmin: boolean = false;
   editMode: boolean = false;
   dob: string;
   deviceInfo: any;
   verifiedEmail = false;
+  didUrlListChange: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public login: LoginPage, public iab: InAppBrowser) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public alertCtrl: AlertController, public global: Globals, public login: LoginPage, public iab: InAppBrowser, private _IMAGE: ImageProvider) {
     //if loggedIn
     this.userData = this.navParams.get("data");
     if (this.userData) {
       this.email = this.userData.email;
       this.name = this.userData.name;
+      this.user_url = [];
+      if (this.userData.user_url && this.userData.user_url.length != 0) {
+        for (var i = 0, len = this.userData.user_url.length; i < len; i++) {
+          this.user_url[i] = {}; 
+          for (var prop in this.userData.user_url[i]) {
+            this.user_url[i][prop] = this.userData.user_url[i][prop]; // copy properties
+          }
+        }
+      }
+      if (this.userData.userImage && this.userData.userImage.length != 0) {
+        this.userImage = this.userData.userImage;
+        this.userThumbnail = this.userData.userImage.toString();
+      }
       // this.nickname = this.userData.nickname;
       // this.icnumber = this.userData.icnumber;
       // this.gender = this.userData.gender;
       this.mobile = this.userData.mobile;
       // this.preferredMosque = this.userData.preferredMosque;
       this.dob = this.userData.dob;
+      if (this.userData.userType === AppConstants.USER_TYPE_MODERATOR) {
+        this.isUstaz = true;
+      }
       this.editMode = true;
     }
   }
@@ -98,6 +123,7 @@ export class RegisterPage {
       this.user._id = this.userData._id;
       this.httpService.updateUser(this.user).subscribe(data => {
         if (data.status == "200") {
+          // this.userData = data.updateUser;
           this.showUpdated();
         }
       }, error => {
@@ -115,6 +141,8 @@ export class RegisterPage {
     this.user = new User();
     this.user.email = this.email;
     this.user.name = this.name;
+    this.user.user_url = this.user_url;
+    this.user.userImage = this.userImage;
     // this.user.nickname = this.nickname;
     this.user.password = this.password;
     // this.user.gender = this.gender;
@@ -130,11 +158,53 @@ export class RegisterPage {
   validateData() {
     if (this.editMode) {
       // return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.preferredMosque && this.preferredMosque != this.userData.preferredMosque) || (this.gender && this.gender != this.userData.gender) || (this.nickname && this.nickname != this.userData.nickname));
-      return ((this.name && this.name != this.userData.name) || (this.password && this.password != this.userData.password) || (this.mobile && this.mobile != this.userData.mobile) || (this.dob && this.dob != this.userData.dob));
+
+      // check if url changed
+      if (!(this.arraysEqual(this.user_url, this.userData.user_url))) {
+        this.didUrlListChange = true;
+      }
+      return ((this.name && this.name != this.userData.name)
+        || (this.password && this.password != this.userData.password)
+        || (this.mobile && this.mobile != this.userData.mobile)
+        || (this.dob && this.dob != this.userData.dob)
+        || (this.userImage && this.userImage != this.userData.userImage)
+        || (this.didUrlListChange)
+      );
     } else {
       // return (this.email && this.name && this.password && this.icnumber && this.mobile && this.preferredMosque && this.gender && this.nickname);
       return (this.email && this.name && this.password && this.mobile && this.dob);
     }
+  }
+
+  //URL
+
+  addUpdateUserUrl(index) {
+    this.navCtrl.push(MosqueEventUrlPage, {
+      "data": (index != null) ? this.user_url[index] : '',
+      callback: data => {
+        console.log('current user url: ' + this.userData.user_url);
+        if (index != null) {
+          this.user_url[index] = data;
+        } else {
+          this.user_url.push(data);
+        }
+      }
+    })
+  }
+
+  deleteUserUrl(i: number) {
+    this.user_url.splice(i, 1)
+  }
+
+  arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
   }
 
   showError(errorMsg) {
@@ -200,6 +270,8 @@ export class RegisterPage {
     // (this.gender) ? this.userData.gender = this.gender : '';
     (this.dob) ? this.userData.dob = this.dob : '';
     (this.mobile) ? this.userData.mobile = this.mobile : '';
+    (this.user_url) ? this.userData.user_url = this.user_url : '';
+    (this.userImage) ? this.userData.userImage = this.userImage : '';
     // (this.preferredMosque) ? this.userData.preferredMosque = this.preferredMosque : '';
 
     this.global.set(AppConstants.USER, this.userData).then(() => {
@@ -232,7 +304,7 @@ export class RegisterPage {
   verifyToken() {
     const confirm = this.alertCtrl.create({
       title: 'We have sent verification code to ' + this.email + ".",
-      subTitle:"Please fill in the code into the input below:",
+      subTitle: "Please fill in the code into the input below:",
       enableBackdropDismiss: false,
       inputs: [
         {
@@ -275,22 +347,22 @@ export class RegisterPage {
             alert("Server error");
           }
         })
-      }else if(data.status == "success"){
+      } else if (data.status == "success") {
         const emailExistAlert = this.alertCtrl.create({
           title: 'Email address ' + this.email + ' already exists!',
-          subTitle:"Please click on 'Forgot Password' if you wish to reset your password instead",
+          subTitle: "Please click on 'Forgot Password' if you wish to reset your password instead",
           buttons: [
             {
               text: 'Reset Password',
               handler: () => {
                 this.navCtrl.pop().then(() => {
-                  this.navParams.get('callback')({"forgotPassword":true});
+                  this.navParams.get('callback')({ "forgotPassword": true });
                 });
               }
             },
             {
               text: 'Cancel',
-              handler: data =>{
+              handler: data => {
                 //do nothing
               }
             }
@@ -312,5 +384,50 @@ export class RegisterPage {
   removeVerifiedEmail() {
     this.email = '';
     this.verifiedEmail = false;
+  }
+
+  /**
+  * Use the device camera to capture a photographic image
+  * (courtesy of the takePhotograph method of the ImageProvider
+  * service) and assign this, as a bade64-encoded string, to
+  * public properties used in the component template
+  *
+  * @public
+  * @method takePhotograph
+  * @return {None}
+  */
+  takePhotograph(): void {
+
+    this._IMAGE
+      .takePhotograph()
+      .then((image) => {
+        this.userThumbnail = image.toString();
+        this.userImage = image.toString();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  /**
+   * Use the device photolibrary to select a photographic image
+   * (courtesy of the takePhotograph method of the ImageProvider
+   * service) and assign this, as a bade64-encoded string, to
+   * public properties used in the component template
+   *
+   * @public
+   * @method selectImage
+   * @return {None}
+   */
+  selectImage(): void {
+    this._IMAGE
+      .selectPhotograph()
+      .then((image) => {
+        this.userThumbnail = image.toString();
+        this.userImage = image.toString();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

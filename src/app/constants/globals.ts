@@ -5,6 +5,7 @@ import { Device } from '@ionic-native/device';
 import { User } from '../models/User';
 import { AppConstants } from '../constants/app-constants';
 import { KariahUser } from '../models/KariahUser';
+import { Url } from '../models/MosqueEventsUrl';
 
 
 @Injectable()
@@ -288,6 +289,54 @@ export class Globals {
    */
   getUserDob() {
     return this.currentUser.dob;
+  }
+
+  /**
+   * Set login admin mosques managed.
+   */
+  setUserMosquesManaged(mosquesManaged: Array<string>) {
+    console.log("setting Globals.mosquesManaged:" + mosquesManaged);
+    this.currentUser.mosquesManaged = mosquesManaged;
+    this.storage.set(this.APP_USER, this.currentUser);
+  }
+
+  /**
+   * get login admin mosques managed.
+   */
+  getUserMosquesManaged() {
+    return this.currentUser.mosquesManaged;
+  }
+
+  /**
+   * Set login ustaz URLs.
+   */
+  setUserURL(user_url: Array<Url>) {
+    console.log("setting Globals.user_url:" + user_url);
+    this.currentUser.user_url = user_url;
+    this.storage.set(this.APP_USER, this.currentUser);
+  }
+
+  /**
+   * get login ustaz URLs.
+   */
+  getUserURL() {
+    return this.currentUser.user_url;
+  }
+
+  /**
+   * Set login user profile image.
+   */
+  setUserImage(userImage: string) {
+    console.log("setting Globals.userImage:" + userImage);
+    this.currentUser.userImage = userImage;
+    this.storage.set(this.APP_USER, this.currentUser);
+  }
+
+  /**
+   * get login user profile image.
+   */
+  getUserImage() {
+    return this.currentUser.userImage;
   }
 
   /**

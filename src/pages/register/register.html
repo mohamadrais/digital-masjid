@@ -57,7 +57,7 @@
         <ion-label floating>IC Number</ion-label>
         <ion-input [(ngModel)]="icnumber" [disabled]="editMode" type="number"></ion-input>
       </ion-item> -->
-        <ion-item>
+        <ion-item *ngIf="!isUstaz">
           <ion-label floating>Date of Birth</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dob" name="dob"></ion-datetime>
         </ion-item>
@@ -70,6 +70,53 @@
         <ion-label floating>Prefered Mosque</ion-label>
         <ion-input [(ngModel)]="preferredMosque"></ion-input>
       </ion-item> -->
+
+        <ion-item *ngIf="isUstaz">
+          <ion-label (click)="addUpdateUserUrl(null)">URL
+            <button ngClass="lookup-icon">
+
+              <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+
+              <div class="button-effect"></div>
+            </button>
+          </ion-label>
+        </ion-item>
+
+        <ion-item [ngClass]="{'error':locationError}" *ngIf="isUstaz && this.user_url && this.user_url.length>0">
+          <ion-label>
+            <div *ngIf="this.user_url && this.user_url.length>0">
+              <ion-chip ngClass="ustaz-chip" *ngFor="let u of user_url; let i = index">
+                <ion-label (click)="addUpdateUserUrl(i)">{{u.displayText}}</ion-label>
+                <button ion-button clear color="light" (click)="deleteUserUrl(i)">
+                  <ion-icon name="close-circle"></ion-icon>
+                </button>
+              </ion-chip>
+            </div>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Profile Picture
+            <button ngClass="lookup-icon">
+
+              <ion-icon name="ios-camera-outline" role="img" class="icon icon-ios" aria-label="camera"
+                (click)="takePhotograph()"></ion-icon>
+
+              <div class="button-effect"></div>
+            </button>
+            <button ngClass="lookup-icon">
+
+              <ion-icon name="ios-image-outline" role="img" class="icon icon-ios" aria-label="image"
+                (click)="selectImage()"></ion-icon>
+
+              <div class="button-effect"></div>
+            </button>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="userThumbnail">
+          <img src="{{ userThumbnail }}" imageViewer>
+        </ion-item>
+
       </ion-list>
     </ion-row>
     <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
@@ -86,7 +133,7 @@
     <button class="button button-primary register rectangle small" (click)="sendVerificationCode()"
       [disabled]="!email || verifiedEmail">{{verifiedEmail?"Email Verified":"Verify Email"}}<ion-icon
         name="checkmark-circle" *ngIf="verifiedEmail"></ion-icon></button>
-    <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()"
-      [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
+    <!-- <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()" [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button> -->
+    <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()" >{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
 </ion-footer>

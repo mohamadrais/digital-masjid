@@ -49,29 +49,29 @@
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-androidx": "^1.0.2",
     "cordova-plugin-androidx-adapter": "^1.1.0",
-    "cordova-plugin-camera": "^4.0.3",
+    "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-cocoapod-supportx": "^1.7.3",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-facebook4": "^1.10.1",
-    "cordova-plugin-file": "^6.0.1",
+    "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-firebase-lib": "^4.0.0",
     "cordova-plugin-firebasex": "^3.0.8",
-    "cordova-plugin-geolocation": "^4.0.1",
-    "cordova-plugin-googleplus": "^7.0.0",
-    "cordova-plugin-inappbrowser": "^3.0.0",
-    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-googleplus": "^7.0.2",
+    "cordova-plugin-inappbrowser": "^3.1.0",
+    "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^1.2.1",
-    "cordova-plugin-nativegeocoder": "^3.1.3",
-    "cordova-plugin-network-information": "^2.0.1",
-    "cordova-plugin-request-location-accuracy": "^2.2.3",
-    "cordova-plugin-splashscreen": "^5.0.2",
-    "cordova-plugin-statusbar": "^2.4.2",
-    "cordova-plugin-whitelist": "^1.3.3",
-    "cordova-plugin-x-socialsharing": "^5.4.4",
-    "cordova.plugins.diagnostic": "^4.0.11",
+    "cordova-plugin-nativegeocoder": "^3.2.2",
+    "cordova-plugin-network-information": "^2.0.2",
+    "cordova-plugin-request-location-accuracy": "^2.3.0",
+    "cordova-plugin-splashscreen": "^5.0.3",
+    "cordova-plugin-statusbar": "^2.4.3",
+    "cordova-plugin-whitelist": "^1.3.4",
+    "cordova-plugin-x-socialsharing": "^5.6.1",
+    "cordova.plugins.diagnostic": "^4.0.12",
     "crypto-js": "^3.1.9-1",
     "es6-promise-plugin": "^4.2.2",
     "ionic-angular": "3.9.2",
@@ -99,7 +99,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-datepicker": {},
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-request-location-accuracy": {},
+      "cordova-plugin-request-location-accuracy": {
+        "PLAY_SERVICES_LOCATION_VERSION": "16.+"
+      },
       "cordova-plugin-nativegeocoder": {
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service"
       },
@@ -108,8 +110,12 @@
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
       "cordova-plugin-network-information": {},
-      "cordova.plugins.diagnostic": {},
-      "cordova-plugin-camera": {},
+      "cordova.plugins.diagnostic": {
+        "ANDROID_SUPPORT_VERSION": "28.+"
+      },
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573",
         "PLAY_SERVICES_VERSION": "15.+"

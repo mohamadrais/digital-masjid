@@ -1,14 +1,20 @@
-export class Mosques{
+import { Url } from "./MosqueEventsUrl";
+
+export class Mosques {
     _id: string;
     google_place_id: string;
-    title	:string;
-    latitude	:string;
-    longitude	:string;
-    address     :string;
-    active_events_no : number;
-    icon    :string ;//= 'assets/imgs/logo.png';
-    photo   :string ;//= 'assets/imgs/bg-home.jpg';
-    createdTimestamp:string ;
-    created_by    :string;
-    isRegistered    :boolean=false;
+    title: string;
+    mosque_url: Array<Url>;
+    latitude: string;
+    longitude: string;
+    address: string;
+    postcode: string;
+    city: string;
+    state: string;
+    active_events_no: number;
+    icon: string;//= 'assets/imgs/logo.png';
+    photo: string;//= 'assets/imgs/bg-home.jpg';
+    createdTimestamp: string;
+    created_by: string;
+    isRegistered: boolean = false;
 }
