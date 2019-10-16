@@ -76,7 +76,7 @@
               </div> -->
             </ion-col>
             <ion-col col-2 col-md-1>
-              <div ngClass="event-item-right">
+              <div ngClass="event-item-right" [hidden]="mosque && (!mosque.active_events_no || mosque.active_events_no<1)">
                 <div ngClass="quota-total">{{mosque.active_events_no}}</div>
                 <div ngClass="quota-title" text-wrap>active events</div>
               </div>

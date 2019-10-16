@@ -126,14 +126,16 @@
 </ion-content>
 
 <ion-footer>
-  <div style="padding: 15px; color: #6b6a6a;background:rgb(255, 255, 255)">By clicking sign up, you agree to our <a
+  <div *ngIf="!editMode" style="padding: 15px; color: #6b6a6a;background:rgb(255, 255, 255)">By clicking sign up, you agree to our <a
       (click)="terms()"><b>Terms and
         Conditions</b></a></div>
-  <ion-buttons text-center>
+  <ion-buttons text-center *ngIf="!editMode">
     <button class="button button-primary register rectangle small" (click)="sendVerificationCode()"
       [disabled]="!email || verifiedEmail">{{verifiedEmail?"Email Verified":"Verify Email"}}<ion-icon
         name="checkmark-circle" *ngIf="verifiedEmail"></ion-icon></button>
-    <!-- <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()" [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button> -->
-    <button class="button button-primary register rectangle small" (click)="(editMode)? updateUser(): registerUser()" >{{(editMode)?'Update Profile':'Sign Up'}}</button>
+    <button class="button button-primary register rectangle small" (click)="registerUser()" [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
+  </ion-buttons>
+  <ion-buttons text-center *ngIf="editMode">
+    <button class="button button-primary rectangle" (click)="updateUser()" [disabled]="password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
 </ion-footer>
