@@ -9,7 +9,7 @@ import { Globals } from "../../app/constants/globals";
 import { AlertController } from 'ionic-angular';
 import { SearchModeratorPage } from '../search-moderator/search-moderator'
 import { SearchManagedMosquesPage } from '../search-managed-mosques/search-managed-mosques';
-import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url'
+import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url';
 /**
  * Generated class for the CreateEventPage page.
  *

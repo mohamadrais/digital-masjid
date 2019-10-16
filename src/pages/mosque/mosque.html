@@ -28,6 +28,16 @@
           <label>{{mosque.address}}</label>
         </div>
       </ion-col>
+      <ion-row ngClass="details-name-container" *ngIf="this.mosque.mosque_url && this.mosque.mosque_url.length>0">
+          <div ngClass="details-label">Extra info:</div>
+          <div ngClass="details-name">
+            <div *ngIf="this.mosque.mosque_url && this.mosque.mosque_url.length>0">
+              <ion-chip *ngFor="let u of mosque.mosque_url; let i = index" (click)="openLink(u)">
+                <ion-label>{{u.displayText}}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </ion-row>
       <ion-col col-12>
         <div ngClass="event-details-right pts-container">
           <div ngClass="details-label mb-1" [hidden]="true">Total Points</div>

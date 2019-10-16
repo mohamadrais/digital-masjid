@@ -14,7 +14,7 @@ import { Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { AppConstants } from '../../app/constants/app-constants';
 import * as moment from 'moment';
-import { Url } from "../../app/models/MosqueEventsUrl"
+import { Url } from "../../app/models/MosqueEventsUrl";
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 /**

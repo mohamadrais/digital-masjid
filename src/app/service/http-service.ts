@@ -252,6 +252,8 @@ export class HttpService {
             "mobile": user.mobile,
             "userType": user.userType,
             "dob": user.dob,
+            "user_url": user.user_url,
+            "userImage": user.userImage,
             "preferredMosque": user.preferredMosque,
             "createdTimestamp": user.createdTimestamp,
             "updatedTimestamp": user.updatedTimestamp,
@@ -274,7 +276,9 @@ export class HttpService {
                 "gender": user.gender,
                 "mobile": user.mobile,
                 "preferredMosque": user.preferredMosque,
-                "dob": user.dob
+                "dob": user.dob,
+                "user_url": user.user_url,
+                "userImage": user.userImage
             };
         } else {
             data = {
@@ -284,7 +288,9 @@ export class HttpService {
                 "gender": user.gender,
                 "mobile": user.mobile,
                 "preferredMosque": user.preferredMosque,
-                "dob": user.dob
+                "dob": user.dob,
+                "user_url": user.user_url,
+                "userImage": user.userImage
             };
         }
 
@@ -321,6 +327,24 @@ export class HttpService {
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
 
+    }
+
+    public updateMosque(mosque: Mosques): Observable<any> {
+
+        var data = {
+            "_id": mosque._id,
+            "google_place_id": mosque.google_place_id,
+            "title": mosque.title,
+            "address": mosque.address,
+            "postcode": mosque.postcode,
+            "city": mosque.city,
+            "state": mosque.state,
+            "mosque_url": mosque.mosque_url
+        }
+        console.log(JSON.stringify(data));
+        return this.http.post(this.BASE_URL + "mosques/updateMosque", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
     public countActiveEvents(google_place_id): Observable<any> {

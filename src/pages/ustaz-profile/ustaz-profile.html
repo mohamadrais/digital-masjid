@@ -21,6 +21,7 @@
       <div ngClass="profile-name" *ngIf="this.moderator">
         <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
         <p *ngIf="this.moderator.email">{{this.moderator.email}}</p>
+        <button (click)="editProfile()">Edit Profile</button>
       </div>
       <div ngClass="seperator-h"></div>
       <div ngClass="profile-points">

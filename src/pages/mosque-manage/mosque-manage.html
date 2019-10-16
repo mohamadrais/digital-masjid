@@ -1,0 +1,77 @@
+<!--
+  Generated template for the BookmarkPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="toolbar-mm">
+  <ion-toolbar>
+    <button class="header-btn" ion-button menuToggle>
+      <ion-icon name="ios-menu-outline"></ion-icon>
+    </button>
+    <ion-title>
+      Manage Mosque
+      <page-notification-bell></page-notification-bell>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <!-- <ion-card ngClass="card-general" *ngFor="let m of mosques" (click)="openKariahDetail(k)"> -->
+  <ion-card ngClass="card-general" *ngFor="let m of mosques; let mosqueIndex = index">
+    <ion-item>
+      <ion-label>Mosque Details</ion-label>
+    </ion-item>
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div ngClass="event-title">
+            <label>{{m.title}}</label>
+          </div>
+          <div ngClass="event-title">
+            <label>Address: {{m.address}}</label>
+          </div>
+          <div ngClass="event-title">
+            <label>Google Place Id: {{m.google_place_id}}</label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item>
+      <ion-label (click)="addUpdateMosqueUrl(m, null, mosqueIndex)">Mosque URL
+        <button ngClass="lookup-icon">
+
+          <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+
+          <div class="button-effect"></div>
+        </button>
+      </ion-label>
+    </ion-item>
+
+    <ion-item [ngClass]="{'error':locationError}" *ngIf="m.mosque_url && m.mosque_url.length>0">
+      <ion-label>
+        <div *ngIf="m.mosque_url && m.mosque_url.length>0">
+          <ion-chip ngClass="ustaz-chip" *ngFor="let u of m.mosque_url; let i = index">
+            <ion-label (click)="addUpdateMosqueUrl(m, i, mosqueIndex)">{{u.displayText}}</ion-label>
+            <button ion-button clear color="light" (click)="showConfirmDeleteURL(m, i, mosqueIndex)">
+              <ion-icon name="close-circle"></ion-icon>
+            </button>
+          </ion-chip>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-footer *ngIf="isAdmin"> -->
+
+  <!--Admin Role Button--
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="downloadKariahMembersList()" [disabled]="!kariahs || kariahs.length==0">
+      <ion-icon ngClass="edit-icon" name="{{(!kariahs || kariahs.length==0)?'ios-alert-outline':'ios-download'}}"></ion-icon>{{(!kariahs
+      || kariahs.length==0)? 'No Kariah Members' : 'Download as Excel File'}}
+    </button>
+  </ion-buttons>
+</ion-footer>
+-->

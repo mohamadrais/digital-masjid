@@ -56,6 +56,7 @@ import { AboutPage } from '../pages/about/about';
 import { FeedbackPage } from '../pages/feedback/feedback';
 import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
+import { MosqueManagePage } from '../pages/mosque-manage/mosque-manage';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
 import { InfaqListPage } from '../pages/infaq-list/infaq-list';
@@ -97,6 +98,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     SettingsPage,
     QiblaPage,
     MosquePage,
+    MosqueManagePage,
     AboutPage,
     ForgotPassword,
     SearchModeratorPage,
@@ -165,6 +167,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     SettingsPage,
     QiblaPage,
     MosquePage,
+    MosqueManagePage,
     AboutPage,
     ForgotPassword,
     SearchModeratorPage,

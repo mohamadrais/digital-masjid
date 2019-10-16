@@ -288,6 +288,7 @@ export class LocationsProvider {
         })
         mosque.title = registeredMosques[foundMosque].title;
         mosque.address = registeredMosques[foundMosque].address;
+        mosque.mosque_url = registeredMosques[foundMosque].mosque_url;
       } else {
         mosque.google_place_id = places[i].place_id;
 
@@ -298,6 +299,7 @@ export class LocationsProvider {
           mosque.title = places[i].name;
           mosque.address = places[i].vicinity;
         }
+        mosque.mosque_url = [];
         mosque.active_events_no = 0;
       }
 
