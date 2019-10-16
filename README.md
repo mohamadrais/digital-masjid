@@ -10,10 +10,12 @@ npm install -g cordova
 Make sure following system variables are defined, below are default installation paths:
 ```
 ANDROID_HOME --> C:\Users\username\AppData\Local\Android\Sdk
+ANDROID_SDK_ROOT --> C:\Users\username\AppData\Local\Android\Sdk
 JAVA_HOME --> C:\Program Files\Java\jdk-version
 PATH --> add following:
          %JAVA_HOME%\bin (mandatory)
          %ANDROID_HOME%\tools (mandatory)
+		 %ANDROID_SDK_ROOT%\tools (mandatory)
          C:\Users\username\AppData\Local\Programs\Microsoft VS Code\bin (optional)
 ```
 
@@ -72,20 +74,27 @@ cordova clean android
 
 -------------------------------------------
 
-6 steps on fixing Gradle issue since AndroidX release 
+Steps on fixing Gradle issue since AndroidX release 
 ( https://developer.android.com/jetpack/androidx)
 
-1. ionic cordova platform rm android
-2. ionic cordova plugin remove cordova-plugin-firebase
-3. ionic cordova platform add android@8.0.0
+Run below in order
+```
+ionic cordova platform rm android
+ionic cordova plugin remove cordova-plugin-firebase
+cordova plugin add cordova-plugin-firebasex
+ionic cordova platform add android@8.0.0
+cordova plugin add cordova-plugin-androidx-adapter@1.1.0
+cordova plugin add cordova-plugin-compat@1.2.0
+```
 
-4. in platforms>android>build.gradle, replace classpath 'com.google.gms:google-services:4.1.0' into classpath 'com.google.gms:google-services:4.2.0' 
+In platforms>android>build.gradle, replace classpath 'com.google.gms:google-services:4.1.0' into classpath 'com.google.gms:google-services:4.2.0' if applicable.
 
-5. replace google-service.json in platform>android>src>main with our project version from android-build
+Replace google-service.json in platform>android>src>main with our project version from android-build if applicable.
 
-6. for error...
+For error...
+```
 [string/fb_app_id] C:\dev\digital-masjid-frontend\platforms\android\app\src\main\res\values\facebookconnect.xml [string/fb_app_id] C:\dev\digital-masjid-frontend\platforms\android\app\src\main\res\values\strings.xml: Error: Duplicate resources
-
+```
 ...resolve by deleting facebookconnect.xml in \platforms\android\app\src\main\res\values\facebookconnect.xml 
 
-7. <need to figure how to put back .jks keystore file for publishing later>
+Note: need to figure how to put back .jks keystore file for publishing later

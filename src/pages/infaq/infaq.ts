@@ -96,14 +96,25 @@ export class InfaqPage {
     })
   }
 
+  formatAmount(e: any, separador: string = '.', decimais: number = 2) {
+    let a:any = e.value.split('');
+    let ns:string = '';
+    a.forEach((c:any) => { if (!isNaN(c)) ns = ns + c; });
+    ns = parseInt(ns).toString();
+    if (ns.length < (decimais+1)) { ns = ('0'.repeat(decimais+1) + ns); ns = ns.slice((decimais+1)*-1); }
+    let ans = ns.split('');
+    let r = '';
+    for (let i=0; i < ans.length; i++) if (i == ans.length - decimais) r = r + separador + ans[i]; else r = r + ans[i];
+    e.value = r;
+  }
+
   getHash() {
     let secretkey = '11690-550';
     let toHash;
     let hash;
     console.log(CryptoJS.PBKDF2('aaabb', "XX").toString());
     if (this.paymentData && this.paymentData.detail && this.paymentData.detail.length > 0 &&
-      this.paymentData.amount && this.paymentData.amount.length > 0 &&
-      this.paymentData.order_id && this.paymentData.order_id.length > 0) {
+      this.paymentData.amount && this.paymentData.order_id && this.paymentData.order_id.length > 0) {
       toHash = secretkey + decodeURIComponent(this.paymentData.detail) + decodeURIComponent(this.paymentData.amount) + decodeURIComponent(this.paymentData.order_id);
       hash = CryptoJS.MD5(toHash).toString();
 
@@ -126,7 +137,7 @@ export class InfaqPage {
     this.preparePaymentData();
 
     if (this.platform.is('cordova')) {
-      let browser = this.iab.create(this.httpService.BASE_URL + "infaq/prepare", '_self', 'location=yes');
+      let browser = this.iab.create(this.httpService.BASE_URL + "infaq/prepare", '_blank', 'location=no,clearsessioncache=yes');
       browser.show();
       browser.on("loadstart")
         .subscribe(

@@ -5,6 +5,7 @@
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
     <access origin="*" />
+    <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -88,33 +89,41 @@
     </platform>
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
-    <plugin name="cordova-plugin-ionic-webview" spec="1.1.19" />
-    <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
-    <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
-    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-ionic-webview" spec="1.2.1" />
+    <plugin name="cordova-plugin-ionic-keyboard" spec="2.1.3" />
+    <plugin name="cordova-plugin-datepicker" spec="0.9.3" />
+    <plugin name="cordova-plugin-geolocation" spec="4.0.1" />
     <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.1">
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
     </plugin>
     <plugin name="cordova-plugin-network-information" spec="2.0.1" />
-    <plugin name="cordova-plugin-request-location-accuracy" spec="^2.2.3" />
-    <plugin name="cordova.plugins.diagnostic" spec="4.0.10" />
-    <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1" />
-    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
-    <plugin name="cordova-plugin-facebook4" spec="^1.7.4">
-        <variable name="APP_ID" value="285153802177327" />
-        <variable name="APP_NAME" value="DigitalMasjid-dev" />
-    </plugin>
-    <plugin name="cordova-plugin-googleplus" spec="^7.0.0">
+    <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.3" />
+    <plugin name="cordova.plugins.diagnostic" spec="4.0.11" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="5.4.1" />
+    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <plugin name="cordova-plugin-camera" spec="4.0.3" />
+	<plugin name="cordova-plugin-googleplus" spec="7.0.0">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.440107685967-kduv0cpjrpivq0jqik70tnm1t38s1573" />
         <variable name="PLAY_SERVICES_VERSION" value="15.+" />
     </plugin>
-    <plugin name="cordova-plugin-firebase" spec="^2.0.5" />
+    <plugin name="cordova-plugin-firebasex" spec="3.0.8">
+        <variable name="ANDROID_PLAY_SERVICES_TAGMANAGER_VERSION" value="17.0.0" />
+        <variable name="ANDROID_FIREBASE_CORE_VERSION" value="17.0.0" />
+        <variable name="ANDROID_FIREBASE_MESSAGING_VERSION" value="19.0.0" />
+        <variable name="ANDROID_FIREBASE_CONFIG_VERSION" value="18.0.0" />
+        <variable name="ANDROID_FIREBASE_PERF_VERSION" value="18.0.0" />
+        <variable name="ANDROID_FIREBASE_AUTH_VERSION" value="18.0.0" />
+        <variable name="ANDROID_CRASHLYTICS_VERSION" value="2.10.1" />
+        <variable name="ANDROID_CRASHLYTICS_NDK_VERSION" value="2.1.0" />
+        <variable name="ANDROID_SHORTCUTBADGER_VERSION" value="1.1.22" />
+    </plugin>
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
-    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+	<plugin name="cordova-plugin-androidx-adapter" spec="^1.1.0" />
+    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
+	<plugin name="cordova-plugin-statusbar" spec="2.4.2" />
+	<plugin name="cordova-plugin-file-transfer" spec="1.7.1" />
+    <plugin name="cordova-plugin-file" spec="6.0.1" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="browser" spec="5.0.4" />
-    <engine name="android" spec="7.0.0" />
+    <engine name="android" spec="8.0.0" />
 </widget>
