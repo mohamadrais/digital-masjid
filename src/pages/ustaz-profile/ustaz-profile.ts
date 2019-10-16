@@ -8,6 +8,7 @@ import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { EventDetailsPage } from '../event-details/event-details';
 import { PopoverRatingPage } from './popover-rating';
 import { RegisterPage } from '../register/register';
+import { Url } from "../../app/models/MosqueEventsUrl";
 import * as moment from 'moment';
 /**
  * Generated class for the UstazProfilePage page.
@@ -251,4 +252,16 @@ export class UstazProfilePage {
     })
   }
 
+  openLink(url: Url) {
+    console.log("clicked link: " + url.link + ", displayText: " + url.displayText);
+    var pattern = /^((http|https|ftp):\/\/)/;
+
+    if (!pattern.test(url.link)) {
+      url.link = "http://" + url.link;
+    }
+
+    window.open(url.link, '_system', 'location=yes');
+    // const browser = this.iab.create(url.link, '_self', 'location=yes');
+    // browser.show();
+  }
 }

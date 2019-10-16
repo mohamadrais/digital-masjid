@@ -21,7 +21,17 @@
       <div ngClass="profile-name" *ngIf="this.moderator">
         <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
         <p *ngIf="this.moderator.email">{{this.moderator.email}}</p>
-        <button (click)="editProfile()">Edit Profile</button>
+        <button *ngIf="this.userType && this.userType=='USTAZ'" (click)="editProfile()">Edit Profile</button>
+        <ion-row ngClass="details-name-container" *ngIf="this.moderator.user_url && this.moderator.user_url.length>0">
+            <div ngClass="details-label">Extra info:</div>
+            <div ngClass="details-name">
+              <div *ngIf="this.moderator.user_url && this.moderator.user_url.length>0">
+                <ion-chip *ngFor="let u of this.moderator.user_url; let i = index" (click)="openLink(u)">
+                  <ion-label>{{u.displayText}}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+          </ion-row>
       </div>
       <div ngClass="seperator-h"></div>
       <div ngClass="profile-points">
