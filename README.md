@@ -98,3 +98,14 @@ For error...
 ...resolve by deleting facebookconnect.xml in \platforms\android\app\src\main\res\values\facebookconnect.xml 
 
 Note: need to figure how to put back .jks keystore file for publishing later
+
+
+
+
+
+AAPT Process manager cannot be shut down while daemons are in useAAPT Process manager cannot be shut down while daemons are in useAAPT Process manager cannot be shut down while daemons are in useAAPT Process manager cannot be shut down while daemons are in useAAPT Process manager cannot be shut down while daemons are in use
+
+install clipboard plugin
+
+1. ionic cordova plugin add cordova-clipboard
+2. npm install --save @ionic-native/clipboard@4

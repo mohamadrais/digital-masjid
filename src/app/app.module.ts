@@ -73,6 +73,7 @@ import { SearchManagedMosquesPage } from '../pages/search-managed-mosques/search
 import { NotificationBellPage } from '../pages/notification-bell/notification-bell';
 import { PopoverMosqueRatingPage } from '../pages/mosque/popover-mosque-rating';
 import { PopoverKariahApprovalPage } from '../pages/kariah/popover-kariah-approval';
+import { PopOverSocialSharePage } from '../pages/pop-over-social-share/pop-over-social-share';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
@@ -92,6 +93,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     PopoverRatingPage,
     PopoverMosqueRatingPage,
     PopoverKariahApprovalPage,
+    PopOverSocialSharePage,
     AdminHomePage,
     FeedbackPage,
     FeedbackAltPage,
@@ -160,6 +162,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     PopoverRatingPage,
     PopoverMosqueRatingPage,
     PopoverKariahApprovalPage,
+    PopOverSocialSharePage,
     ProfilePage,
     AdminHomePage,
     FeedbackPage,
