@@ -1,0 +1,30 @@
+<ion-content>
+    <div style="width:1.5rem;height:1.5rem;border-radius:50%;right:0px;background:#fff;color:#a0a0a0; position:absolute;z-index:999999; text-align:center" (click)="close()">  <ion-icon name="close"></ion-icon> </div>
+    <div ngClass="mb-2">
+        <ion-row ngClass="dp-container">
+            <div ngClass="profile-points">
+                <ion-row ngClass="ustaz-profile">
+                    <h2 style="text-align:center !important">{{(updateMode)?'Update':'Add'}} Official Mosque Email</h2>
+                    
+                </ion-row>
+                <ion-row ngClass="rate-star" style="text-align:center !important; margin:auto !important; float:unset !important">
+                    <ion-content>
+                        <form>
+                          <ion-row ngClass="login-radio no-margin">
+                            <ion-list ngClass="lang-container no-margin">
+                              <ion-item>
+                                <ion-label floating>Mosque Email</ion-label>
+                                <ion-input [(ngModel)]="mosque_email" name="mosque_email"></ion-input>
+                              </ion-item>
+                            </ion-list>
+                          </ion-row>
+                        </form>
+                      </ion-content>
+                </ion-row>
+            </div>
+        </ion-row>
+    </div>
+    <ion-buttons>
+        <button class="button button-primary rectangle" (click)="addUpdateEmail()">{{(updateMode)?'UPDATE':'ADD'}}</button>
+    </ion-buttons>
+</ion-content>

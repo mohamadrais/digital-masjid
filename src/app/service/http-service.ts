@@ -4,7 +4,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { User } from '../models/User';
 import { MosqueEvent } from '../models/MosqueEvents';
-import { FeedBack } from '../models/FeedBack';
+import { MosqueFeedback } from '../models/MosqueFeedback';
 import { Mosques } from '../models/Mosques';
 import { Donations } from '../models/Donations';
 import { KariahUser } from '../models/KariahUser'
@@ -15,7 +15,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
 
-    public BASE_URL:string = "http://159.65.140.100:8080/";
+    // public BASE_URL:string = "http://159.65.140.100:8080/";
+    public BASE_URL: string = "http://192.168.0.106:8080/";
+    // public BASE_URL: string = "http://157.230.242.73:8080/";
     
     private fileTransfer: FileTransferObject;
 
@@ -299,16 +301,17 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    public feedBack(feedBack: FeedBack): Observable<FeedBack> {
+    public saveMosqueFeedback(mosqueFeedback: MosqueFeedback): Observable<MosqueFeedback> {
         var data = {
-            "category": feedBack.category,
-            "page": feedBack.page,
-            "suggestion": feedBack.suggestion,
-            "userid": feedBack.userid,
-            "createdTimestamp": feedBack.createdTimestamp
+            "mosqueGooglePlaceId": mosqueFeedback.mosqueGooglePlaceId,
+            "category": mosqueFeedback.category,
+            // "page": mosqueFeedback.page,
+            "suggestion": mosqueFeedback.suggestion,
+            "userId": mosqueFeedback.userId,
+            "createdTimestamp": mosqueFeedback.createdTimestamp
         };
 
-        return this.http.post(this.BASE_URL + "feedback", data)
+        return this.http.post(this.BASE_URL + "feedback/saveMosqueFeedback", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
@@ -329,7 +332,7 @@ export class HttpService {
 
     }
 
-    public updateMosque(mosque: Mosques): Observable<any> {
+    public updateMosque(mosque: Mosques, adminId: string): Observable<any> {
 
         var data = {
             "_id": mosque._id,
@@ -339,7 +342,9 @@ export class HttpService {
             "postcode": mosque.postcode,
             "city": mosque.city,
             "state": mosque.state,
-            "mosque_url": mosque.mosque_url
+            "mosque_url": mosque.mosque_url,
+            "mosque_email": mosque.mosque_email,
+            "updated_by": adminId
         }
         console.log(JSON.stringify(data));
         return this.http.post(this.BASE_URL + "mosques/updateMosque", data)

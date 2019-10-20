@@ -1,0 +1,53 @@
+<ion-header class="toolbar-mm">
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start left>
+      <button ion-button large (click)="goBack()">
+        <ion-icon name="arrow-back" ngClass="back-btn"><span></span></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Mosque Feedback
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-row ngClass="login-radio no-margin">
+    <ion-list ngClass="lang-container no-margin">
+      <ion-item [ngClass]="{'error':fbcategoryError}">
+        <ion-label floating>Feedback Category</ion-label>
+        <ion-select [(ngModel)]="category">
+          <ion-option value="Events">Events</ion-option>
+          <ion-option value="Mosque">Mosque</ion-option>
+          <ion-option value="Others">Others</ion-option>
+        </ion-select>
+      </ion-item>
+      <!-- <ion-item [ngClass]="{'error':fbpageError}">
+        <ion-label floating>Page</ion-label>
+        <ion-select [(ngModel)]="page">
+          <ion-option value="General">General</ion-option>
+          <ion-option value="All">All</ion-option>
+          <ion-option value="Home Page">Home Page</ion-option>
+          <ion-option value="Login Page">Login Page</ion-option>
+          <ion-option value="Profile Page">Profile Page</ion-option>
+          <ion-option value="Event Details Page">Event Details Page</ion-option>
+          <ion-option value="Bookmark Page">Bookmark Page</ion-option>
+          <ion-option value="Infaq Page">Infaq Page</ion-option>
+          <ion-option value="Kariah Page">Kariah Page</ion-option>
+          <ion-option value="Feedback Page">Feedback Page</ion-option>
+          <ion-option value="Others">Others</ion-option>
+        </ion-select>
+      </ion-item> -->
+      <ion-item>
+        <ion-label stacked>Suggestion</ion-label>
+        <ion-textarea ngClass="tm-textarea" [(ngModel)]="suggestion" placeholder="Kindly give your thought and idea to improve our app"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-buttons>
+    <button class="button button-primary rectangle" (click)="showConfirm()">Send Feedback</button>
+  </ion-buttons>
+</ion-footer>

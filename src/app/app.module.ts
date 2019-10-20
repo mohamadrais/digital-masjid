@@ -53,10 +53,11 @@ import { UstazProfilePage } from '../pages/ustaz-profile/ustaz-profile';
 import { PopoverRatingPage } from '../pages/ustaz-profile/popover-rating';
 import { SettingsPage } from '../pages/settings/settings';
 import { AboutPage } from '../pages/about/about';
+import { MosqueFeedbackPage } from '../pages/mosque-feedback/mosque-feedback';
 import { FeedbackPage } from '../pages/feedback/feedback';
-import { FeedbackAltPage } from '../pages/feedback-alt/feedback-alt';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MosqueManagePage } from '../pages/mosque-manage/mosque-manage';
+import { PopoverMosqueEmailPage } from '../pages/mosque-manage/popover-mosque-email';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
 import { InfaqListPage } from '../pages/infaq-list/infaq-list';
@@ -93,12 +94,13 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     PopoverMosqueRatingPage,
     PopoverKariahApprovalPage,
     AdminHomePage,
+    MosqueFeedbackPage,
     FeedbackPage,
-    FeedbackAltPage,
     SettingsPage,
     QiblaPage,
     MosquePage,
     MosqueManagePage,
+    PopoverMosqueEmailPage,
     AboutPage,
     ForgotPassword,
     SearchModeratorPage,
@@ -158,16 +160,17 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     MosqueEventUrlPage,
     UstazProfilePage,
     PopoverRatingPage,
-    PopoverMosqueRatingPage,
     PopoverKariahApprovalPage,
     ProfilePage,
     AdminHomePage,
+    MosqueFeedbackPage,
     FeedbackPage,
-    FeedbackAltPage,
     SettingsPage,
     QiblaPage,
     MosquePage,
     MosqueManagePage,
+    PopoverMosqueEmailPage,
+    PopoverMosqueRatingPage,
     AboutPage,
     ForgotPassword,
     SearchModeratorPage,

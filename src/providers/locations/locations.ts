@@ -12,6 +12,7 @@ import { NgZone } from '@angular/core';
 import { Mosques } from '../../app/models/Mosques';
 import { App } from 'ionic-angular';
 import { AppConstants } from '../../app/constants/app-constants';
+import { e } from '@angular/core/src/render3';
 /*
   Generated class for the LocationsProvider provider.
 
@@ -288,7 +289,18 @@ export class LocationsProvider {
         })
         mosque.title = registeredMosques[foundMosque].title;
         mosque.address = registeredMosques[foundMosque].address;
-        mosque.mosque_url = registeredMosques[foundMosque].mosque_url;
+        if (registeredMosques[foundMosque].mosque_url == null || !registeredMosques[foundMosque].mosque_url){
+          mosque.mosque_url = [];
+        }
+        else {
+          mosque.mosque_url = registeredMosques[foundMosque].mosque_url
+        }
+        if (registeredMosques[foundMosque].mosque_email == null){
+          mosque.mosque_email = "";
+        }
+        else {
+          mosque.mosque_email = registeredMosques[foundMosque].mosque_email;
+        }
       } else {
         mosque.google_place_id = places[i].place_id;
 
@@ -300,6 +312,7 @@ export class LocationsProvider {
           mosque.address = places[i].vicinity;
         }
         mosque.mosque_url = [];
+        mosque.mosque_email = "";
         mosque.active_events_no = 0;
       }
 

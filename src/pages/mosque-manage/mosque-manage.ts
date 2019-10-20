@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
 import { HttpService } from "../../app/service/http-service";
 import { Globals } from "../../app/constants/globals";
 import { AppConstants } from "../../app/constants/app-constants";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MosquePage } from '../mosque/mosque';
-import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url'
+import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url';
+import { PopoverMosqueEmailPage } from '../mosque-manage/popover-mosque-email';
 /**
  * Generated class for the KariahPage page.
  *
@@ -28,7 +29,7 @@ export class MosqueManagePage {
   mosquesManaged = [];
   mosque_url: any = []; // link, displayText
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global: Globals, public alertCtrl: AlertController, private diagnostic: Diagnostic, private iab: InAppBrowser) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpService: HttpService, public global: Globals, public alertCtrl: AlertController, private diagnostic: Diagnostic, private iab: InAppBrowser, public popoverCtrl: PopoverController) {
 
     this.userId = this.global.getUserId();
     this.userType = this.global.getUserType();
@@ -52,8 +53,12 @@ export class MosqueManagePage {
       this.mosques = data;
       if (this.mosques.length > 0) {
         for (var i = 0; i < this.mosques.length; i++) {
-          if (this.mosques[i].mosque_url == null || !this.mosques[i].mosque_url)
+          if (this.mosques[i].mosque_url == null || !this.mosques[i].mosque_url) {
             this.mosques[i].mosque_url = [];
+          }
+          if (this.mosques[i].mosque_email == null) {
+            this.mosques[i].mosque_email = "";
+          }
         }
       }
 
@@ -112,26 +117,54 @@ export class MosqueManagePage {
   }
 
   updateMosqueURL(newMosqueDetails, mosqueIndex) {
-    this.httpService.updateMosque(newMosqueDetails).subscribe(data => {
-      this.mosques[mosqueIndex] = data;
-      if (this.mosques[mosqueIndex].mosque_url == null || !this.mosques[mosqueIndex].mosque_url)
-        this.mosques[mosqueIndex].mosque_url = [];
+    this.httpService.updateMosque(newMosqueDetails, this.userId).subscribe(data => {
+      if (data && data.status && data.status == "success") {
+        this.mosques[mosqueIndex] = data.result;
+        if (this.mosques[mosqueIndex].mosque_url == null || !this.mosques[mosqueIndex].mosque_url) {
+          this.mosques[mosqueIndex].mosque_url = [];
+        }
+        if (this.mosques[mosqueIndex].mosque_email == null) {
+          this.mosques[mosqueIndex].mosque_email = "";
+        }
+      }
+      else {
+        this.failAlert(data.message);
+      }
+
     });
   }
 
-  failAlert() {
+  failAlert(msg) {
     const confirm = this.alertCtrl.create({
-      title: 'Error occured',
-      message: 'Please try again later',
+      title: 'Our apologies! Something went wrong...',
+      message: msg,
       buttons: [
         {
-          text: 'Ok',
+          text: 'Okay',
           handler: () => {
           }
         }
       ]
     });
     confirm.present();
+  }
+
+  popoverMosqueEmail(m, mosqueIndex, myEvent) {
+    let popover = this.popoverCtrl.create(PopoverMosqueEmailPage, { "adminId": this.userId, "mosque": m, }, { showBackdrop: true, cssClass: "popover-rating" });
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss(data => {
+      if (data && data.status && data.status == "success" ) {
+        this.mosques[mosqueIndex] = data.result;
+        if (this.mosques[mosqueIndex].mosque_url == null || !this.mosques[mosqueIndex].mosque_url) {
+          this.mosques[mosqueIndex].mosque_url = [];
+        }
+        if (this.mosques[mosqueIndex].mosque_email == null) {
+          this.mosques[mosqueIndex].mosque_email = "";
+        }
+      }
+    })
   }
 
   // openKariahDetail(kariahMember) {

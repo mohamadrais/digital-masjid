@@ -61,12 +61,36 @@
         </div>
       </ion-label>
     </ion-item>
+
+    <ion-item>
+      <ion-label>Mosque Email</ion-label>
+    </ion-item>
+    <ion-item [ngClass]="{'error':locationError}" *ngIf="(m.mosque_email != null)">
+      <ion-label>
+        <div>
+          <ion-chip ngClass="ustaz-chip">
+            <ion-label (click)="popoverMosqueEmail(m, mosqueIndex, $event)">
+              {{(m.mosque_email.toString() === "") ? 'Add email' : 'Update email: '+ m.mosque_email}}
+            </ion-label>
+          </ion-chip>
+        </div>
+      </ion-label>
+    </ion-item>
+    <!--
+    <ion-item>
+      <ion-label>Mosque Email
+        <button *ngIf="(m.mosque_email != null)" (click)="popoverMosqueEmail(m, mosqueIndex, $event)">
+            {{(m.mosque_email.toString() === "") ? 'Add email' : 'Update email: '+ m.mosque_email}}
+        </button>
+      </ion-label>
+    </ion-item>
+    -->
   </ion-card>
 </ion-content>
 
 <!-- <ion-footer *ngIf="isAdmin"> -->
 
-  <!--Admin Role Button--
+<!--Admin Role Button--
   <ion-buttons>
     <button class="button button-primary rectangle" (click)="downloadKariahMembersList()" [disabled]="!kariahs || kariahs.length==0">
       <ion-icon ngClass="edit-icon" name="{{(!kariahs || kariahs.length==0)?'ios-alert-outline':'ios-download'}}"></ion-icon>{{(!kariahs

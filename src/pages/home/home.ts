@@ -2,8 +2,8 @@ import { Component, NgZone } from '@angular/core';
 import { NavController, LoadingController, AlertController, Loading } from 'ionic-angular';
 import { EventDetailsPage } from '../event-details/event-details';
 import { CreateEventPage } from '../create-event/create-event';
+import { MosqueFeedbackPage } from '../mosque-feedback/mosque-feedback';
 import { FeedbackPage } from '../feedback/feedback';
-import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
 import { MosquePage } from '../mosque/mosque';
 import { HttpService } from "../../app/service/http-service";
 import { MosqueEvent } from "../../app/models/MosqueEvents";
@@ -190,8 +190,8 @@ export class HomePage {
     // return date;
     return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
-  feedbackAltPage() {
-    this.navCtrl.push(FeedbackAltPage)
+  feedbackPage() {
+    this.navCtrl.push(FeedbackPage)
   }
   mosquePage(mosque: Mosques) {
     this.navCtrl.push(MosquePage, { 'data': mosque })

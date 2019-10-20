@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, PopoverController } from 'ionic-angular';
 import { EventDetailsPage } from '../event-details/event-details';
+import { MosqueFeedbackPage } from '../mosque-feedback/mosque-feedback';
 import { FeedbackPage } from '../feedback/feedback';
-import { FeedbackAltPage } from '../feedback-alt/feedback-alt';
 import { InfaqPage } from '../infaq/infaq';
 import { KariahPage } from '../kariah/kariah';
 import { AskPage } from '../ask/ask';
@@ -55,6 +55,10 @@ export class MosquePage {
   ionViewDidEnter() {
     this.initData();
     let kariahUser = this.global.getKariahUser()
+    /** By default, kariah button will only be shown for registered mosques.
+      * If user is has not registered to any mosque, Kariah button will be shown for all registered mosques.
+      * If user already registered to one mosque, kariah button will only be shown if user viewing that mosque's profile.
+    */
     if (!kariahUser || !kariahUser.userId || (kariahUser && kariahUser.kariahMosqueGooglePlaceId && (kariahUser.kariahMosqueGooglePlaceId == this.mosque.google_place_id))) {
       this.showKariahButton = true;
     }
@@ -109,11 +113,16 @@ export class MosquePage {
     // return date;
     return moment.utc(event_date).format("DD/MM/YYYY HH:mm");
   }
+  mosqueFeedbackPage() {
+    this.navCtrl.push(MosqueFeedbackPage, {
+      'mosqueData': this.mosque,
+      callback: data => {
+        this.mosque = data;
+      }
+    })
+  }
   feedbackPage() {
     this.navCtrl.push(FeedbackPage)
-  }
-  feedbackAltPage() {
-    this.navCtrl.push(FeedbackAltPage)
   }
   infaqPage() {
     this.navCtrl.push(InfaqPage, {
