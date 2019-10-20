@@ -10,6 +10,9 @@ import { AdminHomePage } from '../admin-home/admin-home';
 import { Mosques } from '../../app/models/Mosques';
 import { MosquePage } from '../mosque/mosque';
 import { MosqueManagePage } from '../mosque-manage/mosque-manage';
+import { User } from "../../app/models/User";
+import * as moment from 'moment';
+import * as momenttz from 'moment-timezone';
 
 /**
  * Generated class for the FeedbackPage page.
@@ -29,15 +32,28 @@ export class MosqueFeedbackPage {
   page: string;
   suggestion: string;
   mosqueFeedback: MosqueFeedback;
+  isAdmin: boolean = false;
+  currentUser: User;
+  feedbackList: Array<MosqueFeedback>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public httpService: HttpService,
     public global: Globals, public alertCtrl: AlertController) {
-      this.mosque = navParams.get('mosqueData');
+    this.mosque = navParams.get('mosqueData');
+    this.currentUser = this.global.getUser();
+    if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+      this.isAdmin = true;
+    }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FeedbackPage');
+    console.log('ionViewDidLoad MosqueFeedbackPage');
+  }
+
+  async ionViewCanEnter() {
+    if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+      await this.viewMosqueFeedback(this.mosque.google_place_id);
+    }
   }
 
   homePage() {
@@ -49,12 +65,19 @@ export class MosqueFeedbackPage {
   }
 
   goBack() {
-    this.navCtrl.setRoot(MosquePage, {
-      "data": this.mosque
-    });
+    if (this.currentUser && this.currentUser.userType === AppConstants.USER_TYPE_ADMIN) {
+      this.navCtrl.setRoot(MosqueManagePage, {
+        "data": this.mosque
+      });
+
+    } else {
+      this.navCtrl.setRoot(MosquePage, {
+        "data": this.mosque
+      });
+    }
   }
 
-  mosqueManagePage(){
+  mosqueManagePage() {
     this.navCtrl.setRoot(MosqueManagePage);
   }
 
@@ -135,5 +158,23 @@ export class MosqueFeedbackPage {
       buttons: alertButtons
     });
     confirm.present();
+  }
+
+  async viewMosqueFeedback(mosqueGooglePlaceId) {
+    return new Promise((resolve, reject) => {
+      this.httpService.viewMosqueFeedback(mosqueGooglePlaceId).subscribe(data => {
+        if (data && data.status && data.status == 'success') {
+          this.feedbackList = data.result;
+          for( var i=0; i < this.feedbackList.length; i++){
+            this.feedbackList[i].formattedCreatedTimestamp = momenttz(this.feedbackList[i].createdTimestamp).tz("Asia/Singapore").fromNow();
+          }
+          resolve(true);
+        }
+        else {
+          this.feedbackList = [];
+          resolve(true);
+        }
+      });
+    })
   }
 }

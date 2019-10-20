@@ -11,7 +11,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content *ngIf='!isAdmin'>
   <ion-row ngClass="login-radio no-margin">
     <ion-list ngClass="lang-container no-margin">
       <ion-item [ngClass]="{'error':fbcategoryError}">
@@ -40,14 +40,46 @@
       </ion-item> -->
       <ion-item>
         <ion-label stacked>Suggestion</ion-label>
-        <ion-textarea ngClass="tm-textarea" [(ngModel)]="suggestion" placeholder="Kindly give your thought and idea to improve our app"></ion-textarea>
+        <ion-textarea ngClass="tm-textarea" [(ngModel)]="suggestion"
+          placeholder="Kindly give your thought and idea to improve our app"></ion-textarea>
       </ion-item>
     </ion-list>
   </ion-row>
 </ion-content>
 
-<ion-footer>
+<ion-content padding *ngIf='isAdmin'>
+  <!-- <ion-card ngClass="card-general" *ngFor="let f of feedbackList" (click)="openFeedbackDetail(f)"> -->
+  <ion-card ngClass="card-general" *ngFor="let f of feedbackList">
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div [ngClass]="{'error':locationError}">
+            <label>Category: {{f.category}}</label>
+            <ion-badge ngClass="pull-right success-color">{{f.formattedCreatedTimestamp}}</ion-badge>
+          </div><br>
+          <div ngClass="event-title">
+            <label>Suggestion:</label><br>
+            <label ngClass="item-dateloc">{{f.suggestion}}</label>
+          </div><br>
+          <div>
+            <ion-row>
+              <ion-col col-12>
+                <label ngClass="event-title">Feeback Provider:</label><br>
+                <label ngClass="item-dateloc">Name: {{f.user_details[0].name}}
+                </label><br>
+                <label ngClass="item-dateloc">Email: {{f.user_details[0].email}}</label><br>
+                <label ngClass="item-dateloc">Mobile: {{f.user_details[0].mobile}}</label>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-footer>
   <ion-buttons>
     <button class="button button-primary rectangle" (click)="showConfirm()">Send Feedback</button>
   </ion-buttons>
-</ion-footer>
+</ion-footer> -->

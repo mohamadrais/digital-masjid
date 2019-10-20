@@ -7,4 +7,5 @@ export class MosqueFeedback {
     userId: string;
     google_palce_id: string;
     createdTimestamp: string;
+    formattedCreatedTimestamp: string;
 }

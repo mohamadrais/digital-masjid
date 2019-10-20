@@ -21,23 +21,25 @@
       <div ngClass="profile-name" *ngIf="this.moderator">
         <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
         <p *ngIf="this.moderator.email">{{this.moderator.email}}</p>
-        <button *ngIf="this.userType && this.userType=='USTAZ'" (click)="editProfile()">Edit Profile</button>
+        <button *ngIf="this.userType && this.userType=='USTAZ' && this.userId==this.moderator._id"
+          (click)="editProfile()">Edit Profile</button>
         <ion-row ngClass="details-name-container" *ngIf="this.moderator.user_url && this.moderator.user_url.length>0">
-            <div ngClass="details-label">Extra info:</div>
-            <div ngClass="details-name">
-              <div *ngIf="this.moderator.user_url && this.moderator.user_url.length>0">
-                <ion-chip *ngFor="let u of this.moderator.user_url; let i = index" (click)="openLink(u)">
-                  <ion-label>{{u.displayText}}</ion-label>
-                </ion-chip>
-              </div>
+          <div ngClass="details-label">Extra info:</div>
+          <div ngClass="details-name">
+            <div *ngIf="this.moderator.user_url && this.moderator.user_url.length>0">
+              <ion-chip *ngFor="let u of this.moderator.user_url; let i = index" (click)="openLink(u)">
+                <ion-label>{{u.displayText}}</ion-label>
+              </ion-chip>
             </div>
-          </ion-row>
+          </div>
+        </ion-row>
       </div>
       <div ngClass="seperator-h"></div>
       <div ngClass="profile-points">
         <ion-row ngClass="ustaz-profile">
           <div ngClass="details-label">Overall Ratings</div>
-          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">Rates Your Ustaz
+          <div *ngIf="this.userType && this.userType=='USER'" ngClass="profile-redeem" (click)="popoverRating($event)">
+            Rates Your Ustaz
             <ion-icon name="ios-arrow-forward"></ion-icon>
           </div>
         </ion-row>
@@ -49,57 +51,58 @@
         </ion-row>
       </div>
     </ion-row>
-  </div>  
-    <ion-list *ngIf="this.userType && this.userType=='USTAZ' && events_upcoming && events_upcoming.length>0">
-        <div ngClass="item-header">Upcoming</div>
-        <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_upcoming">
-          <ion-item ngClass="events-list">
-            <ion-row>
-              
-              <ion-col col-10 col-md-11>
-                  <div ngClass="mosque-name">
-                    <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
-                    <label>{{event.event_title}}</label>
-                  </div>
-                  <div ngClass="mosque-address">
-                    <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
-                      {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
-                  </div>
-                </ion-col>
-                <ion-col col-2 col-md-1>
-                    <div ngClass="event-item-right">
-                      <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
-                      <div ngClass="quota-title">Seat Left</div>
-                    </div>
-                  </ion-col>
-            </ion-row>
-          </ion-item>
-        </ion-card>
-      </ion-list>
-      <ion-list *ngIf="events_history && events_history.length>0">
-          <div ngClass="item-header">History</div>
-          <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_history">
-            <ion-item ngClass="events-list">
-              <ion-row>
-                
-                <ion-col col-10 col-md-11>
-                    <div ngClass="mosque-name">
-                      <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
-                      <label>{{event.event_title}}</label>
-                    </div>
-                    <div ngClass="mosque-address">
-                      <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
-                        {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
-                    </div>
-                  </ion-col>
-                  <ion-col col-2 col-md-1>
-                      <div ngClass="event-item-right">
-                        <div ngClass="quota-total">{{getSeatsLeft(event)}}</div>
-                        <div ngClass="quota-title">Joined</div>
-                      </div>
-                    </ion-col>
-              </ion-row>
-            </ion-item>
-          </ion-card>
-        </ion-list>
+  </div>
+  <ion-list *ngIf="events_upcoming && events_upcoming.length>0">
+    <div ngClass="item-header">Upcoming</div>
+    <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_upcoming">
+      <ion-item ngClass="events-list">
+        <ion-row>
+
+          <ion-col col-10 col-md-11>
+            <div ngClass="mosque-name">
+              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+              <label>{{event.event_title}}</label>
+            </div>
+            <div ngClass="mosque-address">
+              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+            </div>
+          </ion-col>
+          <ion-col col-2 col-md-1>
+            <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
+            <div ngClass="quota-total" *ngIf="event.quota==0">
+              <ion-icon name="infinite"></ion-icon>
+            </div>
+            <div ngClass="quota-title">Seat Left</div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+  <ion-list *ngIf="events_history && events_history.length>0">
+    <div ngClass="item-header">History</div>
+    <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_history">
+      <ion-item ngClass="events-list">
+        <ion-row>
+
+          <ion-col col-10 col-md-11>
+            <div ngClass="mosque-name">
+              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+              <label>{{event.event_title}}</label>
+            </div>
+            <div ngClass="mosque-address">
+              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+            </div>
+          </ion-col>
+          <ion-col col-2 col-md-1>
+            <div ngClass="event-item-right">
+              <div ngClass="quota-total">{{event.userCount}}</div>
+              <div ngClass="quota-title" text-wrap text-center>Members Joined</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 </ion-content>

@@ -8,6 +8,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { MosquePage } from '../mosque/mosque';
 import { MosqueEventUrlPage } from '../mosque-event-url/mosque-event-url';
 import { PopoverMosqueEmailPage } from '../mosque-manage/popover-mosque-email';
+import { MosqueFeedbackPage } from '../mosque-feedback/mosque-feedback';
 /**
  * Generated class for the KariahPage page.
  *
@@ -162,6 +163,17 @@ export class MosqueManagePage {
         }
         if (this.mosques[mosqueIndex].mosque_email == null) {
           this.mosques[mosqueIndex].mosque_email = "";
+        }
+      }
+    })
+  }
+
+  mosqueFeedbackPage(m) {
+    this.navCtrl.push(MosqueFeedbackPage, {
+      "mosqueData": m,
+      callback: data => {
+        if (data) {
+          
         }
       }
     })

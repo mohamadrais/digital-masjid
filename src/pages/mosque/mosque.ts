@@ -205,6 +205,7 @@ export class MosquePage {
         this.fullStaryArray.push(1);
       };
       if (parseFloat(avgMosqueRating) % 1 != 0) this.halfStar++;
+      // tslint:disable-next-line: no-duplicate-variable
       for (var i = 1; i <= (5 - Math.ceil(parseFloat(avgMosqueRating))); i++) {
         this.emptyStarArray.push(1);
       };

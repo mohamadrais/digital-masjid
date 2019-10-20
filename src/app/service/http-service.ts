@@ -15,9 +15,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 @Injectable()
 export class HttpService {
 
-    // public BASE_URL:string = "http://159.65.140.100:8080/";
-    public BASE_URL: string = "http://192.168.0.106:8080/";
-    // public BASE_URL: string = "http://157.230.242.73:8080/";
+    public BASE_URL:string = "http://159.65.140.100:8080/";
     
     private fileTransfer: FileTransferObject;
 
@@ -312,6 +310,16 @@ export class HttpService {
         };
 
         return this.http.post(this.BASE_URL + "feedback/saveMosqueFeedback", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    public viewMosqueFeedback(mosqueGooglePlaceId: string): Observable<any> {
+        var data = {
+            "mosqueGooglePlaceId": mosqueGooglePlaceId
+        };
+
+        return this.http.post(this.BASE_URL + "feedback/viewMosqueFeedback", data)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }

@@ -107,7 +107,7 @@ export class UstazProfilePage {
   //@aishah
   //todo: save the events history and upcoming specific for user in sqlite
   findEvents(eventEndType) {
-    this.httpService.findEventsForUser(this.userId, this.userType, eventEndType).subscribe(data => {
+    this.httpService.findEventsForUser(this.moderator._id, "USTAZ", eventEndType).subscribe(data => {
       console.log(" events data " + data);
       console.log(JSON.stringify(data));
 
@@ -216,7 +216,7 @@ export class UstazProfilePage {
   }
 
   popoverRating(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverRatingPage, { "userId": this.userId, "moderatorId": this.moderator._id }, { showBackdrop: true, cssClass: "popover-rating" });
+    let popover = this.popoverCtrl.create(PopoverRatingPage, { "userId": this.global.getUserId(), "moderatorId": this.moderator._id }, { showBackdrop: true, cssClass: "popover-rating" });
     popover.present({
       ev: myEvent
     });

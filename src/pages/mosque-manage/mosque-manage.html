@@ -20,36 +20,39 @@
 <ion-content padding>
   <!-- <ion-card ngClass="card-general" *ngFor="let m of mosques" (click)="openKariahDetail(k)"> -->
   <ion-card ngClass="card-general" *ngFor="let m of mosques; let mosqueIndex = index">
-    <ion-item>
-      <ion-label>Mosque Details</ion-label>
+    <ion-item [ngClass]="{'error':locationError}">
+      <ion-label>{{m.title}}</ion-label>
     </ion-item>
     <ion-item ngClass="events-list">
       <ion-row>
         <ion-col col-12>
           <div ngClass="event-title">
-            <label>{{m.title}}</label>
+            <label>{{m.address}}</label>
           </div>
-          <div ngClass="event-title">
-            <label>Address: {{m.address}}</label>
-          </div>
-          <div ngClass="event-title">
+          <!-- <div ngClass="event-title">
             <label>Google Place Id: {{m.google_place_id}}</label>
+          </div> -->
+        </ion-col>
+      </ion-row>
+    </ion-item>
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div ngClass="event-title">
+            <label (click)="addUpdateMosqueUrl(m, null, mosqueIndex)">Mosque URL
+              <button ngClass="lookup-icon">
+
+                <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+
+                <div class="button-effect"></div>
+              </button>
+            </label>
           </div>
         </ion-col>
       </ion-row>
     </ion-item>
-    <ion-item>
-      <ion-label (click)="addUpdateMosqueUrl(m, null, mosqueIndex)">Mosque URL
-        <button ngClass="lookup-icon">
 
-          <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
-
-          <div class="button-effect"></div>
-        </button>
-      </ion-label>
-    </ion-item>
-
-    <ion-item [ngClass]="{'error':locationError}" *ngIf="m.mosque_url && m.mosque_url.length>0">
+    <ion-item ngClass="events-list" *ngIf="m.mosque_url && m.mosque_url.length>0">
       <ion-label>
         <div *ngIf="m.mosque_url && m.mosque_url.length>0">
           <ion-chip ngClass="ustaz-chip" *ngFor="let u of m.mosque_url; let i = index">
@@ -62,7 +65,7 @@
       </ion-label>
     </ion-item>
 
-    <ion-item>
+    <!-- <ion-item [ngClass]="{'error':locationError}">
       <ion-label>Mosque Email</ion-label>
     </ion-item>
     <ion-item [ngClass]="{'error':locationError}" *ngIf="(m.mosque_email != null)">
@@ -75,16 +78,32 @@
           </ion-chip>
         </div>
       </ion-label>
+    </ion-item> -->
+
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div ngClass="event-title">
+            <label (click)="popoverMosqueEmail(m, mosqueIndex, $event)">
+              {{(m.mosque_email.toString() === "") ? 'Add Mosque Email' : 'Update Mosque Email: '+ m.mosque_email}}
+              <button ngClass="lookup-icon">
+                <ion-icon name="ios-add-outline" role="img" class="icon icon-ios" aria-label="add"></ion-icon>
+                <div class="button-effect"></div>
+              </button></label>
+          </div>
+        </ion-col>
+      </ion-row>
     </ion-item>
-    <!--
-    <ion-item>
-      <ion-label>Mosque Email
-        <button *ngIf="(m.mosque_email != null)" (click)="popoverMosqueEmail(m, mosqueIndex, $event)">
-            {{(m.mosque_email.toString() === "") ? 'Add email' : 'Update email: '+ m.mosque_email}}
-        </button>
-      </ion-label>
+
+    <ion-item ngClass="events-list">
+      <ion-row>
+        <ion-col col-12>
+          <div ngClass="event-title">
+            <label (click)="mosqueFeedbackPage(m)">View Mosque Feedback ></label>
+          </div>
+        </ion-col>
+      </ion-row>
     </ion-item>
-    -->
   </ion-card>
 </ion-content>
 
