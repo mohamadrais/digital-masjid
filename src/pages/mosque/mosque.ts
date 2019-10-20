@@ -235,7 +235,7 @@ export class MosquePage {
   //     generatedUrl = url
   //   }
 
-  //   const browser = this.iab.create(generatedUrl , '_self', 'location=yes');
+  //   const browser = this.iab.create(generatedUrl , '_blank', 'location=yes');
   //   browser.show();
 
   //   browser.on('loadstart').subscribe((ev: InAppBrowserEvent) => {

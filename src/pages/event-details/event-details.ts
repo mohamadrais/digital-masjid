@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController, PopoverController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { UstazProfilePage } from '../ustaz-profile/ustaz-profile';
 import { CreateEventPage } from '../create-event/create-event';
+import { PopOverSocialSharePage } from '../pop-over-social-share/pop-over-social-share';
 import { ParticipantsPage } from '../participants/participants';
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import { HttpService } from "../../app/service/http-service";
@@ -10,8 +11,8 @@ import { HomePage } from '../home/home';
 import { Globals } from "../../app/constants/globals";
 import { AdminHomePage } from '../admin-home/admin-home';
 import { User } from "../../app/models/User";
+import { SocialShare } from "../../app/models/SocialShare";
 import { Platform } from 'ionic-angular';
-import { SocialSharing } from '@ionic-native/social-sharing';
 import { AppConstants } from '../../app/constants/app-constants';
 import * as moment from 'moment';
 import { Url } from "../../app/models/MosqueEventsUrl";
@@ -30,6 +31,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 })
 export class EventDetailsPage {
   event: MosqueEvent;
+  socialShare: SocialShare = new SocialShare();
   isAdmin: boolean = false;
   isModerator: boolean = false;
   eventAlreadyJoined: boolean = false;
@@ -45,9 +47,9 @@ export class EventDetailsPage {
 
   toast;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController,
     public httpService: HttpService, public global: Globals, public alertCtrl: AlertController,
-    public platform: Platform, private socialSharing: SocialSharing, private toastCtrl: ToastController, public iab: InAppBrowser) {
+    public platform: Platform, private toastCtrl: ToastController, public iab: InAppBrowser) {
 
     this.event = navParams.get('data'); //for homepage flow with multiuser list per event, current user may have not joined yet
     let event_id = (this.event && this.event._id) ? this.event._id : this.navParams.get("eventId");
@@ -445,15 +447,13 @@ export class EventDetailsPage {
       }
     }
 
+    this.socialShare.message="Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title;
+    this.socialShare.subject=this.event.event_title;
+    this.socialShare.url="https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id
 
-    this.socialSharing.share("Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title, this.event.event_title, "", "https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id). //temporary link. need to use place id or lat lng. this link may crash in ios 11
-      then(() => {
-        console.log("Sharing success");
-        // Success!
-      }).catch(() => {
-        // Error!
-        console.log("Share failed");
-      });
+
+    const popover = this.popoverCtrl.create(PopOverSocialSharePage, {"data":this.socialShare});
+    popover.present();
   }
 
   getJoinedPercent() {

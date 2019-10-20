@@ -1,0 +1,47 @@
+<!--
+  Generated template for the PopOverSocialSharePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-item text-wrap>
+        Follow recommended steps below for social sharing:
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row padding>
+      <ion-col col-12>
+        <button ion-button outline text-wrap full text-left (click)="copyIntoClipboard()">1. Copy pre-filled message</button>
+      </ion-col>
+      <ion-col col-12>
+        <button ion-button text-wrap full (click)="share()" text-left>2. Share now <ion-icon name="md-share"></ion-icon>
+          </button>
+      </ion-col>
+      <ion-col col-12 text-left>
+        3. Don't forget to paste pre-filled message in social media message if it is empty by default.
+      </ion-col>
+  </ion-row>
+  <ion-row padding>
+    <ion-col col-12>
+      <ion-row>
+        <ion-col col-12>
+          <button ion-button clear text-wrap full (click)="showExplanation=!showExplanation" text-left>What happen when I'm not seeing pre-filled message?
+            <ion-icon [name]="(showExplanation)?'arrow-dropdup':'arrow-dropdown'" right></ion-icon></button>
+        </ion-col>
+        <ion-col col-12 [hidden]="!showExplanation">
+          <ion-label text-wrap>
+            Sometimes, some platforms do not support pre-filled message. One of social media that does not allow this
+            is
+            Facebook.
+          </ion-label>
+          <button ion-button clear (click)="openMoreExplanation()" color="primary" text-wrap>Click here to read
+            more.</button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>
