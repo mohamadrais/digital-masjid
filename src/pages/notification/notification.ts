@@ -84,7 +84,8 @@ export class NotificationPage {
       if(data.isDistanceNearby){
 
           this.httpService.userAddPoints(this.userId, this.eventsToBeAttended[index].points.toString(), this.eventsToBeAttended[index]._id).subscribe(data =>{
-          if(data.pointsCollected){
+          // if(data.pointsCollected){
+          if(data){
             // alert("Alhamdulillah. You have gained "+this.eventsToBeAttended[index].points+" points.");
             alert("Alhamdulillah. We have successfully marked your attendance.");
             this.navCtrl.pop();
