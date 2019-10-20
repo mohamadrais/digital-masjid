@@ -56,11 +56,11 @@
             <ion-icon [ngClass]="{'like-icon white': (!favoriteClicked), 'like-icon red': (favoriteClicked)}" (click)="toggleBookmarkEvent()" *ngIf="(!(isAdmin || isModerator) && !expiredEvent) || favoriteClicked" name="md-heart"></ion-icon><!-- admin won't have bookmark icon -->
             <ion-icon ngClass="like-icon red" name="md-close-circle" (click)="cancelEventConfirm()" *ngIf="isAdmin"></ion-icon><!-- admin will have cancel button -->
           </div>
-          <div ngClass="event-details-right">
+          <!-- <div ngClass="event-details-right">
             <div ngClass="pts-total">{{event.points}}
               <span ngClass="pts-title">pts</span>
             </div>
-          </div>
+          </div> -->
         </ion-row>
 
       </ion-row>

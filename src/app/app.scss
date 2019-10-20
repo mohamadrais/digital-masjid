@@ -28,6 +28,7 @@
 .warning-color{
   background: #FECD00;
 }
+
 ion-toast.top-toast{
     margin-top:50px !important;
 }
@@ -983,12 +984,19 @@ button.noti-icon{
   margin-top: auto;
   margin-bottom: auto;
 }
-.profile-pic{
+.profile-pic-default{
   float: left;
   font-size: 10rem;
   color: #50637f;
   opacity: 0.5;
   margin-left: 19px;
+}
+.profile-pic{
+  border-radius:50%;
+  height: 10rem;
+  width: 10rem;
+  overflow: hidden;
+  opacity: 1 !important;
 }
 .pp-container{
   width: 100px;

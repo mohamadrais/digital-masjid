@@ -14,4 +14,10 @@ page-notification {
         right: 0px;
         font-size: 0.8em;
     }
+    ion-slide {
+        .slide-zoom {
+            height: calc(100vh - 143px);
+            overflow-y: auto;
+        }
+    }
 }

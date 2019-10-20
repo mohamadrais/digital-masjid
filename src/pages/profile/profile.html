@@ -24,7 +24,10 @@
   <div ngClass="details-header">
     <ion-row ngClass="dp-container">
       <div ngClass="pp-container">
-        <ion-icon ngClass="profile-pic" name="ios-person"></ion-icon>
+        <ion-icon *ngIf="!userImage" ngClass="profile-pic-default" name="ios-person"></ion-icon>
+        <div ngClass="profile-pic">
+            <img *ngIf="userImage" src="{{ userImage }}" imageViewer>
+        </div>
       </div>
       <div ngClass="profile-name">
         <h5>{{this.name}}</h5>
@@ -33,9 +36,9 @@
       </div>
       <div *ngIf="isUserTypeUser" ngClass="seperator-h"></div>
       <div *ngIf="isUserTypeUser" ngClass="profile-points">
-        <div ngClass="pts-total">{{this.pointsCollected}}
+        <!-- <div ngClass="pts-total">{{this.pointsCollected}}
           <span ngClass="pts-title">pts</span>
-        </div>
+        </div> -->
         <!-- <div ngClass="profile-redeem">Redeem points
           <ion-icon name="ios-arrow-forward"></ion-icon>
         </div> -->
@@ -49,7 +52,7 @@
       <ion-item ngClass="events-list">
         <ion-row>
 
-          <ion-col col-10 col-md-11>
+          <ion-col col-12 col-md-12>
             <div ngClass="mosque-name">
               <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
               <label>{{event.event_title}}</label>
@@ -59,13 +62,13 @@
                 {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
             </div>
           </ion-col>
-          <ion-col col-2 col-md-1>
+          <!-- <ion-col col-2 col-md-1>
             <div ngClass="event-item-right">
               <div ngClass="quota-total yellow">{{event.points}}
                 <span ngClass="quota-title yellow">pts</span>
               </div>
             </div>
-          </ion-col>
+          </ion-col> -->
         </ion-row>
       </ion-item>
     </ion-card>
@@ -76,7 +79,7 @@
       <ion-item ngClass="events-list">
         <ion-row>
 
-          <ion-col col-10 col-md-11>
+          <ion-col col-12 col-md-12>
             <div ngClass="mosque-name">
               <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
               <label>{{event.event_title}}</label>
@@ -86,13 +89,13 @@
                 {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
             </div>
           </ion-col>
-          <ion-col col-2 col-md-1>
+          <!-- <ion-col col-2 col-md-1>
             <div ngClass="event-item-right">
               <div ngClass="quota-total yellow">{{event.points}}
                 <span ngClass="quota-title yellow">pts</span>
               </div>
             </div>
-          </ion-col>
+          </ion-col> -->
         </ion-row>
       </ion-item>
     </ion-card>

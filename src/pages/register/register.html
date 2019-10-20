@@ -116,26 +116,31 @@
         <ion-item *ngIf="userThumbnail">
           <img src="{{ userThumbnail }}" imageViewer>
         </ion-item>
+        <ion-item *ngIf="userImage && !userThumbnail">
+          <img src="{{ userImage }}" imageViewer>
+        </ion-item>
 
       </ion-list>
     </ion-row>
-    <ion-label *ngIf="editMode">Note: Fields that are not empty only will get updated</ion-label>
+    <ion-label *ngIf="editMode" text-wrap>Note: Fields that are not empty only will get updated</ion-label>
     <ion-label *ngIf="!valid && !editMode" ngClass="error-prompt">All fields are mandatory!</ion-label>
     <ion-label *ngIf="!valid && editMode" ngClass="error-prompt">Nothing to update!</ion-label>
   </form>
 </ion-content>
 
 <ion-footer>
-  <div *ngIf="!editMode" style="padding: 15px; color: #6b6a6a;background:rgb(255, 255, 255)">By clicking sign up, you agree to our <a
-      (click)="terms()"><b>Terms and
+  <div *ngIf="!editMode" style="padding: 15px; color: #6b6a6a;background:rgb(255, 255, 255)" text-wrap>By clicking sign
+    up, you agree to our <a (click)="terms()"><b>Terms and
         Conditions</b></a></div>
   <ion-buttons text-center *ngIf="!editMode">
     <button class="button button-primary register rectangle small" (click)="sendVerificationCode()"
       [disabled]="!email || verifiedEmail">{{verifiedEmail?"Email Verified":"Verify Email"}}<ion-icon
         name="checkmark-circle" *ngIf="verifiedEmail"></ion-icon></button>
-    <button class="button button-primary register rectangle small" (click)="registerUser()" [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
+    <button class="button button-primary register rectangle small" (click)="registerUser()"
+      [disabled]="!verifiedEmail || password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
   <ion-buttons text-center *ngIf="editMode">
-    <button class="button button-primary rectangle" (click)="updateUser()" [disabled]="password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
+    <button class="button button-primary rectangle" (click)="updateUser()"
+      [disabled]="password != confirmPassword">{{(editMode)?'Update Profile':'Sign Up'}}</button>
   </ion-buttons>
 </ion-footer>

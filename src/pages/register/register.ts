@@ -58,7 +58,7 @@ export class RegisterPage {
       this.email = this.userData.email;
       this.name = this.userData.name;
       this.user_url = [];
-      if (this.userData.user_url && this.userData.user_url.length != 0) {
+      if (this.userData.user_url && this.userData.user_url.length > 0) {
         for (var i = 0, len = this.userData.user_url.length; i < len; i++) {
           this.user_url[i] = {}; 
           for (var prop in this.userData.user_url[i]) {
@@ -66,10 +66,10 @@ export class RegisterPage {
           }
         }
       }
-      if (this.userData.userImage && this.userData.userImage.length != 0) {
+      if (this.userData.userImage && this.userData.userImage.length > 0) {
         this.userImage = this.userData.userImage;
-        this.userThumbnail = this.userData.userImage.toString();
       }
+
       // this.nickname = this.userData.nickname;
       // this.icnumber = this.userData.icnumber;
       // this.gender = this.userData.gender;
@@ -143,6 +143,7 @@ export class RegisterPage {
     this.user.name = this.name;
     this.user.user_url = this.user_url;
     this.user.userImage = this.userImage;
+    // this.user.userThumbnail = this.userThumbnail;
     // this.user.nickname = this.nickname;
     this.user.password = this.password;
     // this.user.gender = this.gender;
@@ -272,6 +273,7 @@ export class RegisterPage {
     (this.mobile) ? this.userData.mobile = this.mobile : '';
     (this.user_url) ? this.userData.user_url = this.user_url : '';
     (this.userImage) ? this.userData.userImage = this.userImage : '';
+    // (this.userThumbnail) ? this.userData.userThumbnail = this.userThumbnail : '';
     // (this.preferredMosque) ? this.userData.preferredMosque = this.preferredMosque : '';
 
     this.global.set(AppConstants.USER, this.userData).then(() => {

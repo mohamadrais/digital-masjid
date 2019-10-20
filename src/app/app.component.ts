@@ -10,17 +10,17 @@ import { RegisterPage } from '../pages/register/register';
 import { RegisterUstazPage } from '../pages/register-ustaz/register-ustaz';
 import { EventDetailsPage } from '../pages/event-details/event-details';
 import { CreateEventPage } from '../pages/create-event/create-event';
-import { QiblaPage } from '../pages/qibla/qibla';
+// import { QiblaPage } from '../pages/qibla/qibla';
 import { ProfilePage } from '../pages/profile/profile';
 import { UstazProfilePage } from '../pages/ustaz-profile/ustaz-profile';
 import { SettingsPage } from '../pages/settings/settings';
 import { AboutPage } from '../pages/about/about';
 import { MosqueFeedbackPage } from '../pages/mosque-feedback/mosque-feedback';
-import { FeedbackPage } from '../pages/feedback/feedback';
+// import { FeedbackPage } from '../pages/feedback/feedback';
 import { MosquePage } from '../pages/mosque/mosque';
 import { MarketPage } from '../pages/market/market';
 import { InfaqPage } from '../pages/infaq/infaq';
-import { InfaqListPage } from '../pages/infaq-list/infaq-list';
+// import { InfaqListPage } from '../pages/infaq-list/infaq-list';
 import { KariahListPage } from '../pages/kariah-list/kariah-list';
 import { MosqueManagePage } from '../pages/mosque-manage/mosque-manage';
 import { KariahPage } from '../pages/kariah/kariah';
@@ -89,13 +89,13 @@ export class MyApp {
       this.pages = [
         { title: 'Home', component: HomePage },
         { title: 'Profile', component: ProfilePage },
-        { title: 'Qibla Finder', component: QiblaPage },
+        { title: 'Waktu Solat', component: null },
         // { title: 'Settings', component: SettingsPage },
         { title: 'Bookmark', component: BookmarkPage },
         { title: 'Kariah', component: KariahPage },
-        { title: 'Infaq List', component: InfaqListPage },
+        // { title: 'Infaq List', component: InfaqListPage },
         // { title: 'Market', component: MarketPage },
-        { title: 'Feedback', component: FeedbackPage },
+        // { title: 'Feedback', component: FeedbackPage },
         { title: 'About', component: AboutPage },
         { title: 'Log Out', component: LoginPage }
       ];
@@ -134,12 +134,12 @@ export class MyApp {
         this.pages = [
           { title: 'Home', component: AdminHomePage },
           { title: 'Profile', component: ProfilePage },
-          { title: 'Qibla Finder', component: QiblaPage },
+          { title: 'Waktu Solat', component: null },
           // { title: 'Settings', component: SettingsPage },
-          { title: 'Infaq List', component: InfaqListPage },
+          // { title: 'Infaq List', component: InfaqListPage },
           { title: 'Kariah List', component: KariahListPage },
           { title: 'Manage Mosque', component: MosqueManagePage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -148,9 +148,9 @@ export class MyApp {
       events.subscribe('userType:ustaz', data => {
         this.pages = [
           { title: 'Home', component: UstazProfilePage },
-          { title: 'Qibla Finder', component: QiblaPage },
+          { title: 'Waktu Solat', component: null },
           // { title: 'Settings', component: SettingsPage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -160,13 +160,13 @@ export class MyApp {
         this.pages = [
           { title: 'Home', component: HomePage },
           { title: 'Profile', component: ProfilePage },
-          { title: 'Qibla Finder', component: QiblaPage },
+          { title: 'Waktu Solat', component: null },
           // { title: 'Settings', component: SettingsPage },
           { title: 'Bookmark', component: BookmarkPage },
-          { title: 'Infaq List', component: InfaqListPage },
+          // { title: 'Infaq List', component: InfaqListPage },
           { title: 'Kariah', component: KariahPage },
           // { title: 'Market', component: MarketPage },
-          { title: 'Feedback', component: FeedbackPage },
+          // { title: 'Feedback', component: FeedbackPage },
           { title: 'About', component: AboutPage },
           { title: 'Log Out', component: LoginPage }
         ];
@@ -406,7 +406,7 @@ export class MyApp {
   }
 
   async openPage(p) {
-    if (p.component != this.nav.getActive().component) {
+    if (p.component && p.component != this.nav.getActive().component) {
       if (p.title == 'Log Out') {
         var deviceInfo;
         try {
@@ -445,13 +445,16 @@ export class MyApp {
         }
       }
       this.nav.setRoot(p.component, { fromSideMenu: true });
-    } else {
+    } else if(p.component==null || p.component==undefined){
       //do nothing
+      if (p.title == 'Waktu Solat'){
+        window.open('https://www.waktusolat.xyz/','_blank');
+      }
     }
 
   }
 
-  feedbackPage() {
-    this.nav.push(FeedbackPage)
-  }
+  // feedbackPage() {
+  //   this.nav.push(FeedbackPage)
+  // }
 }

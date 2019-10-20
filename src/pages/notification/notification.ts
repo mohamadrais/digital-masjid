@@ -85,10 +85,11 @@ export class NotificationPage {
 
           this.httpService.userAddPoints(this.userId, this.eventsToBeAttended[index].points.toString(), this.eventsToBeAttended[index]._id).subscribe(data =>{
           if(data.pointsCollected){
-            alert("Alhamdulillah. You have gained "+this.eventsToBeAttended[index].points+" points.");
+            // alert("Alhamdulillah. You have gained "+this.eventsToBeAttended[index].points+" points.");
+            alert("Alhamdulillah. We have successfully marked your attendance.");
             this.navCtrl.pop();
           }else{
-            alert("Something went wrong. Please contact Digital Masjid App admin");
+            alert("Something went wrong. Please contact Digital Masjid App admin.");
           }
         })
 

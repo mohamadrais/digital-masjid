@@ -27,7 +27,7 @@ export class CreateEventPage {
   category: string;
   ustaz: Array<any> = [];
   mosque;
-  points: number;
+  // points: number;
   quota: number;
   event_start_date: string;
   event_end_date: string;
@@ -67,7 +67,7 @@ export class CreateEventPage {
         }
       }
       this.mosque = this.event.mosque_details[0];
-      this.points = this.event.points;
+      // this.points = this.event.points;
       if (this.event.quota == null || this.event.quota == 0) {
         this.unlimitedQuotaFlag = true;
       }
@@ -210,7 +210,7 @@ export class CreateEventPage {
     this.event.event_title = this.event_title;
     // this.event.category = this.category;
     this.event.ustaz = this.getUstazIdArray();
-    this.event.points = this.points;
+    // this.event.points = this.points;
 
     // set quota
     if (this.unlimitedQuotaFlag) {
@@ -261,7 +261,7 @@ export class CreateEventPage {
       return ((this.event_title && this.event_title != this.event.event_title)
         || (this.ustaz && this.ustaz.length > 0 && this.didUstazListChange)
         || (this.didUrlListChange)
-        || (this.points && this.points != this.event.points)
+        // || (this.points && this.points != this.event.points)
         || (((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.didQuotaChange)
         || (this.event_start_date && this.event_start_date != this.event.event_start_date)
         || (this.event_end_date && this.event_end_date != this.event.event_end_date)
@@ -269,7 +269,8 @@ export class CreateEventPage {
         || (this.event_description && this.event_description != this.event.event_description))
     } else {
 
-      return (this.event_title && this.ustaz && this.ustaz.length > 0 && this.points && ((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.event_start_date && this.event_end_date && this.mosque && this.event_description);
+      // return (this.event_title && this.ustaz && this.ustaz.length > 0 && this.points && ((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.event_start_date && this.event_end_date && this.mosque && this.event_description);
+      return (this.event_title && this.ustaz && this.ustaz.length > 0 && ((!this.unlimitedQuotaFlag && this.quota) || this.unlimitedQuotaFlag) && this.event_start_date && this.event_end_date && this.mosque && this.event_description);
     }
   }
 

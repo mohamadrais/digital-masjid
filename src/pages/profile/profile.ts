@@ -29,6 +29,8 @@ export class ProfilePage {
   pointsCollected: number = 0;
   userData: User;
   isUserTypeUser: boolean = false;
+  userImage;
+  // userThumbnail;
 
   constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public global: Globals) {
     this.getStoredData();
@@ -42,6 +44,11 @@ export class ProfilePage {
 
         if (this.userData.userType == AppConstants.USER_TYPE_USER) {
           this.isUserTypeUser = true;
+        }
+
+        if (this.userData.userImage && this.userData.userImage.length > 0) {
+          this.userImage = this.userData.userImage;
+          // this.userThumbnail = this.userData.userThumbnail.toString();
         }
         // this.pointsCollected = 0;
         this.findEvents(AppConstants.EVENT_HISTORY);

@@ -21,5 +21,5 @@ export class User {
     updatedTimestamp: string;
     eventsBookmarked: Array<string>;
     user_url: Array<Url>; // only for Ustaz to add/edit their URLs on Profile page
-    userImage: string; // currently on for Ustaz
+    userImage: string; 
 }

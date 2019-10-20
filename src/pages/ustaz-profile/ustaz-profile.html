@@ -16,7 +16,10 @@
   <div ngClass="details-header">
     <ion-row ngClass="dp-container">
       <div ngClass="pp-container">
-        <ion-icon ngClass="profile-pic" name="ios-person"></ion-icon>
+          <ion-icon *ngIf="!userImage" ngClass="profile-pic-default" name="ios-person"></ion-icon>
+          <div ngClass="profile-pic">
+              <img *ngIf="userImage" src="{{ userImage }}" imageViewer>
+          </div>
       </div>
       <div ngClass="profile-name" *ngIf="this.moderator">
         <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
