@@ -47,7 +47,7 @@ import { RegisterUstazPage } from '../pages/register-ustaz/register-ustaz';
 import { EventDetailsPage } from '../pages/event-details/event-details';
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { MosqueEventUrlPage } from '../pages/mosque-event-url/mosque-event-url'
-// import { QiblaPage } from '../pages/qibla/qibla';
+import { QiblaPage } from '../pages/qibla/qibla';
 import { ProfilePage } from '../pages/profile/profile';
 import { UstazProfilePage } from '../pages/ustaz-profile/ustaz-profile';
 import { PopoverRatingPage } from '../pages/ustaz-profile/popover-rating';
@@ -99,7 +99,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     MosqueFeedbackPage,
     FeedbackPage,
     SettingsPage,
-    // QiblaPage,
+    QiblaPage,
     MosquePage,
     MosqueManagePage,
     PopoverMosqueEmailPage,
@@ -169,7 +169,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     MosqueFeedbackPage,
     FeedbackPage,
     SettingsPage,
-    // QiblaPage,
+    QiblaPage,
     MosquePage,
     MosqueManagePage,
     PopoverMosqueEmailPage,
