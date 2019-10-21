@@ -276,7 +276,7 @@ export class RegisterPage {
     // (this.userThumbnail) ? this.userData.userThumbnail = this.userThumbnail : '';
     // (this.preferredMosque) ? this.userData.preferredMosque = this.preferredMosque : '';
 
-    this.global.set(AppConstants.USER, this.userData).then(() => {
+    this.global.set(this.global.APP_USER, this.userData).then(() => {
       this.navCtrl.pop().then(() => {
         this.navParams.get('callback')({ "done": true });
       });

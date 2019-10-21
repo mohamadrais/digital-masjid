@@ -11,7 +11,7 @@ import { Url } from '../models/MosqueEventsUrl';
 @Injectable()
 export class Globals {
   //Constants
-  private readonly APP_USER = "APP_USER";
+  public readonly APP_USER = "APP_USER";
   private readonly KARIAH_USER = "KARIAH_USER";
   private readonly GENERAL_SETTINGS = "GENERAL_SETTINGS";
   private readonly DATABASE_VERSION = "DATABASE_VERSION";

@@ -322,7 +322,6 @@ export class CreateEventPage {
     this.navCtrl.push(MosqueEventUrlPage, {
       "data": (index != null) ? this.url[index] : '',
       callback: data => {
-        console.log('current event url: ' + this.event.event_url);
         if (index != null) {
           this.url[index] = data
         } else {
