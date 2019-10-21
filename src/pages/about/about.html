@@ -17,7 +17,8 @@
 <ion-content no-padding ngClass="login-body no-scroll" [hidden]="userLoggedIn">
       <div style="margin-top: 50px;">
         <h3 style="color:#fff;text-align: center;margin:0px;">Digital Masjid</h3>
-        <h5 style="color:#fff;opacity: 0.7;text-align: center;margin:0px;">Version 0.0.3</h5>
+        <h5 style="color:#fff;opacity: 0.7;text-align: center;margin:0px;">{{buildVersion}}</h5>
+        <h6 style="color:#fff;opacity: 0.7;text-align: center;margin:20px;">{{buildDate}}</h6>
       </div>
     <ion-row ngClass="login-container">
       <div ngClass="login-round-container"><img style="margin-top: 20px;" src="assets/icon/logo-login.png"/></div>

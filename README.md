@@ -109,3 +109,7 @@ install clipboard plugin
 
 1. ionic cordova plugin add cordova-clipboard
 2. npm install --save @ionic-native/clipboard@4
+
+install buildinfo
+
+1. cordova plugin add cordova-plugin-buildinfo
