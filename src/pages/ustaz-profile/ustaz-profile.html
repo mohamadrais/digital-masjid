@@ -16,10 +16,10 @@
   <div ngClass="details-header">
     <ion-row ngClass="dp-container">
       <div ngClass="pp-container">
-          <ion-icon *ngIf="!userImage" ngClass="profile-pic-default" name="ios-person"></ion-icon>
-          <div ngClass="profile-pic">
-              <img *ngIf="userImage" src="{{ userImage }}" imageViewer>
-          </div>
+        <ion-icon *ngIf="!userImage" ngClass="profile-pic-default" name="ios-person"></ion-icon>
+        <div ngClass="profile-pic">
+          <img *ngIf="userImage" src="{{ userImage }}" imageViewer>
+        </div>
       </div>
       <div ngClass="profile-name" *ngIf="this.moderator">
         <h5 *ngIf="this.moderator.name">{{this.moderator.name}}</h5>
@@ -55,9 +55,9 @@
       </div>
     </ion-row>
   </div>
-  <ion-list *ngIf="events_upcoming && events_upcoming.length>0">
-    <div ngClass="item-header">Upcoming</div>
-    <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_upcoming">
+  <ion-list *ngFor="let group of eventsGroup; let i = index">
+    <div ngClass="item-header">{{group.groupName}}</div>
+    <ion-card *ngFor="let event of group.mosqueEvents" ngClass="card-general" (click)="eventdetailsPage(event)">
       <ion-item ngClass="events-list">
         <ion-row>
 
@@ -71,34 +71,14 @@
                 {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
             </div>
           </ion-col>
-          <ion-col col-2 col-md-1>
+          <ion-col col-2 col-md-1 [hidden]="group.groupName==HISTORY">
             <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
             <div ngClass="quota-total" *ngIf="event.quota==0">
               <ion-icon name="infinite"></ion-icon>
             </div>
             <div ngClass="quota-title">Seat Left</div>
           </ion-col>
-        </ion-row>
-      </ion-item>
-    </ion-card>
-  </ion-list>
-  <ion-list *ngIf="events_history && events_history.length>0">
-    <div ngClass="item-header">History</div>
-    <ion-card ngClass="card-general" (click)="eventdetailsPage(event)" *ngFor="let event of events_history">
-      <ion-item ngClass="events-list">
-        <ion-row>
-
-          <ion-col col-10 col-md-11>
-            <div ngClass="mosque-name">
-              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
-              <label>{{event.event_title}}</label>
-            </div>
-            <div ngClass="mosque-address">
-              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
-                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
-            </div>
-          </ion-col>
-          <ion-col col-2 col-md-1>
+          <ion-col col-2 col-md-1 [hidden]="group.groupName!=HISTORY">
             <div ngClass="event-item-right">
               <div ngClass="quota-total">{{event.userCount}}</div>
               <div ngClass="quota-title" text-wrap text-center>Members Joined</div>
@@ -107,5 +87,14 @@
         </ion-row>
       </ion-item>
     </ion-card>
+    <ion-item ngClass="events-list" [hidden]="group.mosqueEvents && group.mosqueEvents.length>0">
+      <ion-row>
+        <ion-col col-12 col-md-12>
+          <div ngClass="mosque-address">
+            {{group.groupName}} Event - Currently Not Available
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
   </ion-list>
 </ion-content>

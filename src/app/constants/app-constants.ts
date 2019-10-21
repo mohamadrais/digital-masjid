@@ -10,6 +10,8 @@ export class AppConstants {
     public static NOTIFICATION_TYPE_KARIAH_MEMBERSHIP_STATUS = "KariahMembershipStatus";
 
     public static EVENT_UPCOMING="UPCOMING";
+    // public static EVENT_ONGOING="ON GOING";
+    public static EVENT_ACTIVE="ACTIVE";
     public static EVENT_HISTORY="HISTORY";
 
     public static OFFLINE_NETWORK = "Internet is not connected";

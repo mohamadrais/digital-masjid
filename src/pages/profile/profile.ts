@@ -8,6 +8,8 @@ import { EventDetailsPage } from '../event-details/event-details';
 import { RegisterPage } from '../register/register';
 import { User } from '../../app/models/User';
 import * as moment from 'moment';
+import { MosqueEventsUtil } from "../../app/util/mosque-events-util";
+import { MosqueEventsGroup } from '../../app/models/MosqueEventsGroup';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -21,8 +23,8 @@ import * as moment from 'moment';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  events_history: Array<MosqueEvent> = [];
-  events_upcoming: Array<MosqueEvent> = [];
+  events: Array<MosqueEvent> = [];
+  eventsGroup: Array<MosqueEventsGroup> = [];
   // eventsSize:number = 0;
   name: string = "";
   email: string = "";
@@ -32,7 +34,7 @@ export class ProfilePage {
   userImage;
   // userThumbnail;
 
-  constructor(public navCtrl: NavController, public httpService: HttpService, public navParams: NavParams, public global: Globals) {
+  constructor(public navCtrl: NavController, public mosqueEventsUtil: MosqueEventsUtil, public httpService: HttpService, public navParams: NavParams, public global: Globals) {
     this.getStoredData();
   }
 
@@ -51,8 +53,7 @@ export class ProfilePage {
           // this.userThumbnail = this.userData.userThumbnail.toString();
         }
         // this.pointsCollected = 0;
-        this.findEvents(AppConstants.EVENT_HISTORY);
-        this.findEvents(AppConstants.EVENT_UPCOMING);
+        this.findEvents();
   }
 
   editProfile() {
@@ -68,44 +69,50 @@ export class ProfilePage {
 
   //@aishah
   //todo: save the events history and upcoming specific for user in sqlite
-  findEvents(eventEndType) {
-    this.httpService.findEventsForUser(this.userData._id, this.userData.userType, eventEndType).subscribe(data => {
+  findEvents() {
+    this.httpService.findEventsForUser(this.userData._id, this.userData.userType, null).subscribe(data => {
       console.log(" events data " + data);
       console.log(JSON.stringify(data));
 
-      if (data) {
-        if (eventEndType == AppConstants.EVENT_HISTORY) {
-          this.events_history = data;
-          // data.forEach(element => {
-          //   this.pointsCollected += element.points;
-          // });
-        } else if (eventEndType == AppConstants.EVENT_UPCOMING) {
-          this.events_upcoming = data;
-          // data.forEach(element => {
-          //   this.pointsCollected += element.points;
-          // });
-        }
-
-        // this.eventsSize = data.length;
-      }
+      this.events = data;
+      this.eventsGroup = this.mosqueEventsUtil.groupMosqueEvents(this.events);
+      
     }, error => {
       console.log(error)
     })
   }
 
-  eventdetailsPage(event: MosqueEvent, isUpcoming, index) {
-    if (isUpcoming) {
+  eventdetailsPage(event: MosqueEvent, groupName, i, j) {
+    if(this.isUserTypeUser){
+      if (groupName==AppConstants.EVENT_UPCOMING) {
+        this.navCtrl.push(EventDetailsPage, {
+          'data': event, "fromUserFlow": true,
+          callback: data => {
+            if (!data.joined) {
+              this.eventsGroup[i].mosqueEvents.splice(j,1);
+            }
+          }
+        });
+      } else {
+        this.navCtrl.push(EventDetailsPage, { 'data': event, "fromUserFlow": true });
+      }
+    }else{
       this.navCtrl.push(EventDetailsPage, {
-        'data': event, "fromUserFlow": true,
+        'data': event,
         callback: data => {
-          if (!data.joined) {
-            this.events_upcoming.splice(index,1);
+          if (data.events) {
+            this.eventsGroup[i].mosqueEvents[j].event_title = data.event_title;
+            this.eventsGroup[i].mosqueEvents[j].category = data.category;
+            this.eventsGroup[i].mosqueEvents[j].event_start_date = data.event_start_date;
+            this.eventsGroup[i].mosqueEvents[j].event_end_date = data.event_end_date;
+            this.eventsGroup[i].mosqueEvents[j].quota = data.quota;
+            this.eventsGroup[i].mosqueEvents[j].event_description = data.event_description;
+            this.eventsGroup[i].mosqueEvents[j].event_status = data.event_status;
           }
         }
-      });
-    } else {
-      this.navCtrl.push(EventDetailsPage, { 'data': event, "fromUserFlow": true });
+      })
     }
+    
 
   }
 

@@ -6,6 +6,8 @@ import { HttpService } from "../../app/service/http-service";
 import { EventDetailsPage } from '../event-details/event-details';
 import { MosqueEvent } from "../../app/models/MosqueEvents";
 import * as moment from 'moment';
+import { MosqueEventsUtil } from "../../app/util/mosque-events-util";
+import { MosqueEventsGroup } from '../../app/models/MosqueEventsGroup';
 /**
  * Generated class for the BookmarkPage page.
  *
@@ -20,21 +22,24 @@ import * as moment from 'moment';
 })
 export class BookmarkPage {
 
-  event_bookmarks;
+  events: Array<MosqueEvent> = [];
+  eventsGroup: Array<MosqueEventsGroup> = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
+  constructor(public navCtrl: NavController, public mosqueEventsUtil: MosqueEventsUtil, public navParams: NavParams, public global: Globals, public httpService: HttpService) {
   }
 
   ionViewWillEnter() {
     this.httpService.bookmarkList(this.global.getUserId()).subscribe(bookmarks => {
 
       if (bookmarks && Array.isArray(bookmarks) && bookmarks.length > 0) {
-        this.event_bookmarks = bookmarks;
+        this.events = bookmarks;
       } else {
-        this.event_bookmarks = [];
+        this.events = [];
       }
 
-      console.log(JSON.stringify(this.event_bookmarks));
+      console.log(JSON.stringify(this.events));
+
+      this.eventsGroup = this.mosqueEventsUtil.groupMosqueEvents(this.events);
     });
   }
 
