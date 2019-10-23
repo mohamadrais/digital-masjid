@@ -13,6 +13,8 @@ import * as moment from 'moment';
 
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult } from '@ionic-native/native-geocoder';
+import { MosqueEventsUtil } from "../../app/util/mosque-events-util";
+import { MosqueEventsGroup } from '../../app/models/MosqueEventsGroup';
 /**
  * Generated class for the AdminHomePage page.
  *
@@ -28,10 +30,11 @@ export class AdminHomePage {
   nickname: string = "";
   userData;
   events: Array<MosqueEvent> = [];
+  eventsGroup: Array<MosqueEventsGroup> = [];
   eventsSize: number = 0;
   updated = "";
   address = "";
-  constructor(public navCtrl: NavController, public httpService: HttpService, public global: Globals, public geolocation: Geolocation, public geocoder: NativeGeocoder) {
+  constructor(public navCtrl: NavController, public mosqueEventsUtil: MosqueEventsUtil, public httpService: HttpService, public global: Globals, public geolocation: Geolocation, public geocoder: NativeGeocoder) {
     this.userData = this.global.getUser();
     this.nickname = this.userData.name; //this.userData.nickname;
     this.getMosqueManaged();
@@ -45,6 +48,7 @@ export class AdminHomePage {
     this.readCurrentLocation();
     this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
       this.events = data;
+      this.eventsGroup = this.mosqueEventsUtil.groupMosqueEvents(this.events);
       if (data) {
         this.eventsSize = data.length;
       }
@@ -53,18 +57,18 @@ export class AdminHomePage {
     });
   }
 
-  eventdetailsPage(events: MosqueEvent, index) {
+  eventdetailsPage(event: MosqueEvent, i, j) {
     this.navCtrl.push(EventDetailsPage, {
-      'data': events,
+      'data': event,
       callback: data => {
         if (data.events) {
-          this.events[index].event_title = data.event_title;
-          this.events[index].category = data.category;
-          this.events[index].event_start_date = data.event_start_date;
-          this.events[index].event_end_date = data.event_end_date;
-          this.events[index].quota = data.quota;
-          this.events[index].event_description = data.event_description;
-          this.events[index].event_status = data.event_status;
+          this.eventsGroup[i].mosqueEvents[j].event_title = data.event_title;
+          this.eventsGroup[i].mosqueEvents[j].category = data.category;
+          this.eventsGroup[i].mosqueEvents[j].event_start_date = data.event_start_date;
+          this.eventsGroup[i].mosqueEvents[j].event_end_date = data.event_end_date;
+          this.eventsGroup[i].mosqueEvents[j].quota = data.quota;
+          this.eventsGroup[i].mosqueEvents[j].event_description = data.event_description;
+          this.eventsGroup[i].mosqueEvents[j].event_status = data.event_status;
         }
       }
     })

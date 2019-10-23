@@ -79,6 +79,8 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 
+import { MosqueEventsUtil } from "../app/util/mosque-events-util";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -214,7 +216,8 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
     Firebase,
     FileTransfer,
     FileTransferObject,
-    File
+    File,
+    MosqueEventsUtil
   ]
 })
 export class AppModule { }

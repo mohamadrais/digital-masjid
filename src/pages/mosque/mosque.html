@@ -70,17 +70,17 @@
     </ion-row>
   </div>
   <ion-list>
-    <div *ngFor="let event of events; let i = index">
+    <div *ngFor="let group of eventsGroup; let i = index">
 
-      <div ngClass="item-header"
-        *ngIf="((event._id==currFirstActive) || (event._id==currFirstUpcoming) || (event._id==currFirstHistory))">
-        {{event.event_header}}</div>
+      <div ngClass="item-header">
+        {{group.groupName}}</div>
 
       <!-- Other Event Status -->
       <!-- <div ngClass="item-header">Upcoming</div>
     <div ngClass="item-header">Completed</div> -->
 
-      <ion-card ngClass="card-general" (click)="eventdetailsPage(event, i)">
+      <ion-card *ngFor="let event of group.mosqueEvents; let j = index" ngClass="card-general"
+        (click)="eventdetailsPage(event, i, j)">
         <ion-item ngClass="events-list">
           <ion-row>
             <ion-col col-10 col-md-11>
@@ -107,6 +107,16 @@
           </ion-row>
         </ion-item>
       </ion-card>
+
+      <ion-item ngClass="events-list" [hidden]="group.mosqueEvents && group.mosqueEvents.length>0">
+        <ion-row>
+          <ion-col col-12 col-md-12>
+            <div ngClass="item-dateloc">
+              {{group.groupName}} Event - Currently Not Available
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-item>
     </div>
     <!--ion-item ngClass="events-list" (click)="eventdetailsPage()">
       <ion-row>

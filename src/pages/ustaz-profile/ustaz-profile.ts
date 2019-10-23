@@ -10,6 +10,8 @@ import { PopoverRatingPage } from './popover-rating';
 import { RegisterPage } from '../register/register';
 import { Url } from "../../app/models/MosqueEventsUrl";
 import * as moment from 'moment';
+import { MosqueEventsUtil } from "../../app/util/mosque-events-util";
+import { MosqueEventsGroup } from '../../app/models/MosqueEventsGroup';
 /**
  * Generated class for the UstazProfilePage page.
  *
@@ -23,8 +25,8 @@ import * as moment from 'moment';
   templateUrl: 'ustaz-profile.html',
 })
 export class UstazProfilePage {
-  events_history: Array<MosqueEvent> = [];
-  events_upcoming: Array<MosqueEvent> = [];
+  events: Array<MosqueEvent> = [];
+  eventsGroup: Array<MosqueEventsGroup> = [];
   name: string = "";
   email: string = "";
   userImage: string = "";
@@ -39,7 +41,7 @@ export class UstazProfilePage {
   emptyStarArray: Array<number> = [];
   eventsSize: number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public global: Globals, public httpService: HttpService, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public mosqueEventsUtil: MosqueEventsUtil, public navParams: NavParams, public global: Globals, public httpService: HttpService, public popoverCtrl: PopoverController) {
     this.moderator = navParams.get('data');
     console.log('nav params from ustaz profile page constructor: ' + navParams.get('data'));
     console.log(this.moderator);
@@ -99,25 +101,20 @@ export class UstazProfilePage {
     this.userType = this.global.getUserType();
     this.userId = this.global.getUserId();
 
-    this.findEvents(AppConstants.EVENT_HISTORY);
-    this.findEvents(AppConstants.EVENT_UPCOMING);
+    this.findEvents();
 
   }
 
   //@aishah
   //todo: save the events history and upcoming specific for user in sqlite
-  findEvents(eventEndType) {
-    this.httpService.findEventsForUser(this.moderator._id, "USTAZ", eventEndType).subscribe(data => {
+  findEvents() {
+    this.httpService.findEventsForUser(this.moderator._id, "USTAZ", null).subscribe(data => {
       console.log(" events data " + data);
       console.log(JSON.stringify(data));
-
+      this.events = data;
+      this.eventsGroup = this.mosqueEventsUtil.groupMosqueEvents(this.events);
+      
       if (data) {
-        if (eventEndType == AppConstants.EVENT_HISTORY) {
-          this.events_history = data;
-        } else if (eventEndType == AppConstants.EVENT_UPCOMING) {
-          this.events_upcoming = data;
-        }
-
         this.eventsSize = data.length;
       }
     }, error => {

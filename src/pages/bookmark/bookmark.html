@@ -17,31 +17,49 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-card ngClass="card-general" *ngFor="let event of event_bookmarks" (click)="eventdetailsPage(event)">
-    <ion-item ngClass="events-list">
-      <ion-row>
-        <ion-col col-10 col-md-11>
-            <div ngClass="event-title">
-              <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
-              <label>{{event.event_title}}</label>
-            </div>
+<ion-content>
+  <ion-list>
+    <div *ngFor="let group of eventsGroup; let i = index">
+
+      <div ngClass="item-header">
+        {{group.groupName}}</div>
+      <ion-card ngClass="card-general" *ngFor="let event of group.mosqueEvents" (click)="eventdetailsPage(event)">
+        <ion-item ngClass="events-list">
+          <ion-row>
+            <ion-col col-10 col-md-11>
+              <div ngClass="event-title">
+                <!-- <label>{{event.category}} - {{event.event_title}}</label> -->
+                <label>{{event.event_title}}</label>
+              </div>
+              <div ngClass="item-dateloc">
+                <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
+                  {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+              </div>
+            </ion-col>
+            <ion-col col-2 col-md-1>
+
+              <!--If Already Join-->
+              <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
+
+              <!--If Not Joining Yet-->
+              <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
+              <div ngClass="quota-total" *ngIf="event.quota==0">
+                <ion-icon name="infinite"></ion-icon>
+              </div>
+              <div ngClass="quota-title" text-wrap>Seat Left</div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-card>
+      <ion-item ngClass="events-list" [hidden]="group.mosqueEvents && group.mosqueEvents.length>0">
+        <ion-row>
+          <ion-col col-12 col-md-12>
             <div ngClass="item-dateloc">
-              <label>{{getEventDate(event.event_start_date)}}-{{getEventDate(event.event_end_date)}} |
-                {{(event.mosque_details && event.mosque_details.length>0)?event.mosque_details[0].title:''}}</label>
+              {{group.groupName}} Event - Currently Not Available
             </div>
-        </ion-col>
-        <ion-col col-2 col-md-1>
-
-          <!--If Already Join-->
-          <!--ion-icon ngClass="attendance-tick" ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon-->
-
-          <!--If Not Joining Yet-->
-            <div ngClass="quota-total" *ngIf="event.quota!=0">{{getSeatsLeft(event)}}</div>
-            <div ngClass="quota-total" *ngIf="event.quota==0"><ion-icon name="infinite"></ion-icon></div>
-            <div ngClass="quota-title">Seat Left</div>
-        </ion-col>
-      </ion-row>
-  </ion-item>
-</ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </div>
+  </ion-list>
 </ion-content>
