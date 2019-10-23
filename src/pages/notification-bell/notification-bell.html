@@ -1,1 +1,4 @@
-<button  [hidden]="!showButtonFlag" ngClass="noti-icon" (click)="notificationPage()"><ion-badge *ngIf="bellCount>0" color="danger">{{bellCount}}</ion-badge><ion-icon name="notifications"></ion-icon></button>
+<button  [hidden]="!showButtonFlag" ngClass="noti-icon" (click)="notificationPage()">
+    <ion-badge *ngIf="this.global.generalSettings.totalUnreadNotificationBellCount>0" color="danger">{{this.global.generalSettings.totalUnreadNotificationBellCount}}</ion-badge>
+    <ion-icon name="notifications"></ion-icon>
+</button>

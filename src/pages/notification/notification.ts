@@ -168,6 +168,10 @@ export class NotificationPage {
     });
   }
 
+  async ionViewWillLeave() {
+    await this.countUnreadByUser();
+  }
+
   homePage(){
     this.navCtrl.setRoot(HomePage)
   }
@@ -177,16 +181,30 @@ export class NotificationPage {
   }
 
   read(eventNoti:Notification){
-    this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId, "fromUserFlow":true});
-    this.httpService.notificationReadUserNotification(this.userId, eventNoti._id).subscribe(res =>{
-      if(res.status!="failure"){
-        //do nothing yet. to be enhanced
-        if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
-          this.unreadRescheduleCount--;
-        }else if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
-          this.unreadCancelCount--;
+    if (eventNoti.readFlag.toUpperCase() == 'N'){
+      this.httpService.notificationReadUserNotification(this.userId, eventNoti._id).subscribe(res =>{
+        if(res.status!="failure"){
+          //do nothing yet. to be enhanced
+          if(eventNoti.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
+            this.unreadRescheduleCount--;
+          }else if(eventNoti.type == AppConstants.NOTIFICATION_TYPE_EVENT_CANCEL){
+            this.unreadCancelCount--;
+          }
         }
+        this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId, "fromUserFlow":true});
+      })
+    }
+    else {
+      this.navCtrl.push(EventDetailsPage, {eventId:eventNoti.customData.eventId, "fromUserFlow":true});
+    }
+    
+  }
+
+  async countUnreadByUser() {
+    this.httpService.notificationCountUnreadByUser(this.global.getUserId()).subscribe(data => {
+      if (data && data.status && data.status.toLowerCase() != "failure") {
+        this.global.generalSettings.totalUnreadNotificationBellCount = data.result;
       }
-    })
+    });
   }
 }

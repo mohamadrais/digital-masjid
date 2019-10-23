@@ -80,6 +80,8 @@ export class MyApp {
             }
           }
 
+          await this.countUnreadByUser();
+
           // if user is not logged in
         } else {
           this.nav.setRoot(LoginPage);
@@ -216,6 +218,8 @@ export class MyApp {
           }
         }
 
+        await this.countUnreadByUser();
+
         if (this.toastOffline) {
           this.toastOffline.dismiss();
           this.toastOffline = null;
@@ -238,6 +242,7 @@ export class MyApp {
       fcm.listenToNotifications().pipe(
 
         tap(msg => {
+          this.countUnreadByUser();
 
           let notiData = { "notification": msg };
 
@@ -403,6 +408,14 @@ export class MyApp {
 
   ustazProfilePage() {
     this.nav.setRoot(UstazProfilePage);
+  }
+
+  async countUnreadByUser() {
+    this.httpService.notificationCountUnreadByUser(this.global.getUserId()).subscribe(data => {
+      if (data && data.status && data.status.toLowerCase() != "failure") {
+        this.global.generalSettings.totalUnreadNotificationBellCount = data.result;
+      }
+    });
   }
 
   async openPage(p) {

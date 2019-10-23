@@ -636,6 +636,15 @@ export class HttpService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    public notificationCountUnreadByUser(userId: String): Observable<any> {
+        var data = {
+            "userId": userId
+        }
+        return this.http.post(this.BASE_URL + "notif/countUnread", data)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     public addMosqueRating(userId: String, mosqueGooglePlaceId: String, rating: number): Observable<any> {
         var data = {
             "userId": userId,

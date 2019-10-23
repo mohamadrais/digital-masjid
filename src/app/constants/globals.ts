@@ -438,6 +438,8 @@ export class Globals {
 export class GeneralSettings {
 
   //other data vars
+  public totalUnreadNotificationBellCount = 0;
+
   //periodic sync in milliseconds
   public periodicSyncDelay = 300000; //120000 2min 3600000 5min
   public periodicSyncIntervalFunc: any;
