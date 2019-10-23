@@ -66,6 +66,7 @@ export class MyApp {
             this.adminhomePage();
           } else if (data.userType === AppConstants.USER_TYPE_USER) {
             events.publish('userType:user', true);
+            this.initKariah(data._id);
             this.homePage();
           } else if (this.userType === AppConstants.USER_TYPE_MODERATOR) {
             events.publish('userType:ustaz', true);
@@ -207,7 +208,7 @@ export class MyApp {
       this.events.subscribe('network:online', async () => {
         console.log('network:online ==> ' + this.network.type);
         //need to be careful in case error happen in push, below code is not fully tested after new fix by aishah
-        this.userId =  this.global.getUserId();
+        this.userId = this.global.getUserId();
         if (!this.global.generalSettings.pushTokenSentFlag) {
           if ((this.global.generalSettings.pushToken != "")
             && this.userId) {
@@ -249,31 +250,34 @@ export class MyApp {
           let customData = (JSON.parse(msg.customData));
           let notificationType = customData.notificationType;
 
-          if(notificationType == AppConstants.NOTIFICATION_TYPE_KARIAH_MEMBERSHIP_STATUS){
-            if(this.nav.getActive().component != KariahPage){
+          if (notificationType == AppConstants.NOTIFICATION_TYPE_KARIAH_MEMBERSHIP_STATUS) {
+            if (this.global.getUserId() && this.global.getUserId().length > 0)
+              this.initKariah(this.global.getUserId());
+
+            if (this.nav.getActive().component != KariahPage) {
               let duration: number = 3000;
-            let elapsedTime: number = 0;
-            let intervalHandler = setInterval(() => { elapsedTime += 10; }, 10);
+              let elapsedTime: number = 0;
+              let intervalHandler = setInterval(() => { elapsedTime += 10; }, 10);
 
-            let toastNotification = this.toastCtrl.create({
-              message: msg.title,
-              position: 'top',
-              showCloseButton: true,
-              dismissOnPageChange: true,
-              duration: duration,
-              closeButtonText: "View",
-              cssClass: "top-toast"
-            });
+              let toastNotification = this.toastCtrl.create({
+                message: msg.title,
+                position: 'top',
+                showCloseButton: true,
+                dismissOnPageChange: true,
+                duration: duration,
+                closeButtonText: "View",
+                cssClass: "top-toast"
+              });
 
-            toastNotification.onWillDismiss(() => {
-              console.log('Dismissed notification toast');
-              clearInterval(intervalHandler);
-              if (elapsedTime < duration) {
-                this.app.getActiveNav().push(KariahPage);
-              }
-            });
+              toastNotification.onWillDismiss(() => {
+                console.log('Dismissed notification toast');
+                clearInterval(intervalHandler);
+                if (elapsedTime < duration) {
+                  this.app.getActiveNav().push(KariahPage);
+                }
+              });
 
-            toastNotification.present();
+              toastNotification.present();
             } else {
               //update notification page live view
               this.events.publish("kariah:updateView");
@@ -418,6 +422,15 @@ export class MyApp {
     });
   }
 
+  async initKariah(userId) {
+    this.httpService.getKariahDetails(userId, null).subscribe(data => {
+      if (data && Array.isArray(data) && data.length > 0) {
+        let kariahUser = data[0];
+        this.global.setKariahUser(kariahUser);
+      }
+    });
+  }
+
   async openPage(p) {
     if (p.component && p.component != this.nav.getActive().component) {
       if (p.title == 'Log Out') {
@@ -449,7 +462,7 @@ export class MyApp {
               this.global.clearAllGlobals();
               this.nav.setRoot(p.component);
             }
-            
+
           }, error => {
             console.log("error during logoutUser", error);
             this.nav.setRoot(p.component);
@@ -458,10 +471,10 @@ export class MyApp {
         }
       }
       this.nav.setRoot(p.component, { fromSideMenu: true });
-    } else if(p.component==null || p.component==undefined){
+    } else if (p.component == null || p.component == undefined) {
       //do nothing
-      if (p.title == 'Waktu Solat'){
-        window.open('https://www.waktusolat.xyz/','_blank');
+      if (p.title == 'Waktu Solat') {
+        window.open('https://www.waktusolat.xyz/', '_blank');
       }
     }
 
