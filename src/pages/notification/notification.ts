@@ -61,6 +61,10 @@ export class NotificationPage {
   getNotification(){
     this.httpService.notificationFindByUser(this.userId).subscribe(data =>{
       if((data && data.length>0) || (data.status && data.status.toLowerCase() != "failure")){
+        this.eventsRescheduled = [];
+        this.eventsCancel = [];
+        this.unreadCancelCount = 0;
+        this.unreadRescheduleCount = 0;
 
         data.forEach((event:Notification = new Notification) => {
           if(event.type == AppConstants.NOTIFICATION_TYPE_EVENT_RESCHEDULE){
@@ -74,7 +78,9 @@ export class NotificationPage {
               this.unreadCancelCount++;
             }
           }
-        });
+        })
+        this.sortByDates (this.eventsRescheduled);
+        this.sortByDates (this.eventsCancel);
       }
     });
   }
@@ -207,4 +213,8 @@ export class NotificationPage {
       }
     });
   }
+
+  sortByDates(_array) {
+    return _array.sort((a: Notification, b: Notification) => (a.createdTimestamp < b.createdTimestamp) ? 1 : -1);
+}
 }
