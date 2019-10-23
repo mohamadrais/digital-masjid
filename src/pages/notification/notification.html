@@ -6,7 +6,8 @@
   <ion-toolbar>
     <ion-segment (ionChange)="slides.slideTo(segment)" [(ngModel)]="segment">
       <ion-segment-button value="0">
-        <ion-badge color="danger" *ngIf="toAttendCount>0">{{toAttendCount}}</ion-badge>
+        <!-- <ion-badge color="danger" *ngIf="toAttendCount>0">{{toAttendCount}}</ion-badge> -->
+        <ion-badge style="border-radius:50%" *ngIf="toAttendCount>0" color="warning">&nbsp;</ion-badge>
         <ion-icon name="log-in"></ion-icon>
         <label>Check-in</label>
       </ion-segment-button>
