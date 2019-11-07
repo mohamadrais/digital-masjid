@@ -449,11 +449,15 @@ export class EventDetailsPage {
 
     this.socialShare.message="Come join " + this.event.event_title + " by " + mString + " on " + this.getEventDate(this.event.event_start_date) + "-" + this.getEventDate(this.event.event_end_date) + " at " + this.event.mosque_details[0].title;
     this.socialShare.subject=this.event.event_title;
-    this.socialShare.url="https://www.google.com/maps/place/?q=place_id:" + this.event.mosque_details[0].google_place_id
+    this.socialShare.url="https://www.google.com/maps/search/?api=1&query="+this.replaceSpace(this.event.mosque_details[0].title)+"&query_place_id=" + this.event.mosque_details[0].google_place_id
 
 
     const popover = this.popoverCtrl.create(PopOverSocialSharePage, {"data":this.socialShare});
     popover.present();
+  }
+
+  replaceSpace(str){
+    return str.split(' ').join('%20');
   }
 
   getJoinedPercent() {

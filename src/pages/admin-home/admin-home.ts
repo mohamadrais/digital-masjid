@@ -44,6 +44,10 @@ export class AdminHomePage {
     console.log('ionViewDidLoad AdminHomePage');
   }
 
+  ionViewDidEnter(){
+    this.getMosqueManaged();
+  }
+
   getMosqueManaged() {
     this.readCurrentLocation();
     this.httpService.findEventsManagedByAdmin(this.userData.mosquesManaged).subscribe(data => {
