@@ -12,10 +12,8 @@ export class MosqueEventsUtil {
     history: MosqueEventsGroup;
     mosqueEvent: MosqueEvent;
 
-    currentDTM = moment().format("YYYY-MM-DD[T]HH:MM:SS[Z]");
-
     groupMosqueEvents(mosqueEvents) {
-
+        let currentDTM = moment().format("YYYY-MM-DD[T]HH:MM:SS[Z]");
         /**
          * 1. split to 3 array groups <upcoming | ongoing | history>
          * 2. pass each group in 1 to sort from latest to earliest
@@ -39,11 +37,11 @@ export class MosqueEventsUtil {
             let _mosqueEvent = new MosqueEvent();
             _mosqueEvent = mosqueEvents[i];
 
-            if (this.currentDTM < mosqueEvents[i].event_start_date) {
+            if (currentDTM < mosqueEvents[i].event_start_date) {
                 this.upcoming.mosqueEvents.push(_mosqueEvent);
-            } else if ((mosqueEvents[i].event_start_date <= this.currentDTM) && (this.currentDTM< mosqueEvents[i].event_end_date)) {
+            } else if ((mosqueEvents[i].event_start_date <= currentDTM) && (currentDTM< mosqueEvents[i].event_end_date)) {
                 this.active.mosqueEvents.push(_mosqueEvent);
-            } else if (mosqueEvents[i].event_end_date <= this.currentDTM) {
+            } else if (mosqueEvents[i].event_end_date <= currentDTM) {
                 this.history.mosqueEvents.push(_mosqueEvent);
             }
 
