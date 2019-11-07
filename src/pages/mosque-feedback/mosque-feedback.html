@@ -78,8 +78,8 @@
   </ion-card>
 </ion-content>
 
-<!-- <ion-footer>
+<ion-footer *ngIf='!isAdmin'>
   <ion-buttons>
     <button class="button button-primary rectangle" (click)="showConfirm()">Send Feedback</button>
   </ion-buttons>
-</ion-footer> -->
+</ion-footer>

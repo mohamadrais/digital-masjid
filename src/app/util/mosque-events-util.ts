@@ -13,7 +13,7 @@ export class MosqueEventsUtil {
     mosqueEvent: MosqueEvent;
 
     groupMosqueEvents(mosqueEvents) {
-        let currentDTM = moment().format("YYYY-MM-DD[T]HH:MM:SS[Z]");
+        let currentDTM = moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
         /**
          * 1. split to 3 array groups <upcoming | ongoing | history>
          * 2. pass each group in 1 to sort from latest to earliest

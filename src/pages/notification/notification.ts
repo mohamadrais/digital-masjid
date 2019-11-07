@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Rx';
 import { AppConstants } from "../../app/constants/app-constants";
 import { Notification } from "../../app/models/Notification";
 import { EventDetailsPage } from '../event-details/event-details';
+import * as momenttz from 'moment-timezone';
 /**
  * Generated class for the NotificationPage page.
  *
@@ -136,7 +137,7 @@ export class NotificationPage {
   }
 
   validateDateTime(eventId, startDtm, endDtm){
-    let today = new Date().toISOString();
+    let today = momenttz().tz("Asia/Singapore").format("YYYY-MM-DDTHH:mm:ss[Z]");
     if(startDtm <=today && today<endDtm){
       if(this.eventIdArray.indexOf(eventId)==-1){
         this.eventIdArray.push(eventId);
