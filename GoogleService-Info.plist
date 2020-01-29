@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>440107685967-sn1vnmlihrfb6fhcalqkd094vh2oodte.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.440107685967-sn1vnmlihrfb6fhcalqkd094vh2oodte</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>440107685967-dpr35qf6f5g7pn2u9584bc3l1c9uhjao.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAyI7cy9d4oGX2RHte2iYttK-tARZITpZc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>440107685967</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>io.ionic.digitalmasjid</string>
+	<key>PROJECT_ID</key>
+	<string>digitalmasjid-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>digitalmasjid-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:440107685967:ios:f1d215de5a9537381e323a</string>
+	<key>DATABASE_URL</key>
+	<string>https://digitalmasjid-dev.firebaseio.com</string>
+</dict>
+</plist>
